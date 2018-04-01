@@ -1,4 +1,4 @@
 package classes.gameObjects;
 
-public class Missile {
+public class Missile extends GameObject {
 }

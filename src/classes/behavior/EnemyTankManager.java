@@ -1,4 +1,4 @@
-package classes.classes.behavior;
+package classes.behavior;
 
 public class EnemyTankManager extends TankManager {
 }

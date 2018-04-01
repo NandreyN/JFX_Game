@@ -1,4 +1,6 @@
 package classes.tanks;
 
-public class AbstractTank implements ITank{
+import classes.gameObjects.GameObject;
+
+public class AbstractTank implements ITank {
 }
