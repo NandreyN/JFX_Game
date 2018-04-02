@@ -6,11 +6,13 @@ package classes.tanks.parts;
  */
 public class Chassis implements IChassis {
     private final double FORWARD_SPEED, BACKWARDS_SPEED, ROTATION_SECONDS;
+    private double directionAngle;
 
     public Chassis(double forward_speed, double backwards_speed, double rotation_seconds) {
         FORWARD_SPEED = forward_speed;
         BACKWARDS_SPEED = backwards_speed;
         ROTATION_SECONDS = rotation_seconds;
+        directionAngle = 0d;
     }
 
     /**
@@ -36,5 +38,10 @@ public class Chassis implements IChassis {
     @Override
     public double getRotationTime360() {
         return ROTATION_SECONDS;
+    }
+
+    @Override
+    public double getDirectionAngle() {
+        return directionAngle;
     }
 }

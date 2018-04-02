@@ -7,4 +7,6 @@ public interface IChassis {
     double getBackwardsSpeed();
 
     double getRotationTime360();
+
+    double getDirectionAngle();
 }
