@@ -23,4 +23,9 @@ public class SAUTurret implements ITurret {
     public double getRotationTime360() {
         return 0;
     }
+
+    @Deprecated
+    @Override
+    public void rotate(double toAngle) {
+    }
 }

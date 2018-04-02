@@ -18,4 +18,9 @@ public class TankTurret implements ITurret {
     public double getRotationTime360() {
         return ROTATION_TIME;
     }
+
+    @Override
+    public void rotate(double toAngle) {
+        directionAngle = toAngle;
+    }
 }

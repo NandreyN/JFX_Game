@@ -11,4 +11,10 @@ public interface ITurret {
      * @return Time in seconds of full rotation
      */
     double getRotationTime360();
+
+    /**
+     * @param toAngle angle respectively to positive direction of OY
+     *                Cartesian coordinate system axis
+     */
+    void rotate(double toAngle);
 }

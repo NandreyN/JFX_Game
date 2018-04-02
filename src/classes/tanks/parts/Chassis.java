@@ -44,4 +44,14 @@ public class Chassis implements IChassis {
     public double getDirectionAngle() {
         return directionAngle;
     }
+
+    @Override
+    public void turnLeft(double absDeltaAngle) {
+        directionAngle += absDeltaAngle;
+    }
+
+    @Override
+    public void turnRight(double absDeltaAngle) {
+        directionAngle -= absDeltaAngle;
+    }
 }
