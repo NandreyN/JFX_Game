@@ -1,12 +1,15 @@
 package classes.gameObjects;
 
+import classes.tanks.parts.ITurret;
 import com.sun.istack.internal.NotNull;
 import javafx.scene.image.Image;
 
 import java.awt.*;
 
-public class Missile extends GameObject {
-    public Missile(@NotNull Image texture, Point centre, double dispHeight, double dispWidth) {
+public class GameTurret extends GameObject {
+    private ITurret turret;
+
+    public GameTurret(@NotNull Image texture, Point centre, double dispHeight, double dispWidth) {
         super(texture, centre, dispHeight, dispWidth);
     }
 

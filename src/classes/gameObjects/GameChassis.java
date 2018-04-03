@@ -1,12 +1,15 @@
 package classes.gameObjects;
 
+import classes.tanks.parts.IChassis;
 import com.sun.istack.internal.NotNull;
 import javafx.scene.image.Image;
 
 import java.awt.*;
 
-public class Missile extends GameObject {
-    public Missile(@NotNull Image texture, Point centre, double dispHeight, double dispWidth) {
+public class GameChassis extends GameObject {
+    private IChassis chassis;
+
+    public GameChassis(@NotNull Image texture, Point centre, double dispHeight, double dispWidth) {
         super(texture, centre, dispHeight, dispWidth);
     }
 
