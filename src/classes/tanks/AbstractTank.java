@@ -53,4 +53,14 @@ public abstract class AbstractTank implements ITank {
     public double getBackwardsSpeed() {
         return chassis.getBackwardsSpeed();
     }
+
+    @Override
+    public ITurret getTurret() {
+        return turret;
+    }
+
+    @Override
+    public IChassis getChassis() {
+        return chassis;
+    }
 }

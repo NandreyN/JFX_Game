@@ -2,6 +2,7 @@ package classes.gameObjects;
 
 import classes.behavior.INotifiable;
 import com.sun.istack.internal.NotNull;
+import com.sun.istack.internal.Nullable;
 import javafx.scene.image.Image;
 
 import java.awt.*;
@@ -18,7 +19,7 @@ public abstract class GameObject {
     private Image texture;
     private double displayedHeight, displayedWidth;
 
-    public GameObject(@NotNull Image texture, Point centre, double dispHeight, double dispWidth) {
+    public GameObject(@Nullable Image texture, Point centre, double dispHeight, double dispWidth) {
         this.texture = texture;
         this.centreCoordinates = centre;
         this.displayedHeight = dispHeight;

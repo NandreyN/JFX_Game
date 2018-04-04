@@ -1,5 +1,8 @@
 package classes.tanks;
 
+import classes.tanks.parts.IChassis;
+import classes.tanks.parts.ITurret;
+
 public interface ITank {
     enum TankType {
         CYCLICAL, DRUM
@@ -22,4 +25,8 @@ public interface ITank {
     double getForwardSpeed();
 
     double getBackwardsSpeed();
+
+    public ITurret getTurret();
+
+    public IChassis getChassis();
 }

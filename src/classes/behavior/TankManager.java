@@ -1,4 +1,4 @@
 package classes.behavior;
 
-public abstract class TankManager {
+public abstract class TankManager implements ITankManager {
 }
