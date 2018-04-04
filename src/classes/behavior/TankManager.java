@@ -1,4 +1,8 @@
 package classes.behavior;
 
-public abstract class TankManager implements ITankManager {
+import classes.events.GameEvent;
+import javafx.event.EventHandler;
+import javafx.event.EventTarget;
+
+public abstract class TankManager implements ITankManager, EventHandler<GameEvent> {
 }

@@ -1,11 +1,14 @@
 package classes.behavior;
 
+import classes.events.GameEvent;
 import classes.gameObjects.GameChassis;
 import classes.gameObjects.GameObject;
 import classes.gameObjects.GameTankInstance;
 import classes.gameObjects.GameTurret;
 import classes.tanks.ITank;
 import classes.tanks.TankConstructor;
+import javafx.event.EventDispatchChain;
+import javafx.event.EventTarget;
 import javafx.scene.image.Image;
 
 import java.awt.*;
@@ -28,4 +31,9 @@ public class PlayerTankManager extends TankManager {
     public void registerEventListeners() {
 
     }
+
+    @Override
+    public void handle(GameEvent event) {
+    }
+
 }
