@@ -50,7 +50,7 @@ public abstract class GameObject {
     public abstract double getDisplayedWidth();
 
     /**
-     * Notifies drawer to paint model
+     * Notifies drawer to paint model on the grid
      */
     public void paint() {
         if (listener == null)
