@@ -40,4 +40,21 @@ public class GameTankInstance extends GameObject {
     public double getDisplayedWidth() {
         return 0;
     }
+
+    public boolean fire() {
+        return tankDataModel.fire();
+    }
+
+    public void rotateTurret(double toAngle) {
+        tankDataModel.rotateTurret(toAngle);
+    }
+
+    public void turnLeft(double absDeltaAngle) {
+        tankDataModel.turnLeft(absDeltaAngle);
+    }
+
+
+    public void turnRight(double absDeltaAngle) {
+        tankDataModel.turnRight(absDeltaAngle);
+    }
 }
