@@ -1,15 +1,12 @@
 package classes.behavior;
 
-import classes.events.GameEvent;
-import classes.gameObjects.GameChassis;
-import classes.gameObjects.GameObject;
 import classes.gameObjects.GameTankInstance;
-import classes.gameObjects.GameTurret;
 import classes.tanks.ITank;
 import classes.tanks.TankConstructor;
-import javafx.event.EventDispatchChain;
-import javafx.event.EventTarget;
-import javafx.scene.image.Image;
+import javafx.event.Event;
+import javafx.event.EventType;
+import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseEvent;
 
 import java.awt.*;
 
@@ -28,12 +25,30 @@ public class PlayerTankManager extends TankManager {
     }
 
     @Override
-    public void registerEventListeners() {
+    public void handle(Event event) {
+        EventType eventType = event.getEventType();
+
+        if (eventType.equals(MouseEvent.MOUSE_CLICKED))
+            handleMouseClickEvent((MouseEvent) event);
+        else if (eventType.equals(MouseEvent.MOUSE_MOVED))
+            handleMouseMotionEvent((MouseEvent) event);
+        else if (eventType.equals(KeyEvent.ANY))
+            handleKeyboardEvent((KeyEvent) event);
+        else throw new IllegalArgumentException("event");
+    }
+
+    @Override
+    public void handleKeyboardEvent(KeyEvent event) {
 
     }
 
     @Override
-    public void handle(GameEvent event) {
+    public void handleMouseClickEvent(javafx.scene.input.MouseEvent event) {
+
     }
 
+    @Override
+    public void handleMouseMotionEvent(javafx.scene.input.MouseEvent event) {
+
+    }
 }
