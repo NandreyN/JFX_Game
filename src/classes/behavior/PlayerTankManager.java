@@ -14,6 +14,8 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.transform.Rotate;
+import javafx.scene.transform.RotateBuilder;
 
 import java.awt.*;
 
@@ -29,6 +31,7 @@ import java.awt.*;
 public class PlayerTankManager extends TankManager {
     private ImageView chassisView, turretView;
     private Group viewGroup;
+    private Rotate rotation;
 
     private GameTankInstance tankInstance = null;
     private static final double DELTA_ANGLE = Math.PI / 16;
@@ -50,10 +53,23 @@ public class PlayerTankManager extends TankManager {
 
         chassisView = new ImageView(tankInstance.getGameChassis().getTexture());
         turretView = new ImageView(tankInstance.getGameTurret().getTexture());
-        turretView.setBlendMode(BlendMode.OVERLAY);
+        turretView.setBlendMode(BlendMode.SRC_OVER);
+
+        chassisView.setTranslateX(tankInstance.getGameChassis().getPaintCoordinates().x);
+        chassisView.setTranslateY(tankInstance.getGameChassis().getPaintCoordinates().y);
+
+        turretView.setTranslateX(tankInstance.getGameTurret().getPaintCoordinates().x);
+        turretView.setTranslateY(tankInstance.getGameTurret().getPaintCoordinates().y);
+
+        rotation = new Rotate();
+        rotation.setPivotX(25);//Set the Pivot's X to be the same location as the Circle's X. This is only used to help you see the Pivot's point
+        rotation.setPivotY(30);
+        rotation.setAngle(0);
+        turretView.getTransforms().add(rotation);
 
         viewGroup = new Group(chassisView, turretView);
         parent.getChildren().add(viewGroup);
+
     }
 
 
@@ -65,7 +81,7 @@ public class PlayerTankManager extends TankManager {
         ITank tankModel = TankConstructor.createDrumTank();
 
         tankInstance = new GameTankInstance(tankModel, null,
-                new Point(0, 0), 100, 50);
+                new Point(200, 200), 100, 50);
     }
 
     @Override
@@ -110,6 +126,11 @@ public class PlayerTankManager extends TankManager {
     @Override
     public void handleMouseMotionEvent(javafx.scene.input.MouseEvent event) {
         double sceneX = event.getSceneX(), sceneY = event.getSceneY();
-        // rotate tanks turret
+        double currX = tankInstance.getGameTurret().getPaintCoordinates().x;
+        double currY = tankInstance.getGameTurret().getPaintCoordinates().y;
+        if (currY != sceneY) {
+            double angle = Math.atan2( currY - sceneY, currX - sceneX);
+            rotation.setAngle(Math.toDegrees(angle) + 90);
+        }
     }
 }

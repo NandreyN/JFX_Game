@@ -11,6 +11,7 @@ public class GameTankInstance extends GameObject {
     private GameTurret turret;
     private GameChassis chassis;
 
+
     public GameTankInstance(@Nullable Image texture, Point centre, double dispHeight, double dispWidth) {
         super(texture, centre, dispHeight, dispWidth);
     }
@@ -20,10 +21,9 @@ public class GameTankInstance extends GameObject {
         super(texture, centre, dispHeight, dispWidth);
 
         chassis = new GameChassis(new Image("file:game_textures/Cut/chassis_1.png"),
-                new Point(0, 0), 100, 50);
-
+                centre, 100, 50);
         turret = new GameTurret(new Image("file:game_textures/Cut/turret_1.png"),
-                new Point(0, 0), 100, 50);
+                centre, 100, 50);
 
         this.tankDataModel = tankModel;
         chassis.setChassis(tankModel.getChassis());

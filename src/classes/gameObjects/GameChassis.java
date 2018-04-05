@@ -10,6 +10,7 @@ import java.awt.*;
 public class GameChassis extends GameObject {
     private IChassis chassis;
 
+
     public GameChassis(@Nullable Image texture, Point centre, double dispHeight, double dispWidth) {
         super(texture, centre, dispHeight, dispWidth);
     }

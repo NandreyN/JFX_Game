@@ -15,13 +15,13 @@ import java.awt.*;
 public abstract class GameObject {
     private INotifiable listener;
 
-    private Point centreCoordinates;
+    private Point paintCoordinates;
     private Image texture;
     private double displayedHeight, displayedWidth;
 
     public GameObject(@Nullable Image texture, Point centre, double dispHeight, double dispWidth) {
         this.texture = texture;
-        this.centreCoordinates = centre;
+        this.paintCoordinates = centre;
         this.displayedHeight = dispHeight;
         this.displayedWidth = dispWidth;
     }
@@ -61,5 +61,13 @@ public abstract class GameObject {
 
     public Image getTexture() {
         return texture;
+    }
+
+    public Point getPaintCoordinates() {
+        return paintCoordinates;
+    }
+
+    public void setPaintCoordinates(Point point) {
+        this.paintCoordinates = point;
     }
 }

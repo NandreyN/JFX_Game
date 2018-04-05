@@ -9,9 +9,14 @@ import java.awt.*;
 
 public class GameTurret extends GameObject {
     private ITurret turret;
+    private final Point turretCentreOnChassis;
 
-    public GameTurret(@Nullable Image texture, Point centre, double dispHeight, double dispWidth) {
-        super(texture, centre, dispHeight, dispWidth);
+    public GameTurret(@Nullable Image texture, Point point, double dispHeight, double dispWidth) {
+        super(texture, point,
+                dispHeight, dispWidth);
+        turretCentreOnChassis = new Point((int) (point.x + getTexture().getWidth() / 10),
+                (int) (point.y + getTexture().getHeight() * 1/3));
+        super.setPaintCoordinates(turretCentreOnChassis);
     }
 
     @Override

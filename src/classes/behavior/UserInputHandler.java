@@ -1,6 +1,7 @@
 package classes.behavior;
 
 import javafx.scene.Node;
+import javafx.scene.layout.AnchorPane;
 
 /**
  * Additional layer between controller class and PlayerTankManager.
@@ -11,7 +12,7 @@ public class UserInputHandler {
     private Node pane;
     private TankManager playerTankManager;
 
-    public UserInputHandler(Node pane) {
+    public UserInputHandler(AnchorPane pane) {
         if (pane == null)
             throw new NullPointerException("pane");
         this.pane = pane;
