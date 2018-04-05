@@ -1,9 +1,11 @@
 package classes.behavior;
 
-import classes.events.GameEvent;
 import javafx.event.Event;
 import javafx.event.EventHandler;
-import javafx.event.EventTarget;
 
+/**
+ * Layer abstract class , additionally extends EventHandler to allow handling
+ * game events
+ */
 public abstract class TankManager implements ITankManager, EventHandler<Event> {
 }

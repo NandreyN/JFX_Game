@@ -1,36 +1,45 @@
 package classes.behavior;
 
-import javafx.event.EventType;
-import javafx.scene.Scene;
-import javafx.scene.canvas.Canvas;
+import javafx.scene.Node;
 
-import java.util.ArrayList;
-import java.util.List;
+/**
+ * Additional layer between controller class and PlayerTankManager.
+ * Created for redirecting events particularly to PlayerTankManager
+ */
 
 public class UserInputHandler {
-    private Canvas canvas;
+    private Node pane;
     private TankManager playerTankManager;
 
-    public UserInputHandler(Canvas canvas) {
-        if (canvas == null)
-            throw new NullPointerException("canvas");
-        this.canvas = canvas;
-        playerTankManager = new PlayerTankManager();
+    public UserInputHandler(Node pane) {
+        if (pane == null)
+            throw new NullPointerException("pane");
+        this.pane = pane;
+        playerTankManager = new PlayerTankManager(pane);
 
         setupKeyboardListener();
         setupMouseClickListeners();
         setupMouseMotionListeners();
     }
 
+    /**
+     * Redirection of KeyEvents to PlayerTankManager
+     */
     private void setupKeyboardListener() {
-        canvas.setOnKeyPressed(playerTankManager);
+        pane.setOnKeyPressed(playerTankManager);
     }
 
+    /**
+     * Redirection of MouseClick events to PlayerTankManager
+     */
     private void setupMouseClickListeners() {
-        canvas.setOnMouseClicked(playerTankManager);
+        pane.setOnMouseClicked(playerTankManager);
     }
 
+    /**
+     * Redirection of MOuseMoved events to PlayerTankManager
+     */
     private void setupMouseMotionListeners() {
-        canvas.setOnMouseMoved(playerTankManager);
+        pane.setOnMouseMoved(playerTankManager);
     }
 }

@@ -5,20 +5,50 @@ import classes.tanks.ITank;
 import classes.tanks.TankConstructor;
 import javafx.event.Event;
 import javafx.event.EventType;
+import javafx.scene.Node;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 
 import java.awt.*;
 
+/**
+ * Class in created for handling events dedicated to player`s tank
+ * It is responsible for handling input events (mouse , keyboard)
+ * and changing model and view state , ex:
+ * Rotating turret inside model and reflecting model state to the view.
+ * <p>
+ * View component should be pushed to another ViewHandler class later.
+ */
+
 public class PlayerTankManager extends TankManager {
+    private ImageView tankImageView;
+
     private GameTankInstance tankInstance = null;
     private static final double DELTA_ANGLE = Math.PI / 16;
 
-    public PlayerTankManager() {
+    public PlayerTankManager(Node parent) {
         initDefaultTank();
+        setTankImageView();
     }
 
+    /**
+     * Configures ImageView to display
+     * Location, rotation and etc.
+     */
+    private void setTankImageView() {
+        assert tankImageView != null;
+
+        // there i combine turret and chassis textures to
+        // get complete tank texture
+    }
+
+
+    /**
+     * Fills tank model with default tank. Should be removed later after
+     * creating tank chooser
+     */
     private void initDefaultTank() {
         ITank tankModel = TankConstructor.createDrumTank();
 
