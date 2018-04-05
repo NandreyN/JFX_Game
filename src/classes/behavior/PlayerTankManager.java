@@ -5,11 +5,15 @@ import classes.tanks.ITank;
 import classes.tanks.TankConstructor;
 import javafx.event.Event;
 import javafx.event.EventType;
+import javafx.scene.Group;
 import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.effect.BlendMode;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
 
 import java.awt.*;
 
@@ -23,25 +27,33 @@ import java.awt.*;
  */
 
 public class PlayerTankManager extends TankManager {
-    private ImageView tankImageView;
+    private ImageView chassisView, turretView;
+    private Group viewGroup;
 
     private GameTankInstance tankInstance = null;
     private static final double DELTA_ANGLE = Math.PI / 16;
 
-    public PlayerTankManager(Node parent) {
+    public PlayerTankManager(AnchorPane parent) {
         initDefaultTank();
-        setTankImageView();
+        setTankImageView(parent);
     }
 
     /**
      * Configures ImageView to display
      * Location, rotation and etc.
      */
-    private void setTankImageView() {
-        assert tankImageView != null;
+    private void setTankImageView(AnchorPane parent) {
+        assert (tankInstance != null) && (parent != null);
 
         // there i combine turret and chassis textures to
         // get complete tank texture
+
+        chassisView = new ImageView(tankInstance.getGameChassis().getTexture());
+        turretView = new ImageView(tankInstance.getGameTurret().getTexture());
+        turretView.setBlendMode(BlendMode.OVERLAY);
+
+        viewGroup = new Group(chassisView, turretView);
+        parent.getChildren().add(viewGroup);
     }
 
 

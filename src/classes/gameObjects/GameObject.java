@@ -58,4 +58,8 @@ public abstract class GameObject {
             throw new NullPointerException("Listener in not set");
         listener.notify();
     }
+
+    public Image getTexture() {
+        return texture;
+    }
 }

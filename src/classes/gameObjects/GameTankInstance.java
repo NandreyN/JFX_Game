@@ -30,6 +30,14 @@ public class GameTankInstance extends GameObject {
         turret.setTurret(tankModel.getTurret());
     }
 
+    public GameTurret getGameTurret() {
+        return turret;
+    }
+
+    public GameChassis getGameChassis() {
+        return chassis;
+    }
+
     @Override
     public double getDisplayedHeight() {
         return 0;
