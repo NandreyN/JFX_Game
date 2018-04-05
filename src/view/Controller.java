@@ -13,6 +13,5 @@ public class Controller {
     @FXML
     private void initialize() {
         inputHandler = new UserInputHandler(mainPane);
-
     }
 }

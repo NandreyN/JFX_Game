@@ -14,6 +14,7 @@ public class Main extends Application {
         primaryStage.setTitle("Hello World");
         primaryStage.setScene(new Scene(root, 655, 556));
         primaryStage.show();
+        root.requestFocus();
     }
 
     public static void main(String[] args) {

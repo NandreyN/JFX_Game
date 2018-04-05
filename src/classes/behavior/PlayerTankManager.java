@@ -3,19 +3,20 @@ package classes.behavior;
 import classes.gameObjects.GameTankInstance;
 import classes.tanks.ITank;
 import classes.tanks.TankConstructor;
+import javafx.animation.Interpolator;
+import javafx.animation.PathTransition;
 import javafx.event.Event;
 import javafx.event.EventType;
 import javafx.scene.Group;
-import javafx.scene.Node;
-import javafx.scene.Parent;
 import javafx.scene.effect.BlendMode;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.shape.*;
 import javafx.scene.transform.Rotate;
-import javafx.scene.transform.RotateBuilder;
+import javafx.util.Duration;
 
 import java.awt.*;
 
@@ -31,10 +32,10 @@ import java.awt.*;
 public class PlayerTankManager extends TankManager {
     private ImageView chassisView, turretView;
     private Group viewGroup;
-    private Rotate rotation;
+    private Rotate turretRotation, chassisRotation;
 
     private GameTankInstance tankInstance = null;
-    private static final double DELTA_ANGLE = Math.PI / 16;
+    private static final double DELTA_ANGLE = Math.PI / 146;
 
     public PlayerTankManager(AnchorPane parent) {
         initDefaultTank();
@@ -43,7 +44,7 @@ public class PlayerTankManager extends TankManager {
 
     /**
      * Configures ImageView to display
-     * Location, rotation and etc.
+     * Location, turretRotation and etc.
      */
     private void setTankImageView(AnchorPane parent) {
         assert (tankInstance != null) && (parent != null);
@@ -61,11 +62,17 @@ public class PlayerTankManager extends TankManager {
         turretView.setTranslateX(tankInstance.getGameTurret().getPaintCoordinates().x);
         turretView.setTranslateY(tankInstance.getGameTurret().getPaintCoordinates().y);
 
-        rotation = new Rotate();
-        rotation.setPivotX(25);//Set the Pivot's X to be the same location as the Circle's X. This is only used to help you see the Pivot's point
-        rotation.setPivotY(30);
-        rotation.setAngle(0);
-        turretView.getTransforms().add(rotation);
+        turretRotation = new Rotate();
+        turretRotation.setPivotX(25);//Set the Pivot's X to be the same location as the Circle's X. This is only used to help you see the Pivot's point
+        turretRotation.setPivotY(30);
+        turretRotation.setAngle(0);
+        turretView.getTransforms().add(turretRotation);
+
+        chassisRotation = new Rotate();
+        chassisRotation.setPivotX(33);
+        chassisRotation.setPivotY(70);
+        chassisRotation.setAngle(0);
+        chassisView.getTransforms().add(chassisRotation);
 
         viewGroup = new Group(chassisView, turretView);
         parent.getChildren().add(viewGroup);
@@ -92,7 +99,7 @@ public class PlayerTankManager extends TankManager {
             handleMouseClickEvent((MouseEvent) event);
         else if (eventType.equals(MouseEvent.MOUSE_MOVED))
             handleMouseMotionEvent((MouseEvent) event);
-        else if (eventType.equals(KeyEvent.ANY))
+        else if (eventType.equals(KeyEvent.KEY_PRESSED))
             handleKeyboardEvent((KeyEvent) event);
         else throw new IllegalArgumentException("event");
     }
@@ -102,14 +109,17 @@ public class PlayerTankManager extends TankManager {
         KeyCode code = event.getCode();
         switch (code) {
             case W:
+                
                 break;
             case A:
                 tankInstance.turnLeft(DELTA_ANGLE);
+                chassisRotation.setAngle(chassisRotation.getAngle() - Math.toDegrees(DELTA_ANGLE));
                 break;
             case S:
                 break;
             case D:
                 tankInstance.turnRight(DELTA_ANGLE);
+                chassisRotation.setAngle(chassisRotation.getAngle() + Math.toDegrees(DELTA_ANGLE));
                 break;
             default:
                 break;
@@ -129,8 +139,8 @@ public class PlayerTankManager extends TankManager {
         double currX = tankInstance.getGameTurret().getPaintCoordinates().x;
         double currY = tankInstance.getGameTurret().getPaintCoordinates().y;
         if (currY != sceneY) {
-            double angle = Math.atan2( currY - sceneY, currX - sceneX);
-            rotation.setAngle(Math.toDegrees(angle) + 90);
+            double angle = Math.atan2(currY - sceneY, currX - sceneX);
+            turretRotation.setAngle(Math.toDegrees(angle) + 90);
         }
     }
 }
