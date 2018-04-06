@@ -179,8 +179,7 @@ public class PlayerTankManager extends TankManager {
 
     @Override
     public void handleMouseClickEvent(javafx.scene.input.MouseEvent event) {
-        if (event.isPrimaryButtonDown())
-            tankInstance.fire();
+        tankInstance.fire();
 
     }
 
