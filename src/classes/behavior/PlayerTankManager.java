@@ -1,10 +1,9 @@
 package classes.behavior;
 
-import classes.gameObjects.GameObject;
 import classes.gameObjects.GameTankInstance;
 import classes.tanks.ITank;
 import classes.tanks.TankConstructor;
-import javafx.animation.Interpolator;
+import classes.tanks.parts.SAUTurret;
 import javafx.animation.PathTransition;
 import javafx.event.Event;
 import javafx.event.EventType;
@@ -105,15 +104,11 @@ public class PlayerTankManager extends TankManager {
         else throw new IllegalArgumentException("event");
     }
 
-    private void createMovement(Node node, Point oldPoint, Point newPoint) {
+    private void createMovementPath(Node node, Point oldPoint, Point newPoint) {
         Path path = new Path();
 
         path.getElements().add(new MoveTo(oldPoint.x, oldPoint.y));
         path.getElements().add(new LineTo(newPoint.x, newPoint.y));
-
-        System.out.println(oldPoint);
-        System.out.println(newPoint);
-        System.out.println("==================");
 
         PathTransition pathTransition = new PathTransition();
         pathTransition.setDuration(Duration.millis(100));
@@ -124,6 +119,34 @@ public class PlayerTankManager extends TankManager {
         pathTransition.play();
     }
 
+    private void moveTankImage(double speed, double a) {
+        double dx = Math.abs(speed * Math.sin(a));
+        double dy = Math.abs(speed * Math.cos(a));
+
+        if (-Math.PI / 2 <= a && a <= 0) {
+        } else if (-Math.PI <= a && a <= -Math.PI / 2) {
+            dy = -dy;
+        } else if (Math.PI / 2 <= a && a <= Math.PI) {
+            dx = -dx;
+            dy = -dy;
+        } else if (0 <= a && a <= Math.PI / 2) {
+            dx = -dx;
+        }
+
+
+        Point oldChassis = tankInstance.getGameChassis().getPaintCoordinates();
+        Point newChassis = new Point((int) (oldChassis.x + dx), (int) (oldChassis.y + dy));
+        tankInstance.getGameChassis().setPaintCoordinates(newChassis);
+        createMovementPath(chassisView, new Point(oldChassis.x + 33, oldChassis.y + 62),
+                new Point(newChassis.x + 33, newChassis.y + 62));
+
+        Point oldTurret = tankInstance.getGameTurret().getPaintCoordinates();
+        Point newTurret = new Point((int) (oldTurret.x + dx), (int) (oldTurret.y + dy));
+        tankInstance.getGameTurret().setPaintCoordinates(newTurret);
+        createMovementPath(turretView, new Point(oldTurret.x + 26, oldTurret.y + 70),
+                new Point(newTurret.x + 26, newTurret.y + 70));
+    }
+
     @Override
     public void handleKeyboardEvent(KeyEvent event) {
         KeyCode code = event.getCode();
@@ -131,32 +154,8 @@ public class PlayerTankManager extends TankManager {
             case W:
                 double a = Math.toRadians(chassisRotation.getAngle()),
                         forwardSpeed = tankInstance.getGameChassis().getChassis().getForwardSpeed();
+                moveTankImage(forwardSpeed, a);
 
-                double dx = Math.abs(forwardSpeed * Math.sin(a));
-                double dy = Math.abs(forwardSpeed * Math.cos(a));
-
-                if (-Math.PI / 2 <= a && a <= 0) {
-                } else if (-Math.PI <= a && a <= -Math.PI / 2) {
-                    dy = -dy;
-                } else if (Math.PI / 2 <= a && a <= Math.PI) {
-                    dx = -dx;
-                    dy = -dy;
-                } else if (0 <= a && a <= Math.PI / 2) {
-                    dx = -dx;
-                }
-
-
-                Point oldChassis = tankInstance.getGameChassis().getPaintCoordinates();
-                Point newChassis = new Point((int) (oldChassis.x + dx), (int) (oldChassis.y + dy));
-                tankInstance.getGameChassis().setPaintCoordinates(newChassis);
-                createMovement(chassisView, new Point(oldChassis.x + 33, oldChassis.y + 62),
-                        new Point(newChassis.x + 33, newChassis.y + 62));
-
-                Point oldTurret = tankInstance.getGameTurret().getPaintCoordinates();
-                Point newTurret = new Point((int) (oldTurret.x + dx), (int) (oldTurret.y + dy));
-                tankInstance.getGameTurret().setPaintCoordinates(newTurret);
-                createMovement(turretView, new Point(oldTurret.x + 26, oldTurret.y + 70),
-                        new Point(newTurret.x + 26, newTurret.y + 70));
                 break;
             case A:
                 tankInstance.turnLeft(DELTA_ANGLE);
@@ -164,6 +163,9 @@ public class PlayerTankManager extends TankManager {
                 chassisRotation.setAngle(normalizeAngle(chassisRotation.getAngle()));
                 break;
             case S:
+                double ang = Math.PI + Math.toRadians(chassisRotation.getAngle()),
+                        backwardsSpeed = tankInstance.getGameChassis().getChassis().getBackwardsSpeed();
+                moveTankImage(backwardsSpeed, ang);
                 break;
             case D:
                 tankInstance.turnRight(DELTA_ANGLE);
@@ -184,6 +186,9 @@ public class PlayerTankManager extends TankManager {
 
     @Override
     public void handleMouseMotionEvent(javafx.scene.input.MouseEvent event) {
+        if (tankInstance.getGameTurret().getTurret() instanceof SAUTurret)
+            return;
+
         double sceneX = event.getSceneX(), sceneY = event.getSceneY();
         double currX = tankInstance.getGameTurret().getPaintCoordinates().x;
         double currY = tankInstance.getGameTurret().getPaintCoordinates().y;
