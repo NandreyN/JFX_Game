@@ -2,6 +2,7 @@ package classes.gameObjects;
 
 import classes.tanks.ITank;
 import com.sun.istack.internal.Nullable;
+import javafx.geometry.Point2D;
 import javafx.scene.image.Image;
 
 import java.awt.*;
@@ -12,12 +13,12 @@ public class GameTankInstance extends GameObject {
     private GameChassis chassis;
 
 
-    public GameTankInstance(@Nullable Image texture, Point centre, double dispHeight, double dispWidth) {
+    public GameTankInstance(@Nullable Image texture, Point2D centre, double dispHeight, double dispWidth) {
         super(texture, centre, dispHeight, dispWidth);
     }
 
     public GameTankInstance(ITank tankModel,
-                            @Nullable Image texture, Point centre, double dispHeight, double dispWidth) {
+                            @Nullable Image texture, Point2D centre, double dispHeight, double dispWidth) {
         super(texture, centre, dispHeight, dispWidth);
 
         chassis = new GameChassis(new Image("file:game_textures/Cut/chassis_1.png"),

@@ -3,9 +3,9 @@ package classes.gameObjects;
 import classes.behavior.INotifiable;
 import com.sun.istack.internal.NotNull;
 import com.sun.istack.internal.Nullable;
+import javafx.geometry.Point2D;
 import javafx.scene.image.Image;
 
-import java.awt.*;
 
 /**
  * Represents game object that invokes model of object
@@ -15,11 +15,11 @@ import java.awt.*;
 public abstract class GameObject {
     private INotifiable listener;
 
-    private Point paintCoordinates;
+    private Point2D paintCoordinates;
     private Image texture;
     private double displayedHeight, displayedWidth;
 
-    public GameObject(@Nullable Image texture, Point centre, double dispHeight, double dispWidth) {
+    public GameObject(@Nullable Image texture, Point2D centre, double dispHeight, double dispWidth) {
         this.texture = texture;
         this.paintCoordinates = centre;
         this.displayedHeight = dispHeight;
@@ -63,11 +63,11 @@ public abstract class GameObject {
         return texture;
     }
 
-    public Point getPaintCoordinates() {
+    public Point2D getPaintCoordinates() {
         return paintCoordinates;
     }
 
-    public void setPaintCoordinates(Point point) {
+    public void setPaintCoordinates(Point2D point) {
         this.paintCoordinates = point;
     }
 }

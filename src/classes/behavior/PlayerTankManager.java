@@ -7,6 +7,7 @@ import classes.tanks.parts.SAUTurret;
 import javafx.animation.PathTransition;
 import javafx.event.Event;
 import javafx.event.EventType;
+import javafx.geometry.Point2D;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.effect.BlendMode;
@@ -57,11 +58,11 @@ public class PlayerTankManager extends TankManager {
         turretView = new ImageView(tankInstance.getGameTurret().getTexture());
         turretView.setBlendMode(BlendMode.SRC_OVER);
 
-        chassisView.setTranslateX(tankInstance.getGameChassis().getPaintCoordinates().x);
-        chassisView.setTranslateY(tankInstance.getGameChassis().getPaintCoordinates().y);
+        chassisView.setTranslateX(tankInstance.getGameChassis().getPaintCoordinates().getX());
+        chassisView.setTranslateY(tankInstance.getGameChassis().getPaintCoordinates().getY());
 
-        turretView.setTranslateX(tankInstance.getGameTurret().getPaintCoordinates().x);
-        turretView.setTranslateY(tankInstance.getGameTurret().getPaintCoordinates().y);
+        turretView.setTranslateX(tankInstance.getGameTurret().getPaintCoordinates().getX());
+        turretView.setTranslateY(tankInstance.getGameTurret().getPaintCoordinates().getY());
 
         turretRotation = new Rotate();
         turretRotation.setPivotX(25);
@@ -88,7 +89,7 @@ public class PlayerTankManager extends TankManager {
         ITank tankModel = TankConstructor.createDrumTank();
 
         tankInstance = new GameTankInstance(tankModel, null,
-                new Point(200, 200), 100, 50);
+                new Point2D(200, 200), 100, 50);
     }
 
     @Override
@@ -104,11 +105,11 @@ public class PlayerTankManager extends TankManager {
         else throw new IllegalArgumentException("event");
     }
 
-    private void createMovementPath(Node node, Point oldPoint, Point newPoint) {
+    private void createMovementPath(Node node, Point2D oldPoint, Point2D newPoint) {
         Path path = new Path();
 
-        path.getElements().add(new MoveTo(oldPoint.x, oldPoint.y));
-        path.getElements().add(new LineTo(newPoint.x, newPoint.y));
+        path.getElements().add(new MoveTo(oldPoint.getX(), oldPoint.getY()));
+        path.getElements().add(new LineTo(newPoint.getX(), newPoint.getY()));
 
         PathTransition pathTransition = new PathTransition();
         pathTransition.setDuration(Duration.millis(100));
@@ -134,17 +135,17 @@ public class PlayerTankManager extends TankManager {
         }
 
 
-        Point oldChassis = tankInstance.getGameChassis().getPaintCoordinates();
-        Point newChassis = new Point((int) (oldChassis.x + dx), (int) (oldChassis.y + dy));
+        Point2D oldChassis = tankInstance.getGameChassis().getPaintCoordinates();
+        Point2D newChassis = new Point2D(oldChassis.getX() + dx, oldChassis.getY() + dy);
         tankInstance.getGameChassis().setPaintCoordinates(newChassis);
-        createMovementPath(chassisView, new Point(oldChassis.x + 33, oldChassis.y + 62),
-                new Point(newChassis.x + 33, newChassis.y + 62));
+        createMovementPath(chassisView, new Point2D(oldChassis.getX() + 33, oldChassis.getY() + 62),
+                new Point2D(newChassis.getX() + 33, newChassis.getY() + 62));
 
-        Point oldTurret = tankInstance.getGameTurret().getPaintCoordinates();
-        Point newTurret = new Point((int) (oldTurret.x + dx), (int) (oldTurret.y + dy));
+        Point2D oldTurret = tankInstance.getGameTurret().getPaintCoordinates();
+        Point2D newTurret = new Point2D(oldTurret.getX() + dx, oldTurret.getY() + dy);
         tankInstance.getGameTurret().setPaintCoordinates(newTurret);
-        createMovementPath(turretView, new Point(oldTurret.x + 26, oldTurret.y + 70),
-                new Point(newTurret.x + 26, newTurret.y + 70));
+        createMovementPath(turretView, new Point2D(oldTurret.getX() + 26, oldTurret.getY() + 70),
+                new Point2D(newTurret.getX() + 26, newTurret.getY() + 70));
     }
 
     @Override
@@ -180,7 +181,6 @@ public class PlayerTankManager extends TankManager {
     @Override
     public void handleMouseClickEvent(javafx.scene.input.MouseEvent event) {
         tankInstance.fire();
-
     }
 
     @Override
@@ -189,8 +189,8 @@ public class PlayerTankManager extends TankManager {
             return;
 
         double sceneX = event.getSceneX(), sceneY = event.getSceneY();
-        double currX = tankInstance.getGameTurret().getPaintCoordinates().x;
-        double currY = tankInstance.getGameTurret().getPaintCoordinates().y;
+        double currX = tankInstance.getGameTurret().getPaintCoordinates().getX();
+        double currY = tankInstance.getGameTurret().getPaintCoordinates().getY();
 
         if (currY != sceneY) {
             double angle = Math.atan2(currY - sceneY, currX - sceneX);
