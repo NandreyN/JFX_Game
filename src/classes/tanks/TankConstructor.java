@@ -11,7 +11,7 @@ import java.util.List;
 public class TankConstructor {
     public static ITank createDrumTank() {
         ITurret turret = new TankTurret(10);
-        IChassis chassis = new Chassis(5, 2, 20);
+        IChassis chassis = new Chassis(5, 2, 10);
         ITank tank = new DrumTank(turret, chassis, 2, 30, 5);
         return tank;
     }
