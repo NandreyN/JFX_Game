@@ -1,10 +1,14 @@
 package classes.gameObjects;
 
 import classes.behavior.INotifiable;
-import com.sun.istack.internal.NotNull;
 import com.sun.istack.internal.Nullable;
+import javafx.beans.InvalidationListener;
 import javafx.geometry.Point2D;
 import javafx.scene.image.Image;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Observable;
 
 
 /**
@@ -12,8 +16,8 @@ import javafx.scene.image.Image;
  * and it`s appearance
  */
 
-public abstract class GameObject {
-    private INotifiable listener;
+public abstract class GameObject extends Observable {
+    private List<InvalidationListener> observers;
 
     private Point2D paintCoordinates;
     private Image texture;
@@ -24,6 +28,7 @@ public abstract class GameObject {
         this.paintCoordinates = centre;
         this.displayedHeight = dispHeight;
         this.displayedWidth = dispWidth;
+        observers = new ArrayList<>();
     }
 
     /**
@@ -50,15 +55,6 @@ public abstract class GameObject {
      */
     public abstract double getDisplayedWidth();
 
-    /**
-     * Notifies drawer to paint model on the grid
-     */
-    public void paint() {
-        if (listener == null)
-            throw new NullPointerException("Listener in not set");
-        listener.notify();
-    }
-
     public Image getTexture() {
         return texture;
     }
@@ -69,5 +65,9 @@ public abstract class GameObject {
 
     public void setPaintCoordinates(Point2D point) {
         this.paintCoordinates = point;
+        this.setChanged();
+        this.notifyObservers(this);
     }
+
+
 }

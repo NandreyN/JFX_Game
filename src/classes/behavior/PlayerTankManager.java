@@ -34,12 +34,15 @@ import java.awt.*;
 public class PlayerTankManager extends TankManager {
     ImageView chassisView, turretView;
     Rotate turretRotation, chassisRotation;
+    private ViewMotionManager motionManager;
 
     GameTankInstance tankInstance = null;
     static final double DELTA_ANGLE = Math.PI / 146;
 
     public PlayerTankManager(AnchorPane parent) {
         initDefaultTank();
+        motionManager = ViewMotionManager.getInstance();
+
         setTankImageView(parent);
     }
 
@@ -110,16 +113,16 @@ public class PlayerTankManager extends TankManager {
         KeyCode code = event.getCode();
         switch (code) {
             case W:
-                ViewMotionManager.forwardMove(this);
+                motionManager.forwardMove(this);
                 break;
             case A:
-                ViewMotionManager.turnLeft(this);
+                motionManager.turnLeft(this);
                 break;
             case S:
-                ViewMotionManager.backwardsMove(this);
+                motionManager.backwardsMove(this);
                 break;
             case D:
-                ViewMotionManager.turnRight(this);
+                motionManager.turnRight(this);
                 break;
             default:
                 break;
@@ -128,7 +131,7 @@ public class PlayerTankManager extends TankManager {
 
     @Override
     public void handleMouseClickEvent(javafx.scene.input.MouseEvent event) {
-        ViewMotionManager.fire(this);
+        motionManager.fire(this);
     }
 
     @Override
@@ -142,7 +145,7 @@ public class PlayerTankManager extends TankManager {
 
         if (currY != sceneY) {
             double angle = Math.atan2(currY - sceneY, currX - sceneX);
-            ViewMotionManager.rotateTurret(this, angle);
+            motionManager.rotateTurret(this, angle);
         }
     }
 }
