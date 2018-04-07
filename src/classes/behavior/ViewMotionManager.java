@@ -6,6 +6,7 @@ import javafx.animation.PathTransition;
 import javafx.geometry.Point2D;
 import javafx.scene.Node;
 import javafx.scene.shape.*;
+import javafx.scene.transform.Rotate;
 import javafx.util.Duration;
 
 import java.util.ArrayList;
@@ -27,34 +28,34 @@ public class ViewMotionManager implements Observer {
     }
 
     public void rotateTurret(PlayerTankManager manager, double toAngle) {
-        manager.turretRotation.setAngle(Math.toDegrees(toAngle) + 90);
+        manager.turretRotation.angleProperty().set(Math.toDegrees(toAngle) + 90);
         manager.tankInstance.getGameTurret().getTurret().rotate(
-                Math.toRadians(manager.turretRotation.getAngle()));
+                Math.toRadians(manager.turretRotation.angleProperty().get()));
     }
 
     public void forwardMove(PlayerTankManager manager) {
-        double a = Math.toRadians(manager.chassisRotation.getAngle()),
+        double a = Math.toRadians(manager.chassisRotation.angleProperty().get()),
                 forwardSpeed = manager.tankInstance.getGameChassis().getChassis().getForwardSpeed();
         moveTankImage(manager, forwardSpeed, a);
     }
 
     public void turnLeft(PlayerTankManager manager) {
         manager.tankInstance.turnLeft(DELTA_ANGLE);
-        manager.chassisRotation.setAngle(manager.chassisRotation.getAngle() - Math.toDegrees(DELTA_ANGLE));
-        manager.chassisRotation.setAngle(normalizeAngle(manager.chassisRotation.getAngle()));
+        manager.chassisRotation.angleProperty().set(manager.chassisRotation.angleProperty().get() - Math.toDegrees(DELTA_ANGLE));
+        manager.chassisRotation.angleProperty().set(normalizeAngle(manager.chassisRotation.angleProperty().get()));
     }
 
     public void backwardsMove(PlayerTankManager manager) {
 
-        double ang = Math.PI + Math.toRadians(manager.chassisRotation.getAngle()),
+        double ang = Math.PI + Math.toRadians(manager.chassisRotation.angleProperty().get()),
                 backwardsSpeed = manager.tankInstance.getGameChassis().getChassis().getBackwardsSpeed();
         moveTankImage(manager, backwardsSpeed, ang);
     }
 
     public void turnRight(PlayerTankManager manager) {
         manager.tankInstance.turnRight(DELTA_ANGLE);
-        manager.chassisRotation.setAngle(manager.chassisRotation.getAngle() + Math.toDegrees(DELTA_ANGLE));
-        manager.chassisRotation.setAngle(normalizeAngle(manager.chassisRotation.getAngle()));
+        manager.chassisRotation.angleProperty().set(manager.chassisRotation.angleProperty().get() + Math.toDegrees(DELTA_ANGLE));
+        manager.chassisRotation.angleProperty().set(normalizeAngle(manager.chassisRotation.angleProperty().get()));
     }
 
     private double normalizeAngle(double angle) {
@@ -109,6 +110,7 @@ public class ViewMotionManager implements Observer {
         manager.tankInstance.getGameTurret().setPaintCoordinates(newTurret);
         createMovementPath(manager.turretView, new Point2D(oldTurret.getX() + 26, oldTurret.getY() + 70),
                 new Point2D(newTurret.getX() + 26, newTurret.getY() + 70));
+        manager.tankInstance.setPaintCoordinates(newChassis);
     }
 
     @Override
@@ -140,7 +142,15 @@ public class ViewMotionManager implements Observer {
     }
 
     private static Shape getGameObjectShape(GameObject o) {
-        return new Rectangle(o.getPaintCoordinates().getX(), o.getPaintCoordinates().getY(),
+        Shape s = new Rectangle(o.getPaintCoordinates().getX(), o.getPaintCoordinates().getY(),
                 o.getDisplayedWidth(), o.getDisplayedHeight());
+
+        Rotate shapeRotation = new Rotate();
+        shapeRotation.setPivotX(o.getPaintCoordinates().getX() + o.getDisplayedWidth() / 2);
+        shapeRotation.setPivotY(o.getPaintCoordinates().getY() + o.getDisplayedHeight() / 2);
+        shapeRotation.setAngle(o.directionAngleProperty().getValue());
+        s.getTransforms().add(shapeRotation);
+
+        return s;
     }
 }

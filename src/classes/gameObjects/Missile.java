@@ -8,7 +8,7 @@ import javafx.scene.image.Image;
 import java.awt.*;
 
 public class Missile extends GameObject {
-    public Missile(@Nullable Image texture, Point2D centre, double dispHeight, double dispWidth) {
-        super(texture, centre, dispHeight, dispWidth);
+    public Missile(@Nullable Image texture, Point2D centre) {
+        super(texture, centre);
     }
 }

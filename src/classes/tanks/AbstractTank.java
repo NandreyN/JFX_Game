@@ -1,8 +1,6 @@
 package classes.tanks;
 
-import classes.gameObjects.GameObject;
 import classes.tanks.parts.IChassis;
-import classes.tanks.parts.IGun;
 import classes.tanks.parts.ITurret;
 
 public abstract class AbstractTank implements ITank {

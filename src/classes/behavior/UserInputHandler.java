@@ -1,5 +1,6 @@
 package classes.behavior;
 
+import javafx.geometry.Point2D;
 import javafx.scene.Node;
 import javafx.scene.layout.AnchorPane;
 
@@ -9,38 +10,36 @@ import javafx.scene.layout.AnchorPane;
  */
 
 public class UserInputHandler {
-    private Node pane;
     private TankManager playerTankManager;
 
     public UserInputHandler(AnchorPane pane) {
         if (pane == null)
             throw new NullPointerException("pane");
-        this.pane = pane;
-        playerTankManager = new PlayerTankManager(pane);
+        playerTankManager = new PlayerTankManager(pane, new Point2D(0, 0), -90,1);
 
-        setupKeyboardListener();
-        setupMouseClickListeners();
-        setupMouseMotionListeners();
+        setupKeyboardListener(pane);
+        setupMouseClickListeners(pane);
+        setupMouseMotionListeners(pane);
     }
 
     /**
      * Redirection of KeyEvents to PlayerTankManager
      */
-    private void setupKeyboardListener() {
+    private void setupKeyboardListener(Node pane) {
         pane.setOnKeyPressed(playerTankManager);
     }
 
     /**
      * Redirection of MouseClick events to PlayerTankManager
      */
-    private void setupMouseClickListeners() {
+    private void setupMouseClickListeners(Node pane) {
         pane.setOnMouseClicked(playerTankManager);
     }
 
     /**
      * Redirection of MOuseMoved events to PlayerTankManager
      */
-    private void setupMouseMotionListeners() {
+    private void setupMouseMotionListeners(Node pane) {
         pane.setOnMouseMoved(playerTankManager);
     }
 }

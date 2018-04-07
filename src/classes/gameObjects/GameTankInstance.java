@@ -12,22 +12,25 @@ public class GameTankInstance extends GameObject {
     private GameTurret turret;
     private GameChassis chassis;
 
-    public GameTankInstance(@Nullable Image texture, Point2D centre, double dispHeight, double dispWidth) {
-        super(texture, centre, dispHeight, dispWidth);
+    public GameTankInstance(@Nullable Image texture, Point2D centre) {
+        super(texture, centre);
     }
 
     public GameTankInstance(ITank tankModel,
-                            @Nullable Image texture, Point2D centre, double dispHeight, double dispWidth) {
-        super(texture, centre, dispHeight, dispWidth);
+                            @Nullable Image texture, int textureId, Point2D centre) {
+        super(texture, centre);
 
-        chassis = new GameChassis(new Image("file:game_textures/Cut/chassis_1.png"),
-                centre, 100, 50);
-        turret = new GameTurret(new Image("file:game_textures/Cut/turret_1.png"),
-                centre, 100, 50);
+        chassis = new GameChassis(new Image("file:game_textures/Cut/chassis_" + textureId + ".png"),
+                centre);
+        turret = new GameTurret(new Image("file:game_textures/Cut/turret_" + textureId + ".png"),
+                centre);
 
         this.tankDataModel = tankModel;
         chassis.setChassis(tankModel.getChassis());
         turret.setTurret(tankModel.getTurret());
+
+        displayedHeight = chassis.getDisplayedHeight();
+        displayedWidth = chassis.getDisplayedWidth();
     }
 
     public GameTurret getGameTurret() {

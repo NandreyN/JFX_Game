@@ -17,7 +17,10 @@ public class TankConstructor {
     }
 
     public static ITank createCyclicalTank() {
-        throw new NotImplementedException();
+        ITurret turret = new TankTurret(20);
+        IChassis chassis = new Chassis(3, 1, 20);
+        ITank tank = new CyclicalTank(turret, chassis, 8);
+        return tank;
     }
 
     public static List<ITank> getStockTanksList() {

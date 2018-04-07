@@ -5,6 +5,9 @@ import classes.tanks.ITank;
 import classes.tanks.TankConstructor;
 import classes.tanks.parts.SAUTurret;
 import javafx.animation.PathTransition;
+import javafx.beans.InvalidationListener;
+import javafx.beans.Observable;
+import javafx.beans.binding.Bindings;
 import javafx.event.Event;
 import javafx.event.EventType;
 import javafx.geometry.Point2D;
@@ -39,18 +42,17 @@ public class PlayerTankManager extends TankManager {
     GameTankInstance tankInstance = null;
     static final double DELTA_ANGLE = Math.PI / 146;
 
-    public PlayerTankManager(AnchorPane parent) {
-        initDefaultTank();
+    public PlayerTankManager(AnchorPane parent, Point2D initialPosition, double orientationAngle, int textureId) {
+        initDefaultTank(initialPosition, textureId);
         motionManager = ViewMotionManager.getInstance();
-
-        setTankImageView(parent);
+        setTankImageView(parent, orientationAngle);
     }
 
     /**
      * Configures ImageView to display
      * Location, turretRotation and etc.
      */
-    private void setTankImageView(AnchorPane parent) {
+    private void setTankImageView(AnchorPane parent, double initAngle) {
         assert (tankInstance != null) && (parent != null);
 
         // there i combine turret and chassis textures to
@@ -69,29 +71,37 @@ public class PlayerTankManager extends TankManager {
         turretRotation = new Rotate();
         turretRotation.setPivotX(25);
         turretRotation.setPivotY(30);
-        turretRotation.setAngle(0);
+        turretRotation.angleProperty().setValue(initAngle);
         turretView.getTransforms().add(turretRotation);
 
         chassisRotation = new Rotate();
         chassisRotation.setPivotX(33);
         chassisRotation.setPivotY(65);
-        chassisRotation.setAngle(0);
+        chassisRotation.angleProperty().setValue(initAngle);
         chassisView.getTransforms().add(chassisRotation);
 
         //viewGroup = new Group(chassisView, turretView);
         parent.getChildren().addAll(chassisView, turretView);
-    }
 
+        chassisRotation.angleProperty().addListener((observable, oldValue, newValue) -> {
+            tankInstance.directionAngleProperty().setValue(newValue);
+            tankInstance.getGameChassis().directionAngleProperty().setValue(newValue);
+        });
+
+        turretRotation.angleProperty().addListener((observable, oldValue, newValue) -> {
+            tankInstance.getGameTurret().directionAngleProperty().setValue(newValue);
+        });
+    }
 
     /**
      * Fills tank model with default tank. Should be removed later after
      * creating tank chooser
      */
-    private void initDefaultTank() {
+    private void initDefaultTank(Point2D initPosition, int textureId) {
         ITank tankModel = TankConstructor.createDrumTank();
 
-        tankInstance = new GameTankInstance(tankModel, null,
-                new Point2D(200, 200), 100, 50);
+        tankInstance = new GameTankInstance(tankModel, null, textureId,
+                initPosition);
     }
 
     @Override

@@ -4,6 +4,8 @@ import classes.behavior.INotifiable;
 import classes.behavior.ViewMotionManager;
 import com.sun.istack.internal.Nullable;
 import javafx.beans.InvalidationListener;
+import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.SimpleDoubleProperty;
 import javafx.geometry.Point2D;
 import javafx.scene.image.Image;
 
@@ -23,17 +25,19 @@ public abstract class GameObject extends Observable {
 
     private Point2D paintCoordinates;
     private Image texture;
-    private double displayedHeight, displayedWidth;
+    double displayedHeight, displayedWidth;
     private int id;
+    private SimpleDoubleProperty directionAngle;
 
-    public GameObject(@Nullable Image texture, Point2D centre, double dispHeight, double dispWidth) {
+    public GameObject(@Nullable Image texture, Point2D centre) {
         this.texture = texture;
         this.paintCoordinates = centre;
-        this.displayedHeight = dispHeight;
-        this.displayedWidth = dispWidth;
-
+        if (texture != null) {
+            this.displayedHeight = texture.getHeight();
+            this.displayedWidth = texture.getWidth();
+        }
+        directionAngle = new SimpleDoubleProperty(0D);
         id = ++INST_COUNT;
-
         bindToMotionManager();
     }
 
@@ -95,5 +99,13 @@ public abstract class GameObject extends Observable {
 
     public int getId() {
         return id;
+    }
+
+    public double getDirectionAngle() {
+        return directionAngle.get();
+    }
+
+    public DoubleProperty directionAngleProperty() {
+        return directionAngle;
     }
 }

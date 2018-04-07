@@ -12,8 +12,8 @@ import java.awt.*;
 public class GameChassis extends GameObject {
     private IChassis chassis;
 
-    public GameChassis(@Nullable Image texture, Point2D centre, double dispHeight, double dispWidth) {
-        super(texture, centre, dispHeight, dispWidth);
+    public GameChassis(@Nullable Image texture, Point2D centre) {
+        super(texture, centre);
     }
 
     public void setChassis(IChassis chassis) {

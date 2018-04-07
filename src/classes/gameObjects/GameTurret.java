@@ -12,9 +12,8 @@ public class GameTurret extends GameObject {
     private ITurret turret;
     private final Point2D turretCentreOnChassis;
 
-    public GameTurret(@Nullable Image texture, Point2D point, double dispHeight, double dispWidth) {
-        super(texture, point,
-                dispHeight, dispWidth);
+    public GameTurret(@Nullable Image texture, Point2D point) {
+        super(texture, point);
         turretCentreOnChassis = new Point2D(point.getX() + getTexture().getWidth() / 10,
                 point.getY() + getTexture().getHeight() * 1 / 3);
         super.setPaintCoordinates(turretCentreOnChassis);
