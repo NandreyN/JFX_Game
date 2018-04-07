@@ -39,16 +39,6 @@ public class GameTankInstance extends GameObject {
         return chassis;
     }
 
-    @Override
-    public double getDisplayedHeight() {
-        return 0;
-    }
-
-    @Override
-    public double getDisplayedWidth() {
-        return 0;
-    }
-
     public boolean fire() {
         return tankDataModel.fire();
     }

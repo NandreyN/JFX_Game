@@ -16,16 +16,6 @@ public class GameChassis extends GameObject {
         super(texture, centre, dispHeight, dispWidth);
     }
 
-    @Override
-    public double getDisplayedHeight() {
-        return 0;
-    }
-
-    @Override
-    public double getDisplayedWidth() {
-        return 0;
-    }
-
     public void setChassis(IChassis chassis) {
         this.chassis = chassis;
     }

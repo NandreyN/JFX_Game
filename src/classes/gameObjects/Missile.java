@@ -11,14 +11,4 @@ public class Missile extends GameObject {
     public Missile(@Nullable Image texture, Point2D centre, double dispHeight, double dispWidth) {
         super(texture, centre, dispHeight, dispWidth);
     }
-
-    @Override
-    public double getDisplayedHeight() {
-        return 0;
-    }
-
-    @Override
-    public double getDisplayedWidth() {
-        return 0;
-    }
 }

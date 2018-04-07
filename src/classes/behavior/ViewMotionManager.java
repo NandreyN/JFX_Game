@@ -5,9 +5,7 @@ import classes.gameObjects.GameTankInstance;
 import javafx.animation.PathTransition;
 import javafx.geometry.Point2D;
 import javafx.scene.Node;
-import javafx.scene.shape.LineTo;
-import javafx.scene.shape.MoveTo;
-import javafx.scene.shape.Path;
+import javafx.scene.shape.*;
 import javafx.util.Duration;
 
 import java.util.ArrayList;
@@ -115,6 +113,33 @@ public class ViewMotionManager implements Observer {
 
     @Override
     public void update(Observable o, Object arg) {
+        if (o == null || !(o instanceof GameObject) || arg == null)
+            return;
+        boolean intersect = intersects((GameObject) o);
+        if (!intersect)
+            return;
 
+        System.out.println("Intersection!!");
+    }
+
+    public void register(GameObject o) {
+        this.observables.add(o);
+    }
+
+    private boolean intersects(GameObject object) {
+        Shape originalObjShape = getGameObjectShape(object);
+
+        for (GameObject gO : observables) {
+            Shape shape = getGameObjectShape(gO);
+            if (shape.getBoundsInParent().intersects(originalObjShape.getBoundsInParent()))
+                return true;
+        }
+
+        return false;
+    }
+
+    private static Shape getGameObjectShape(GameObject o) {
+        return new Rectangle(o.getPaintCoordinates().getX(), o.getPaintCoordinates().getY(),
+                o.getDisplayedWidth(), o.getDisplayedHeight());
     }
 }

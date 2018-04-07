@@ -1,11 +1,13 @@
 package classes.gameObjects;
 
 import classes.behavior.INotifiable;
+import classes.behavior.ViewMotionManager;
 import com.sun.istack.internal.Nullable;
 import javafx.beans.InvalidationListener;
 import javafx.geometry.Point2D;
 import javafx.scene.image.Image;
 
+import javax.media.j3d.View;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
@@ -17,8 +19,6 @@ import java.util.Observable;
  */
 
 public abstract class GameObject extends Observable {
-    private List<InvalidationListener> observers;
-
     private Point2D paintCoordinates;
     private Image texture;
     private double displayedHeight, displayedWidth;
@@ -28,7 +28,8 @@ public abstract class GameObject extends Observable {
         this.paintCoordinates = centre;
         this.displayedHeight = dispHeight;
         this.displayedWidth = dispWidth;
-        observers = new ArrayList<>();
+
+        bindToMotionManager();
     }
 
     /**
@@ -48,12 +49,16 @@ public abstract class GameObject extends Observable {
     /**
      * @return get texture height in pixels on grid
      */
-    public abstract double getDisplayedHeight();
+    public double getDisplayedHeight() {
+        return displayedHeight;
+    }
 
     /**
      * @return get texture width in pixels on grid
      */
-    public abstract double getDisplayedWidth();
+    public double getDisplayedWidth() {
+        return displayedWidth;
+    }
 
     public Image getTexture() {
         return texture;
@@ -69,5 +74,8 @@ public abstract class GameObject extends Observable {
         this.notifyObservers(this);
     }
 
-
+    private void bindToMotionManager() {
+        ViewMotionManager.getInstance().register(this);
+        this.addObserver(ViewMotionManager.getInstance());
+    }
 }

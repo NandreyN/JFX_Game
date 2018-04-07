@@ -20,16 +20,6 @@ public class GameTurret extends GameObject {
         super.setPaintCoordinates(turretCentreOnChassis);
     }
 
-    @Override
-    public double getDisplayedHeight() {
-        return 0;
-    }
-
-    @Override
-    public double getDisplayedWidth() {
-        return 0;
-    }
-
     public void setTurret(ITurret turret) {
         this.turret = turret;
     }
