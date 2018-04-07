@@ -12,7 +12,6 @@ public class GameTankInstance extends GameObject {
     private GameTurret turret;
     private GameChassis chassis;
 
-
     public GameTankInstance(@Nullable Image texture, Point2D centre, double dispHeight, double dispWidth) {
         super(texture, centre, dispHeight, dispWidth);
     }

@@ -19,15 +19,20 @@ import java.util.Observable;
  */
 
 public abstract class GameObject extends Observable {
+    private static int INST_COUNT = 0;
+
     private Point2D paintCoordinates;
     private Image texture;
     private double displayedHeight, displayedWidth;
+    private int id;
 
     public GameObject(@Nullable Image texture, Point2D centre, double dispHeight, double dispWidth) {
         this.texture = texture;
         this.paintCoordinates = centre;
         this.displayedHeight = dispHeight;
         this.displayedWidth = dispWidth;
+
+        id = ++INST_COUNT;
 
         bindToMotionManager();
     }
@@ -60,6 +65,15 @@ public abstract class GameObject extends Observable {
         return displayedWidth;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (!(o instanceof GameObject))
+            return false;
+        if (o == this)
+            return true;
+        return getId() == ((GameObject) o).getId();
+    }
+
     public Image getTexture() {
         return texture;
     }
@@ -77,5 +91,9 @@ public abstract class GameObject extends Observable {
     private void bindToMotionManager() {
         ViewMotionManager.getInstance().register(this);
         this.addObserver(ViewMotionManager.getInstance());
+    }
+
+    public int getId() {
+        return id;
     }
 }

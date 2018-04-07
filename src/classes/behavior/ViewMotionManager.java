@@ -16,7 +16,7 @@ import java.util.Observer;
 import static classes.behavior.PlayerTankManager.DELTA_ANGLE;
 
 public class ViewMotionManager implements Observer {
-    private List<GameObject> observables = new ArrayList<>();
+    private List<GameTankInstance> observables = new ArrayList<>();
     private static ViewMotionManager instance;
 
     public static synchronized ViewMotionManager getInstance() {
@@ -123,7 +123,8 @@ public class ViewMotionManager implements Observer {
     }
 
     public void register(GameObject o) {
-        this.observables.add(o);
+        if (o instanceof GameTankInstance)
+            this.observables.add((GameTankInstance) o);
     }
 
     private boolean intersects(GameObject object) {
@@ -131,7 +132,7 @@ public class ViewMotionManager implements Observer {
 
         for (GameObject gO : observables) {
             Shape shape = getGameObjectShape(gO);
-            if (shape.getBoundsInParent().intersects(originalObjShape.getBoundsInParent()))
+            if ((object instanceof GameTankInstance) && !gO.equals(object) && shape.getBoundsInParent().intersects(originalObjShape.getBoundsInParent()))
                 return true;
         }
 
