@@ -28,6 +28,7 @@ public abstract class GameObject extends Observable {
     double displayedHeight, displayedWidth;
     private int id;
     private SimpleDoubleProperty directionAngle;
+    private boolean isValid;
 
     public GameObject(@Nullable Image texture, Point2D centre) {
         this.texture = texture;
@@ -87,9 +88,13 @@ public abstract class GameObject extends Observable {
     }
 
     public void setPaintCoordinates(Point2D point) {
+        Point2D oldCoordinates = point;
+
         this.paintCoordinates = point;
         this.setChanged();
         this.notifyObservers(this);
+        if (!isValid())
+            this.paintCoordinates = oldCoordinates;
     }
 
     private void bindToMotionManager() {
@@ -107,5 +112,13 @@ public abstract class GameObject extends Observable {
 
     public DoubleProperty directionAngleProperty() {
         return directionAngle;
+    }
+
+    public boolean isValid() {
+        return isValid;
+    }
+
+    public void setValid(boolean valid) {
+        isValid = valid;
     }
 }

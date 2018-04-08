@@ -69,7 +69,7 @@ public class ViewMotionManager implements Observer {
         manager.tankInstance.fire();
     }
 
-    private void createMovementPath(Node node, Point2D oldPoint, Point2D newPoint) {
+    private PathTransition createMovementPath(Node node, Point2D oldPoint, Point2D newPoint) {
         Path path = new Path();
 
         path.getElements().add(new MoveTo(oldPoint.getX(), oldPoint.getY()));
@@ -81,7 +81,7 @@ public class ViewMotionManager implements Observer {
         pathTransition.setPath(path);
         pathTransition.setOrientation(PathTransition.OrientationType.NONE);
         pathTransition.setAutoReverse(false);
-        pathTransition.play();
+        return pathTransition;
     }
 
     private void moveTankImage(PlayerTankManager manager, double speed, double a) {
@@ -102,15 +102,25 @@ public class ViewMotionManager implements Observer {
         Point2D oldChassis = manager.tankInstance.getGameChassis().getPaintCoordinates();
         Point2D newChassis = new Point2D(oldChassis.getX() + dx, oldChassis.getY() + dy);
         manager.tankInstance.getGameChassis().setPaintCoordinates(newChassis);
-        createMovementPath(manager.chassisView, new Point2D(oldChassis.getX() + 33, oldChassis.getY() + 62),
+        PathTransition chassisTransition = createMovementPath(manager.chassisView, new Point2D(oldChassis.getX() + 33, oldChassis.getY() + 62),
                 new Point2D(newChassis.getX() + 33, newChassis.getY() + 62));
 
         Point2D oldTurret = manager.tankInstance.getGameTurret().getPaintCoordinates();
         Point2D newTurret = new Point2D(oldTurret.getX() + dx, oldTurret.getY() + dy);
         manager.tankInstance.getGameTurret().setPaintCoordinates(newTurret);
-        createMovementPath(manager.turretView, new Point2D(oldTurret.getX() + 26, oldTurret.getY() + 70),
+        PathTransition turretTransition = createMovementPath(manager.turretView, new Point2D(oldTurret.getX() + 26, oldTurret.getY() + 70),
                 new Point2D(newTurret.getX() + 26, newTurret.getY() + 70));
+
         manager.tankInstance.setPaintCoordinates(newChassis);
+
+        if (!manager.tankInstance.isValid()) {
+            manager.tankInstance.getGameChassis().setPaintCoordinates(oldChassis);
+            manager.tankInstance.getGameTurret().setPaintCoordinates(oldTurret);
+            manager.tankInstance.setPaintCoordinates(oldChassis);
+        } else {
+            turretTransition.play();
+            chassisTransition.play();
+        }
     }
 
     @Override
@@ -118,9 +128,11 @@ public class ViewMotionManager implements Observer {
         if (o == null || !(o instanceof GameObject) || arg == null)
             return;
         boolean intersect = intersects((GameObject) o);
-        if (!intersect)
+        if (!intersect) {
+            ((GameObject) o).setValid(true);
             return;
-
+        }
+        ((GameObject) o).setValid(false);
         System.out.println("Intersection!!");
     }
 
