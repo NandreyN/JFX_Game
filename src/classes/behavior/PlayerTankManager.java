@@ -46,7 +46,7 @@ public class PlayerTankManager extends TankManager implements EventTarget {
     static final double DELTA_ANGLE = Math.PI / 146;
 
     public PlayerTankManager(AnchorPane parent, Point2D initialPosition, double orientationAngle, int textureId) {
-        initDefaultTank(initialPosition, textureId);
+        initDefaultTank(initialPosition, textureId,orientationAngle);
         motionManager = ViewMotionManager.getInstance();
         setTankImageView(parent, orientationAngle);
     }
@@ -74,29 +74,31 @@ public class PlayerTankManager extends TankManager implements EventTarget {
         turretRotation = new Rotate();
         turretRotation.setPivotX(25);
         turretRotation.setPivotY(30);
+        turretRotation.setAngle(initAngle);
         turretView.getTransforms().add(turretRotation);
 
         chassisRotation = new Rotate();
         chassisRotation.setPivotX(33);
         chassisRotation.setPivotY(65);
-
+        chassisRotation.setAngle(initAngle);
         chassisView.getTransforms().add(chassisRotation);
 
         //viewGroup = new Group(chassisView, turretView);
         parent.getChildren().addAll(chassisView, turretView);
-        chassisRotation.angleProperty().setValue(initAngle);
-        turretRotation.angleProperty().setValue(initAngle);
     }
 
     /**
      * Fills tank model with default tank. Should be removed later after
      * creating tank chooser
      */
-    private void initDefaultTank(Point2D initPosition, int textureId) {
+    private void initDefaultTank(Point2D initPosition, int textureId, double defaultAngle) {
         ITank tankModel = TankConstructor.createDrumTank();
 
         tankInstance = new GameTankInstance(tankModel, null, textureId,
                 initPosition);
+        tankInstance.getGameTurret().setDirectionAngle(defaultAngle);
+        tankInstance.getGameChassis().setDirectionAngle(defaultAngle);
+        tankInstance.setDirectionAngle(defaultAngle);
     }
 
     @Override
