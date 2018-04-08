@@ -20,9 +20,11 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.shape.*;
+import javafx.scene.shape.Shape;
 import javafx.scene.transform.Rotate;
 import javafx.util.Duration;
 
+import javax.media.j3d.View;
 import java.awt.*;
 
 /**
@@ -71,13 +73,12 @@ public class PlayerTankManager extends TankManager implements EventTarget {
         turretRotation = new Rotate();
         turretRotation.setPivotX(25);
         turretRotation.setPivotY(30);
-        turretRotation.angleProperty().setValue(initAngle);
         turretView.getTransforms().add(turretRotation);
 
         chassisRotation = new Rotate();
         chassisRotation.setPivotX(33);
         chassisRotation.setPivotY(65);
-        chassisRotation.angleProperty().setValue(initAngle);
+
         chassisView.getTransforms().add(chassisRotation);
 
         //viewGroup = new Group(chassisView, turretView);
@@ -91,6 +92,9 @@ public class PlayerTankManager extends TankManager implements EventTarget {
         turretRotation.angleProperty().addListener((observable, oldValue, newValue) -> {
             tankInstance.getGameTurret().directionAngleProperty().setValue(newValue);
         });
+
+        chassisRotation.angleProperty().setValue(initAngle);
+        turretRotation.angleProperty().setValue(initAngle);
     }
 
     /**

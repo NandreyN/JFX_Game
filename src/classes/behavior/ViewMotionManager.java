@@ -2,6 +2,7 @@ package classes.behavior;
 
 import classes.gameObjects.GameObject;
 import classes.gameObjects.GameTankInstance;
+import classes.gameObjects.Missile;
 import javafx.animation.PathTransition;
 import javafx.geometry.Point2D;
 import javafx.scene.Node;
@@ -84,6 +85,10 @@ public class ViewMotionManager implements Observer {
         return pathTransition;
     }
 
+    private void moveMissile(Missile missile, double angle) {
+        throw new UnsupportedOperationException("Not implemented");
+    }
+
     private void moveTankImage(PlayerTankManager manager, double speed, double a) {
         double dx = Math.abs(speed * Math.sin(a));
         double dy = Math.abs(speed * Math.cos(a));
@@ -117,6 +122,10 @@ public class ViewMotionManager implements Observer {
             manager.tankInstance.getGameChassis().setPaintCoordinates(oldChassis);
             manager.tankInstance.getGameTurret().setPaintCoordinates(oldTurret);
             manager.tankInstance.setPaintCoordinates(oldChassis);
+
+            manager.tankInstance.setValid(true);
+            manager.tankInstance.getGameTurret().setValid(true);
+            manager.tankInstance.getGameChassis().setValid(true);
         } else {
             turretTransition.play();
             chassisTransition.play();
@@ -153,7 +162,7 @@ public class ViewMotionManager implements Observer {
         return false;
     }
 
-    private static Shape getGameObjectShape(GameObject o) {
+    public static Shape getGameObjectShape(GameObject o) {
         Shape s = new Rectangle(o.getPaintCoordinates().getX(), o.getPaintCoordinates().getY(),
                 o.getDisplayedWidth(), o.getDisplayedHeight());
 
