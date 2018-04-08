@@ -1,6 +1,7 @@
 package classes.behavior;
 
 import classes.gameObjects.GameTankInstance;
+import classes.gameObjects.Missile;
 import classes.tanks.ITank;
 import classes.tanks.TankConstructor;
 import classes.tanks.parts.SAUTurret;
@@ -83,16 +84,6 @@ public class PlayerTankManager extends TankManager implements EventTarget {
 
         //viewGroup = new Group(chassisView, turretView);
         parent.getChildren().addAll(chassisView, turretView);
-
-        chassisRotation.angleProperty().addListener((observable, oldValue, newValue) -> {
-            tankInstance.directionAngleProperty().setValue(newValue);
-            tankInstance.getGameChassis().directionAngleProperty().setValue(newValue);
-        });
-
-        turretRotation.angleProperty().addListener((observable, oldValue, newValue) -> {
-            tankInstance.getGameTurret().directionAngleProperty().setValue(newValue);
-        });
-
         chassisRotation.angleProperty().setValue(initAngle);
         turretRotation.angleProperty().setValue(initAngle);
     }
@@ -130,13 +121,17 @@ public class PlayerTankManager extends TankManager implements EventTarget {
                 motionManager.forwardMove(this);
                 break;
             case A:
-                motionManager.turnLeft(this);
+                double a = motionManager.turnLeft(this);
+                tankInstance.setDirectionAngle(a);
+                tankInstance.getGameChassis().setDirectionAngle(a);
                 break;
             case S:
                 motionManager.backwardsMove(this);
                 break;
             case D:
-                motionManager.turnRight(this);
+                double a2 = motionManager.turnRight(this);
+                tankInstance.setDirectionAngle(a2);
+                tankInstance.getGameChassis().setDirectionAngle(a2);
                 break;
             default:
                 break;
@@ -159,7 +154,8 @@ public class PlayerTankManager extends TankManager implements EventTarget {
 
         if (currY != sceneY) {
             double angle = Math.atan2(currY - sceneY, currX - sceneX);
-            motionManager.rotateTurret(this, angle);
+            angle = motionManager.rotateTurret(this, angle);
+            tankInstance.getGameTurret().setDirectionAngle(angle);
         }
     }
 

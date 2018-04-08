@@ -26,4 +26,8 @@ public class GameTurret extends GameObject {
     public ITurret getTurret() {
         return turret;
     }
+
+    Point2D getTurretCentreOnChassis() {
+        return turretCentreOnChassis;
+    }
 }

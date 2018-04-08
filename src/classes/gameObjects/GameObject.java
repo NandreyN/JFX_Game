@@ -27,7 +27,7 @@ public abstract class GameObject extends Observable {
     private Image texture;
     double displayedHeight, displayedWidth;
     private int id;
-    private SimpleDoubleProperty directionAngle;
+    private double directionAngle;
     private boolean isValid;
 
     public GameObject(@Nullable Image texture, Point2D centre) {
@@ -37,7 +37,7 @@ public abstract class GameObject extends Observable {
             this.displayedHeight = texture.getHeight();
             this.displayedWidth = texture.getWidth();
         }
-        directionAngle = new SimpleDoubleProperty(0D);
+        directionAngle = 0;
         id = ++INST_COUNT;
         bindToMotionManager();
     }
@@ -88,7 +88,7 @@ public abstract class GameObject extends Observable {
     }
 
     public void setPaintCoordinates(Point2D point) {
-        Point2D oldCoordinates = point;
+        Point2D oldCoordinates = paintCoordinates;
 
         this.paintCoordinates = point;
         this.setChanged();
@@ -107,11 +107,11 @@ public abstract class GameObject extends Observable {
     }
 
     public double getDirectionAngle() {
-        return directionAngle.get();
+        return directionAngle;
     }
 
-    public DoubleProperty directionAngleProperty() {
-        return directionAngle;
+    public void setDirectionAngle(double angle) {
+        this.directionAngle = angle;
     }
 
     public boolean isValid() {

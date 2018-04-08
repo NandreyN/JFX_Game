@@ -8,9 +8,21 @@ import javafx.scene.image.Image;
 import java.awt.*;
 
 public class Missile extends GameObject {
-    public Missile(@Nullable Image texture, Point2D centre) {
+    private double speed;
+    private int srcTankId;
+
+    public Missile(@Nullable Image texture, Point2D centre, double speed, int srcTankId) {
         super(texture, centre);
+        this.speed = speed;
+        this.srcTankId = srcTankId;
     }
 
 
+    public double getSpeed() {
+        return speed;
+    }
+
+    public int getSrcTankId() {
+        return srcTankId;
+    }
 }

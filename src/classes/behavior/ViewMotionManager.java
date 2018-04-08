@@ -4,12 +4,16 @@ import classes.gameObjects.GameObject;
 import classes.gameObjects.GameTankInstance;
 import classes.gameObjects.Missile;
 import javafx.animation.PathTransition;
+import javafx.application.Platform;
 import javafx.geometry.Point2D;
 import javafx.scene.Node;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.shape.*;
 import javafx.scene.transform.Rotate;
 import javafx.util.Duration;
 
+import javax.swing.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
@@ -18,8 +22,10 @@ import java.util.Observer;
 import static classes.behavior.PlayerTankManager.DELTA_ANGLE;
 
 public class ViewMotionManager implements Observer {
-    private List<GameTankInstance> observables = new ArrayList<>();
+    private List<GameObject> observables = new ArrayList<>();
     private static ViewMotionManager instance;
+    private static int MISSILE_MOVE_DELAY = 30;
+    private static AnchorPane parent;
 
     public static synchronized ViewMotionManager getInstance() {
         if (instance == null) {
@@ -28,35 +34,41 @@ public class ViewMotionManager implements Observer {
         return instance;
     }
 
-    public void rotateTurret(PlayerTankManager manager, double toAngle) {
-        manager.turretRotation.angleProperty().set(Math.toDegrees(toAngle) + 90);
+    public static void setParent(AnchorPane p) {
+        parent = p;
+    }
+
+    public double rotateTurret(PlayerTankManager manager, double toAngle) {
+        manager.turretRotation.setAngle(Math.toDegrees(toAngle) + 90);
         manager.tankInstance.getGameTurret().getTurret().rotate(
-                Math.toRadians(manager.turretRotation.angleProperty().get()));
+                Math.toRadians(manager.turretRotation.getAngle()));
+        return manager.turretRotation.getAngle();
     }
 
     public void forwardMove(PlayerTankManager manager) {
-        double a = Math.toRadians(manager.chassisRotation.angleProperty().get()),
+        double a = Math.toRadians(manager.chassisRotation.getAngle()),
                 forwardSpeed = manager.tankInstance.getGameChassis().getChassis().getForwardSpeed();
         moveTankImage(manager, forwardSpeed, a);
     }
 
-    public void turnLeft(PlayerTankManager manager) {
+    public double turnLeft(PlayerTankManager manager) {
         manager.tankInstance.turnLeft(DELTA_ANGLE);
-        manager.chassisRotation.angleProperty().set(manager.chassisRotation.angleProperty().get() - Math.toDegrees(DELTA_ANGLE));
-        manager.chassisRotation.angleProperty().set(normalizeAngle(manager.chassisRotation.angleProperty().get()));
+        manager.chassisRotation.setAngle(manager.chassisRotation.getAngle() - Math.toDegrees(DELTA_ANGLE));
+        manager.chassisRotation.setAngle(normalizeAngle(manager.chassisRotation.getAngle()));
+        return manager.chassisRotation.getAngle();
     }
 
     public void backwardsMove(PlayerTankManager manager) {
-
-        double ang = Math.PI + Math.toRadians(manager.chassisRotation.angleProperty().get()),
+        double ang = Math.PI + Math.toRadians(manager.chassisRotation.getAngle()),
                 backwardsSpeed = manager.tankInstance.getGameChassis().getChassis().getBackwardsSpeed();
         moveTankImage(manager, backwardsSpeed, ang);
     }
 
-    public void turnRight(PlayerTankManager manager) {
+    public double turnRight(PlayerTankManager manager) {
         manager.tankInstance.turnRight(DELTA_ANGLE);
-        manager.chassisRotation.angleProperty().set(manager.chassisRotation.angleProperty().get() + Math.toDegrees(DELTA_ANGLE));
-        manager.chassisRotation.angleProperty().set(normalizeAngle(manager.chassisRotation.angleProperty().get()));
+        manager.chassisRotation.setAngle(manager.chassisRotation.getAngle() + Math.toDegrees(DELTA_ANGLE));
+        manager.chassisRotation.setAngle(normalizeAngle(manager.chassisRotation.getAngle()));
+        return manager.chassisRotation.getAngle();
     }
 
     private double normalizeAngle(double angle) {
@@ -67,7 +79,12 @@ public class ViewMotionManager implements Observer {
     }
 
     public void fire(PlayerTankManager manager) {
-        manager.tankInstance.fire();
+        Missile missile = manager.tankInstance.fire();
+        if (missile == null) {
+            System.out.println("Still loading");
+            return;
+        }
+        moveMissile(missile, Math.toRadians(manager.turretRotation.getAngle()));
     }
 
     private PathTransition createMovementPath(Node node, Point2D oldPoint, Point2D newPoint) {
@@ -85,8 +102,42 @@ public class ViewMotionManager implements Observer {
         return pathTransition;
     }
 
-    private void moveMissile(Missile missile, double angle) {
-        throw new UnsupportedOperationException("Not implemented");
+    private void moveMissile(Missile missile, double a) {
+        observables.add(missile);
+        ImageView missileImView = new ImageView(missile.getTexture());
+        missileImView.setTranslateX(missile.getPaintCoordinates().getX());
+        missileImView.setTranslateY(missile.getPaintCoordinates().getY());
+        parent.getChildren().add(missileImView);
+
+        new Timer(MISSILE_MOVE_DELAY, (e) -> {
+            //move
+            double dx = Math.abs(missile.getSpeed() * Math.sin(a));
+            double dy = Math.abs(missile.getSpeed() * Math.cos(a));
+
+            if (-Math.PI / 2 <= a && a <= 0) {
+            } else if (-Math.PI <= a && a <= -Math.PI / 2) {
+                dy = -dy;
+            } else if (Math.PI / 2 <= a && a <= Math.PI) {
+                dx = -dx;
+                dy = -dy;
+            } else if (0 <= a && a <= Math.PI / 2) {
+                dx = -dx;
+            }
+
+            Point2D oldMissile = missile.getPaintCoordinates();
+            Point2D newMissile = new Point2D(oldMissile.getX() + dx, oldMissile.getY() + dy);
+            missile.setPaintCoordinates(newMissile);
+            PathTransition missileTransition = createMovementPath(missileImView,
+                    new Point2D(oldMissile.getX() + 10.5, oldMissile.getY() + 10.5),
+                    new Point2D(newMissile.getX() + 10.5, newMissile.getY() + 10.5));
+            if (!missile.isValid()) {
+                ((Timer) (e.getSource())).stop();
+                observables.remove(missile);
+                Platform.runLater(() -> parent.getChildren().remove(missileImView));
+            } else {
+                missileTransition.play();
+            }
+        }).start();
     }
 
     private void moveTankImage(PlayerTankManager manager, double speed, double a) {
@@ -142,7 +193,6 @@ public class ViewMotionManager implements Observer {
             return;
         }
         ((GameObject) o).setValid(false);
-        System.out.println("Intersection!!");
     }
 
     public void register(GameObject o) {
@@ -155,7 +205,9 @@ public class ViewMotionManager implements Observer {
 
         for (GameObject gO : observables) {
             Shape shape = getGameObjectShape(gO);
-            if ((object instanceof GameTankInstance) && !gO.equals(object) && shape.getBoundsInParent().intersects(originalObjShape.getBoundsInParent()))
+            if ((object instanceof GameTankInstance) && !(gO instanceof Missile) && !gO.equals(object) && shape.getBoundsInParent().intersects(originalObjShape.getBoundsInParent()))
+                return true;
+            else if (object instanceof Missile && gO instanceof GameTankInstance && ((Missile) object).getSrcTankId() != gO.getId() && shape.getBoundsInParent().intersects(originalObjShape.getBoundsInParent()))
                 return true;
         }
 
@@ -169,7 +221,7 @@ public class ViewMotionManager implements Observer {
         Rotate shapeRotation = new Rotate();
         shapeRotation.setPivotX(o.getPaintCoordinates().getX() + o.getDisplayedWidth() / 2);
         shapeRotation.setPivotY(o.getPaintCoordinates().getY() + o.getDisplayedHeight() / 2);
-        shapeRotation.setAngle(o.directionAngleProperty().getValue());
+        shapeRotation.setAngle(o.getDirectionAngle());
         s.getTransforms().add(shapeRotation);
 
         return s;
