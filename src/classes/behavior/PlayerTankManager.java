@@ -8,8 +8,8 @@ import javafx.animation.PathTransition;
 import javafx.beans.InvalidationListener;
 import javafx.beans.Observable;
 import javafx.beans.binding.Bindings;
+import javafx.event.*;
 import javafx.event.Event;
-import javafx.event.EventType;
 import javafx.geometry.Point2D;
 import javafx.scene.Group;
 import javafx.scene.Node;
@@ -34,7 +34,7 @@ import java.awt.*;
  * View component should be pushed to another ViewHandler class later.
  */
 
-public class PlayerTankManager extends TankManager {
+public class PlayerTankManager extends TankManager implements EventTarget {
     ImageView chassisView, turretView;
     Rotate turretRotation, chassisRotation;
     private ViewMotionManager motionManager;
@@ -157,5 +157,13 @@ public class PlayerTankManager extends TankManager {
             double angle = Math.atan2(currY - sceneY, currX - sceneX);
             motionManager.rotateTurret(this, angle);
         }
+    }
+
+    @Override
+    public EventDispatchChain buildEventDispatchChain(EventDispatchChain tail) {
+        return tail.append((event, tail12) -> {
+            this.handle(event);
+            return event;
+        });
     }
 }

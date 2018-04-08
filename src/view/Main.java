@@ -15,6 +15,8 @@ public class Main extends Application {
         primaryStage.setScene(new Scene(root, 655, 556));
         primaryStage.show();
         root.requestFocus();
+
+        primaryStage.setOnCloseRequest(event -> System.exit(0));
     }
 
     public static void main(String[] args) {

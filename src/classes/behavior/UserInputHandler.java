@@ -10,12 +10,12 @@ import javafx.scene.layout.AnchorPane;
  */
 
 public class UserInputHandler {
-    private TankManager playerTankManager;
+    private PlayerTankManager playerTankManager;
 
     public UserInputHandler(AnchorPane pane) {
         if (pane == null)
             throw new NullPointerException("pane");
-        playerTankManager = new PlayerTankManager(pane, new Point2D(0, 0), -90,1);
+        playerTankManager = new PlayerTankManager(pane, new Point2D(0, 0), -90, 1);
 
         setupKeyboardListener(pane);
         setupMouseClickListeners(pane);
@@ -41,5 +41,9 @@ public class UserInputHandler {
      */
     private void setupMouseMotionListeners(Node pane) {
         pane.setOnMouseMoved(playerTankManager);
+    }
+
+    public PlayerTankManager getPlayerTankManager() {
+        return playerTankManager;
     }
 }

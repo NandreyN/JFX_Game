@@ -16,5 +16,6 @@ public class Controller {
     private void initialize() {
         inputHandler = new UserInputHandler(mainPane);
         enemyTankManager = new EnemyTankManager(mainPane);
+        enemyTankManager.startTrackingPlayersTank(inputHandler.getPlayerTankManager());
     }
 }
