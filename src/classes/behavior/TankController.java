@@ -1,32 +1,19 @@
 package classes.behavior;
 
 import classes.gameObjects.GameTankInstance;
-import classes.gameObjects.Missile;
 import classes.tanks.ITank;
 import classes.tanks.TankConstructor;
 import classes.tanks.parts.SAUTurret;
-import javafx.animation.PathTransition;
-import javafx.beans.InvalidationListener;
-import javafx.beans.Observable;
-import javafx.beans.binding.Bindings;
 import javafx.event.*;
 import javafx.event.Event;
 import javafx.geometry.Point2D;
-import javafx.scene.Group;
-import javafx.scene.Node;
 import javafx.scene.effect.BlendMode;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.shape.*;
-import javafx.scene.shape.Shape;
 import javafx.scene.transform.Rotate;
-import javafx.util.Duration;
-
-import javax.media.j3d.View;
-import java.awt.*;
 
 /**
  * Class in created for handling events dedicated to player`s tank
@@ -37,7 +24,7 @@ import java.awt.*;
  * View component should be pushed to another ViewHandler class later.
  */
 
-public class PlayerTankManager extends TankManager implements EventTarget {
+public class TankController extends AbstractTankController implements EventTarget {
     ImageView chassisView, turretView;
     Rotate turretRotation, chassisRotation;
     private ViewMotionManager motionManager;
@@ -45,7 +32,7 @@ public class PlayerTankManager extends TankManager implements EventTarget {
     GameTankInstance tankInstance = null;
     static final double DELTA_ANGLE = Math.PI / 146;
 
-    public PlayerTankManager(AnchorPane parent, Point2D initialPosition, double orientationAngle, int textureId) {
+    public TankController(AnchorPane parent, Point2D initialPosition, double orientationAngle, int textureId) {
         initDefaultTank(initialPosition, textureId,orientationAngle);
         motionManager = ViewMotionManager.getInstance();
         setTankImageView(parent, orientationAngle);

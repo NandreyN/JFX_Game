@@ -4,7 +4,6 @@ import classes.behavior.EnemyTankManager;
 import classes.behavior.UserInputHandler;
 import classes.behavior.ViewMotionManager;
 import javafx.fxml.FXML;
-import javafx.scene.canvas.Canvas;
 import javafx.scene.layout.AnchorPane;
 
 public class Controller {
@@ -18,6 +17,6 @@ public class Controller {
         ViewMotionManager.setParent(mainPane);
         inputHandler = new UserInputHandler(mainPane);
         enemyTankManager = new EnemyTankManager(mainPane);
-        enemyTankManager.startTrackingPlayersTank(inputHandler.getPlayerTankManager());
+        enemyTankManager.startTrackingPlayersTank(inputHandler.getTankController());
     }
 }

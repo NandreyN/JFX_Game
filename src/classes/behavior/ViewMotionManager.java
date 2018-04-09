@@ -19,7 +19,7 @@ import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
-import static classes.behavior.PlayerTankManager.DELTA_ANGLE;
+import static classes.behavior.TankController.DELTA_ANGLE;
 
 public class ViewMotionManager implements Observer {
     private List<GameObject> observables = new ArrayList<>();
@@ -38,33 +38,33 @@ public class ViewMotionManager implements Observer {
         parent = p;
     }
 
-    public double rotateTurret(PlayerTankManager manager, double toAngle) {
+    public double rotateTurret(TankController manager, double toAngle) {
         manager.turretRotation.setAngle(Math.toDegrees(toAngle) + 90);
         manager.tankInstance.getGameTurret().getTurret().rotate(
                 Math.toRadians(manager.turretRotation.getAngle()));
         return manager.turretRotation.getAngle();
     }
 
-    public void forwardMove(PlayerTankManager manager) {
+    public void forwardMove(TankController manager) {
         double a = Math.toRadians(manager.chassisRotation.getAngle()),
                 forwardSpeed = manager.tankInstance.getGameChassis().getChassis().getForwardSpeed();
         moveTankImage(manager, forwardSpeed, a);
     }
 
-    public double turnLeft(PlayerTankManager manager) {
+    public double turnLeft(TankController manager) {
         manager.tankInstance.turnLeft(DELTA_ANGLE);
         manager.chassisRotation.setAngle(manager.chassisRotation.getAngle() - Math.toDegrees(DELTA_ANGLE));
         manager.chassisRotation.setAngle(normalizeAngle(manager.chassisRotation.getAngle()));
         return manager.chassisRotation.getAngle();
     }
 
-    public void backwardsMove(PlayerTankManager manager) {
+    public void backwardsMove(TankController manager) {
         double ang = Math.PI + Math.toRadians(manager.chassisRotation.getAngle()),
                 backwardsSpeed = manager.tankInstance.getGameChassis().getChassis().getBackwardsSpeed();
         moveTankImage(manager, backwardsSpeed, ang);
     }
 
-    public double turnRight(PlayerTankManager manager) {
+    public double turnRight(TankController manager) {
         manager.tankInstance.turnRight(DELTA_ANGLE);
         manager.chassisRotation.setAngle(manager.chassisRotation.getAngle() + Math.toDegrees(DELTA_ANGLE));
         manager.chassisRotation.setAngle(normalizeAngle(manager.chassisRotation.getAngle()));
@@ -78,7 +78,7 @@ public class ViewMotionManager implements Observer {
         return newAngle;
     }
 
-    public void fire(PlayerTankManager manager) {
+    public void fire(TankController manager) {
         Missile missile = manager.tankInstance.fire();
         if (missile == null) {
             System.out.println("Still loading");
@@ -140,7 +140,7 @@ public class ViewMotionManager implements Observer {
         }).start();
     }
 
-    private void moveTankImage(PlayerTankManager manager, double speed, double a) {
+    private void moveTankImage(TankController manager, double speed, double a) {
         double dx = Math.abs(speed * Math.sin(a));
         double dy = Math.abs(speed * Math.cos(a));
 

@@ -5,17 +5,17 @@ import javafx.scene.Node;
 import javafx.scene.layout.AnchorPane;
 
 /**
- * Additional layer between controller class and PlayerTankManager.
- * Created for redirecting events particularly to PlayerTankManager
+ * Additional layer between controller class and TankController.
+ * Created for redirecting events particularly to TankController
  */
 
 public class UserInputHandler {
-    private PlayerTankManager playerTankManager;
+    private TankController tankController;
 
     public UserInputHandler(AnchorPane pane) {
         if (pane == null)
             throw new NullPointerException("pane");
-        playerTankManager = new PlayerTankManager(pane, new Point2D(0, 0), -90, 1);
+        tankController = new TankController(pane, new Point2D(0, 0), -90, 1);
 
         setupKeyboardListener(pane);
         setupMouseClickListeners(pane);
@@ -23,27 +23,27 @@ public class UserInputHandler {
     }
 
     /**
-     * Redirection of KeyEvents to PlayerTankManager
+     * Redirection of KeyEvents to TankController
      */
     private void setupKeyboardListener(Node pane) {
-        pane.setOnKeyPressed(playerTankManager);
+        pane.setOnKeyPressed(tankController);
     }
 
     /**
-     * Redirection of MouseClick events to PlayerTankManager
+     * Redirection of MouseClick events to TankController
      */
     private void setupMouseClickListeners(Node pane) {
-        pane.setOnMouseClicked(playerTankManager);
+        pane.setOnMouseClicked(tankController);
     }
 
     /**
-     * Redirection of MOuseMoved events to PlayerTankManager
+     * Redirection of MOuseMoved events to TankController
      */
     private void setupMouseMotionListeners(Node pane) {
-        pane.setOnMouseMoved(playerTankManager);
+        pane.setOnMouseMoved(tankController);
     }
 
-    public PlayerTankManager getPlayerTankManager() {
-        return playerTankManager;
+    public TankController getTankController() {
+        return tankController;
     }
 }

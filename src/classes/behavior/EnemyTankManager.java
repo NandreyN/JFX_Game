@@ -1,27 +1,22 @@
 package classes.behavior;
 
-import classes.events.GameEvent;
 import javafx.event.Event;
-import javafx.event.EventTarget;
-import javafx.event.EventType;
 import javafx.geometry.Point2D;
 import javafx.scene.input.MouseButton;
 import javafx.scene.layout.AnchorPane;
 
 import javax.swing.*;
-import java.awt.event.KeyEvent;
-import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.List;
 
-public class EnemyTankManager extends TankManager implements AutoCloseable {
-    private List<PlayerTankManager> enemyTanks;
+public class EnemyTankManager extends AbstractTankController implements AutoCloseable {
+    private List<TankController> enemyTanks;
     private List<Timer> stateUpdateTimers;
 
     private static final int ENEMY_COUNT = 1, TIMER_DELAY = 30;
 
     private ViewMotionManager motionManager;
-    private PlayerTankManager player;
+    private TankController player;
 
     public EnemyTankManager(AnchorPane pane) {
         motionManager = ViewMotionManager.getInstance();
@@ -31,8 +26,8 @@ public class EnemyTankManager extends TankManager implements AutoCloseable {
             enemyTanks.add(initialize(pane, new Point2D(300, 300), 90));
     }
 
-    private PlayerTankManager initialize(AnchorPane pane, Point2D startPos, double orientAngle) {
-        return new PlayerTankManager(pane, startPos, orientAngle, 2);
+    private TankController initialize(AnchorPane pane, Point2D startPos, double orientAngle) {
+        return new TankController(pane, startPos, orientAngle, 2);
     }
 
     @Override
@@ -55,7 +50,7 @@ public class EnemyTankManager extends TankManager implements AutoCloseable {
 
     }
 
-    public void startTrackingPlayersTank(PlayerTankManager tankManager) {
+    public void startTrackingPlayersTank(TankController tankManager) {
         stateUpdateTimers = new ArrayList<>();
         this.player = tankManager;
         for (int i = 0; i < ENEMY_COUNT; i++) {
