@@ -89,9 +89,10 @@ public class ViewMotionManager implements Observer {
             System.out.println("Still loading");
             return;
         }
-        System.out.println("Turret : "  + manager.tankInstance.getGameTurret().getDirectionAngle()+ "\nRotation : " + manager.turretRotation.getAngle() +"\n");
+        System.out.println("Fired");
+        //System.out.println("Turret : " + manager.tankInstance.getGameTurret().getDirectionAngle() + "\nRotation : " + manager.turretRotation.getAngle() + "\n");
         missile.setDirectionAngle(manager.turretRotation.getAngle());
-        moveMissile(missile,Math.toRadians(manager.turretRotation.getAngle()));
+        moveMissile(missile, Math.toRadians(manager.turretRotation.getAngle()));
     }
 
     private PathTransition createMovementPath(Node node, Point2D oldPoint, Point2D newPoint) {
@@ -115,6 +116,7 @@ public class ViewMotionManager implements Observer {
         missileImView.setTranslateX(missile.getPaintCoordinates().getX());
         missileImView.setTranslateY(missile.getPaintCoordinates().getY());
         parent.getChildren().add(missileImView);
+        missileImView.setVisible(false);
         new Timer(MISSILE_MOVE_DELAY, (e) -> {
             //move
             double dx = Math.abs(missile.getSpeed() * Math.sin(a));
@@ -142,6 +144,7 @@ public class ViewMotionManager implements Observer {
                 ((Timer) (e.getSource())).stop();
                 observables.remove(missile);
                 Platform.runLater(() -> parent.getChildren().remove(missileImView));
+                System.out.println("Hit");
             } else {
                 missileTransition.play();
             }

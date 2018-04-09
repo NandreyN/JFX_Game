@@ -41,7 +41,7 @@ public class GameTankInstance extends GameObject {
         boolean success = tankDataModel.fire();
         if (!success)
             return null;
-        return new Missile(new Image("file:game_textures/Cut/missile.png"), turret.getPaintCoordinates(), 10, getId());
+        return new Missile(new Image("file:game_textures/Cut/missile.png"), turret.getPaintCoordinates(), 100, getId());
     }
 
     public void rotateTurret(double toAngle) {
