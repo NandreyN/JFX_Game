@@ -1,5 +1,6 @@
 package classes.behavior;
 
+import classes.gameObjects.GameConstants;
 import classes.gameObjects.GameObject;
 import classes.gameObjects.GameTankInstance;
 import classes.gameObjects.Missile;
@@ -49,6 +50,8 @@ public class ViewMotionManager implements Observer {
         double a = Math.toRadians(manager.chassisRotation.getAngle()),
                 forwardSpeed = manager.tankInstance.getGameChassis().getChassis().getForwardSpeed();
         moveTankImage(manager, forwardSpeed, a);
+        if (manager.previousMouseEvent != null)
+            manager.handle(manager.previousMouseEvent);
     }
 
     public double turnLeft(TankController manager) {
@@ -62,6 +65,8 @@ public class ViewMotionManager implements Observer {
         double ang = Math.PI + Math.toRadians(manager.chassisRotation.getAngle()),
                 backwardsSpeed = manager.tankInstance.getGameChassis().getChassis().getBackwardsSpeed();
         moveTankImage(manager, backwardsSpeed, ang);
+        if (manager.previousMouseEvent != null)
+            manager.handle(manager.previousMouseEvent);
     }
 
     public double turnRight(TankController manager) {
@@ -84,7 +89,9 @@ public class ViewMotionManager implements Observer {
             System.out.println("Still loading");
             return;
         }
-        moveMissile(missile, Math.toRadians(manager.turretRotation.getAngle()));
+        System.out.println("Turret : "  + manager.tankInstance.getGameTurret().getDirectionAngle()+ "\nRotation : " + manager.turretRotation.getAngle() +"\n");
+        missile.setDirectionAngle(manager.turretRotation.getAngle());
+        moveMissile(missile,Math.toRadians(manager.turretRotation.getAngle()));
     }
 
     private PathTransition createMovementPath(Node node, Point2D oldPoint, Point2D newPoint) {
@@ -108,14 +115,13 @@ public class ViewMotionManager implements Observer {
         missileImView.setTranslateX(missile.getPaintCoordinates().getX());
         missileImView.setTranslateY(missile.getPaintCoordinates().getY());
         parent.getChildren().add(missileImView);
-
         new Timer(MISSILE_MOVE_DELAY, (e) -> {
             //move
             double dx = Math.abs(missile.getSpeed() * Math.sin(a));
             double dy = Math.abs(missile.getSpeed() * Math.cos(a));
 
             if (-Math.PI / 2 <= a && a <= 0) {
-            } else if (-Math.PI <= a && a <= -Math.PI / 2) {
+            } else if (Math.PI <= a && a <= 3 * Math.PI / 2) {
                 dy = -dy;
             } else if (Math.PI / 2 <= a && a <= Math.PI) {
                 dx = -dx;
@@ -127,9 +133,11 @@ public class ViewMotionManager implements Observer {
             Point2D oldMissile = missile.getPaintCoordinates();
             Point2D newMissile = new Point2D(oldMissile.getX() + dx, oldMissile.getY() + dy);
             missile.setPaintCoordinates(newMissile);
+            Point2D missileConst = GameConstants.missileCentre;
+
             PathTransition missileTransition = createMovementPath(missileImView,
-                    new Point2D(oldMissile.getX() + 10.5, oldMissile.getY() + 10.5),
-                    new Point2D(newMissile.getX() + 10.5, newMissile.getY() + 10.5));
+                    new Point2D(oldMissile.getX() + missileConst.getX(), oldMissile.getY() + missileConst.getY()),
+                    new Point2D(newMissile.getX() + missileConst.getX(), newMissile.getY() + missileConst.getY()));
             if (!missile.isValid()) {
                 ((Timer) (e.getSource())).stop();
                 observables.remove(missile);
@@ -144,6 +152,8 @@ public class ViewMotionManager implements Observer {
         double dx = Math.abs(speed * Math.sin(a));
         double dy = Math.abs(speed * Math.cos(a));
 
+        Point2D chassisCentre = GameConstants.chassisCentre, turretCentre = GameConstants.turretTextureCentre;
+
         if (-Math.PI / 2 <= a && a <= 0) {
         } else if (-Math.PI <= a && a <= -Math.PI / 2) {
             dy = -dy;
@@ -156,16 +166,18 @@ public class ViewMotionManager implements Observer {
 
 
         Point2D oldChassis = manager.tankInstance.getGameChassis().getPaintCoordinates();
-        Point2D newChassis = new Point2D(oldChassis.getX() + dx, oldChassis.getY() + dy);
+        Point2D newChassis = oldChassis.add(new Point2D(dx, dy));
         manager.tankInstance.getGameChassis().setPaintCoordinates(newChassis);
-        PathTransition chassisTransition = createMovementPath(manager.chassisView, new Point2D(oldChassis.getX() + 33, oldChassis.getY() + 62),
-                new Point2D(newChassis.getX() + 33, newChassis.getY() + 62));
+        PathTransition chassisTransition = createMovementPath(manager.chassisView,
+                oldChassis.add(chassisCentre),
+                newChassis.add(chassisCentre));
 
         Point2D oldTurret = manager.tankInstance.getGameTurret().getPaintCoordinates();
-        Point2D newTurret = new Point2D(oldTurret.getX() + dx, oldTurret.getY() + dy);
+        Point2D newTurret = oldTurret.add(new Point2D(dx, dy));
         manager.tankInstance.getGameTurret().setPaintCoordinates(newTurret);
-        PathTransition turretTransition = createMovementPath(manager.turretView, new Point2D(oldTurret.getX() + 26, oldTurret.getY() + 70),
-                new Point2D(newTurret.getX() + 26, newTurret.getY() + 70));
+        PathTransition turretTransition = createMovementPath(manager.turretView,
+                oldTurret.add(turretCentre),
+                newTurret.add(turretCentre));
 
         manager.tankInstance.setPaintCoordinates(newChassis);
 

@@ -1,5 +1,6 @@
 package classes.behavior;
 
+import classes.gameObjects.GameConstants;
 import classes.gameObjects.GameTankInstance;
 import classes.tanks.ITank;
 import classes.tanks.TankConstructor;
@@ -28,12 +29,13 @@ public class TankController extends AbstractTankController implements EventTarge
     ImageView chassisView, turretView;
     Rotate turretRotation, chassisRotation;
     private ViewMotionManager motionManager;
+    MouseEvent previousMouseEvent;
 
     GameTankInstance tankInstance = null;
     static final double DELTA_ANGLE = Math.PI / 146;
 
     public TankController(AnchorPane parent, Point2D initialPosition, double orientationAngle, int textureId) {
-        initDefaultTank(initialPosition, textureId,orientationAngle);
+        initDefaultTank(initialPosition, textureId, orientationAngle);
         motionManager = ViewMotionManager.getInstance();
         setTankImageView(parent, orientationAngle);
     }
@@ -59,14 +61,14 @@ public class TankController extends AbstractTankController implements EventTarge
         turretView.setTranslateY(tankInstance.getGameTurret().getPaintCoordinates().getY());
 
         turretRotation = new Rotate();
-        turretRotation.setPivotX(25);
-        turretRotation.setPivotY(30);
+        turretRotation.setPivotX(GameConstants.turretConnectionPoint.getX());
+        turretRotation.setPivotY(GameConstants.turretConnectionPoint.getY());
         turretRotation.setAngle(initAngle);
         turretView.getTransforms().add(turretRotation);
 
         chassisRotation = new Rotate();
-        chassisRotation.setPivotX(33);
-        chassisRotation.setPivotY(65);
+        chassisRotation.setPivotX(GameConstants.turretOnChassis.getX());
+        chassisRotation.setPivotY(GameConstants.turretOnChassis.getY());
         chassisRotation.setAngle(initAngle);
         chassisView.getTransforms().add(chassisRotation);
 
@@ -134,6 +136,7 @@ public class TankController extends AbstractTankController implements EventTarge
 
     @Override
     public void handleMouseMotionEvent(javafx.scene.input.MouseEvent event) {
+        previousMouseEvent = event;
         if (tankInstance.getGameTurret().getTurret() instanceof SAUTurret)
             return;
 

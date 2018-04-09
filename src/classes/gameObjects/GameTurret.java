@@ -10,13 +10,11 @@ import java.awt.*;
 
 public class GameTurret extends GameObject {
     private ITurret turret;
-    private final Point2D turretCentreOnChassis;
 
     public GameTurret(@Nullable Image texture, Point2D point) {
         super(texture, point);
-        turretCentreOnChassis = new Point2D(point.getX() + getTexture().getWidth() / 10,
-                point.getY() + getTexture().getHeight() * 1 / 3);
-        super.setPaintCoordinates(turretCentreOnChassis);
+        Point2D offset = GameConstants.turretOnChassis;
+        super.setPaintCoordinates(point.add(offset.multiply(0.5)));
     }
 
     public void setTurret(ITurret turret) {
@@ -25,9 +23,5 @@ public class GameTurret extends GameObject {
 
     public ITurret getTurret() {
         return turret;
-    }
-
-    Point2D getTurretCentreOnChassis() {
-        return turretCentreOnChassis;
     }
 }
