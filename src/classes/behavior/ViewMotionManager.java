@@ -49,6 +49,7 @@ public class ViewMotionManager implements Observer {
     public void forwardMove(TankController manager) {
         double a = Math.toRadians(manager.chassisRotation.getAngle()),
                 forwardSpeed = manager.tankInstance.getGameChassis().getChassis().getForwardSpeed();
+
         moveTankImage(manager, forwardSpeed, a);
         if (manager.previousMouseEvent != null)
             manager.handle(manager.previousMouseEvent);
@@ -62,9 +63,19 @@ public class ViewMotionManager implements Observer {
     }
 
     public void backwardsMove(TankController manager) {
-        double ang = Math.PI + Math.toRadians(manager.chassisRotation.getAngle()),
+        double a = Math.toRadians(manager.chassisRotation.getAngle()),
                 backwardsSpeed = manager.tankInstance.getGameChassis().getChassis().getBackwardsSpeed();
-        moveTankImage(manager, backwardsSpeed, ang);
+
+        if (-Math.PI / 2 <= a && a <= 0) {
+            a += Math.PI;
+        } else if (-Math.PI <= a && a <= -Math.PI / 2) {
+            a += Math.PI;
+        } else if (Math.PI / 2 <= a && a <= Math.PI) {
+            a = -(Math.PI - a);
+        } else if (0 <= a && a <= Math.PI / 2) {
+            a = -Math.PI / 2 - (Math.PI / 2 - a);
+        }
+        moveTankImage(manager, backwardsSpeed, a);
         if (manager.previousMouseEvent != null)
             manager.handle(manager.previousMouseEvent);
     }
@@ -229,7 +240,7 @@ public class ViewMotionManager implements Observer {
         return false;
     }
 
-    public static Shape getGameObjectShape(GameObject o) {
+    private static Shape getGameObjectShape(GameObject o) {
         Shape s = new Rectangle(o.getPaintCoordinates().getX(), o.getPaintCoordinates().getY(),
                 o.getDisplayedWidth(), o.getDisplayedHeight());
 
