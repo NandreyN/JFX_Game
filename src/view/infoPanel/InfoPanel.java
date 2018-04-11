@@ -20,6 +20,7 @@ public class InfoPanel extends HBox implements ITankStateUI {
     }
 
     public void cooldown(double duration) {
+        cooldownIndicator.setProgress(0);
         new Timer(TIMER_TICK, (e) -> {
             cooldownIndicator.setProgress(cooldownIndicator.getProgress() + TIMER_TICK / duration);
             if (cooldownIndicator.getProgress() >= 1d)

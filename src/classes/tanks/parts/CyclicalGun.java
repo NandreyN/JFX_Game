@@ -43,6 +43,11 @@ public class CyclicalGun implements IGun, AutoCloseable {
         return ready;
     }
 
+    @Override
+    public double getNextCooldown() {
+        return COOLDOWN_MS;
+    }
+
     /**
      * Stops timer. Object can be deleted after that
      */

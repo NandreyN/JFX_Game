@@ -15,7 +15,7 @@ public class Controller {
     private AnchorPane gameFieldPane;
     @FXML
     private BorderPane globalPane;
-    private HBox infoPanel;
+    private InfoPanel infoPanel;
 
     private UserInputHandler inputHandler;
     private EnemyTankManager enemyTankManager;
@@ -23,11 +23,11 @@ public class Controller {
     @FXML
     private void initialize() {
         ViewMotionManager.setParent(gameFieldPane);
-        inputHandler = new UserInputHandler(gameFieldPane,globalPane);
+        inputHandler = new UserInputHandler(gameFieldPane, globalPane);
         enemyTankManager = new EnemyTankManager(gameFieldPane);
         enemyTankManager.startTrackingPlayersTank(inputHandler.getTankController());
-
         createAndSetupInfoPanel();
+        inputHandler.getTankController().setUIInfo(infoPanel);
     }
 
     private void createAndSetupInfoPanel() {

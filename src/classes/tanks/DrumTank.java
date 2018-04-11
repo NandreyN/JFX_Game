@@ -18,4 +18,9 @@ public class DrumTank extends AbstractTank {
     public boolean fire() {
         return gun.fire();
     }
+
+    @Override
+    public IGun getGun() {
+        return gun;
+    }
 }

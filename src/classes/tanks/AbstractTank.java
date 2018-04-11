@@ -80,4 +80,9 @@ public abstract class AbstractTank implements ITank {
     public boolean isAlive() {
         return this.currentHP > 0;
     }
+
+    @Override
+    public double getFullHPValue() {
+        return totalHP;
+    }
 }

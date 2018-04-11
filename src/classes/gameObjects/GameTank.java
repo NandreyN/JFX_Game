@@ -4,11 +4,13 @@ import classes.tanks.ITank;
 import com.sun.istack.internal.Nullable;
 import javafx.geometry.Point2D;
 import javafx.scene.image.Image;
+import view.infoPanel.ITankStateUI;
 
 public class GameTank extends GameObject {
     private ITank tankDataModel;
     private GameTurret turret;
     private GameChassis chassis;
+    private ITankStateUI tankStateUI;
 
     public GameTank(ITank tankModel,
                     @Nullable Image texture, int textureId, Point2D leftUpper) {
@@ -39,6 +41,9 @@ public class GameTank extends GameObject {
         boolean success = tankDataModel.fire();
         if (!success)
             return null;
+        if (tankStateUI != null)
+            tankStateUI.cooldown(tankDataModel.getGun().getNextCooldown());
+
         return new Missile(new Image("file:game_textures/Cut/missile.png"), turret.getLeftUpper(), 100, getId());
     }
 
@@ -50,8 +55,11 @@ public class GameTank extends GameObject {
         tankDataModel.turnLeft(absDeltaAngle);
     }
 
-
     public void turnRight(double absDeltaAngle) {
         tankDataModel.turnRight(absDeltaAngle);
+    }
+
+    public void setTankStateUI(ITankStateUI stateUI) {
+        this.tankStateUI = stateUI;
     }
 }

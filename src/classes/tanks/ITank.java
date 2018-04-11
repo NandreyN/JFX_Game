@@ -1,6 +1,7 @@
 package classes.tanks;
 
 import classes.tanks.parts.IChassis;
+import classes.tanks.parts.IGun;
 import classes.tanks.parts.ITurret;
 
 public interface ITank {
@@ -15,6 +16,8 @@ public interface ITank {
     void decreaseHP(double byValue);
 
     boolean isAlive();
+
+    double getFullHPValue();
 
     void turnLeft(double absDeltaAngle);
 
@@ -32,7 +35,9 @@ public interface ITank {
 
     double getBackwardsSpeed();
 
-    public ITurret getTurret();
+    ITurret getTurret();
 
-    public IChassis getChassis();
+    IChassis getChassis();
+
+    IGun getGun();
 }

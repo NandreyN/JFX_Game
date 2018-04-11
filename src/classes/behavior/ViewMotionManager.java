@@ -41,14 +41,14 @@ public class ViewMotionManager implements Observer {
 
     public double rotateTurret(TankController manager, double toAngle) {
         manager.turretRotation.setAngle(Math.toDegrees(toAngle) + 90);
-        manager.tankInstance.getGameTurret().getTurret().rotate(
+        manager.tankModel.getGameTurret().getTurret().rotate(
                 Math.toRadians(manager.turretRotation.getAngle()));
         return manager.turretRotation.getAngle();
     }
 
     public void forwardMove(TankController manager) {
         double a = Math.toRadians(manager.chassisRotation.getAngle()),
-                forwardSpeed = manager.tankInstance.getGameChassis().getChassis().getForwardSpeed();
+                forwardSpeed = manager.tankModel.getGameChassis().getChassis().getForwardSpeed();
 
         moveTankImage(manager, forwardSpeed, a);
         if (manager.previousMouseEvent != null)
@@ -56,7 +56,7 @@ public class ViewMotionManager implements Observer {
     }
 
     public double turnLeft(TankController manager) {
-        manager.tankInstance.turnLeft(DELTA_ANGLE);
+        manager.tankModel.turnLeft(DELTA_ANGLE);
         manager.chassisRotation.setAngle(manager.chassisRotation.getAngle() - Math.toDegrees(DELTA_ANGLE));
         manager.chassisRotation.setAngle(normalizeAngle(manager.chassisRotation.getAngle()));
         return manager.chassisRotation.getAngle();
@@ -64,7 +64,7 @@ public class ViewMotionManager implements Observer {
 
     public void backwardsMove(TankController manager) {
         double a = Math.toRadians(manager.chassisRotation.getAngle()),
-                backwardsSpeed = manager.tankInstance.getGameChassis().getChassis().getBackwardsSpeed();
+                backwardsSpeed = manager.tankModel.getGameChassis().getChassis().getBackwardsSpeed();
 
         if (-Math.PI / 2 <= a && a <= 0) {
             a += Math.PI;
@@ -81,7 +81,7 @@ public class ViewMotionManager implements Observer {
     }
 
     public double turnRight(TankController manager) {
-        manager.tankInstance.turnRight(DELTA_ANGLE);
+        manager.tankModel.turnRight(DELTA_ANGLE);
         manager.chassisRotation.setAngle(manager.chassisRotation.getAngle() + Math.toDegrees(DELTA_ANGLE));
         manager.chassisRotation.setAngle(normalizeAngle(manager.chassisRotation.getAngle()));
         return manager.chassisRotation.getAngle();
@@ -95,13 +95,13 @@ public class ViewMotionManager implements Observer {
     }
 
     public void fire(TankController manager) {
-        Missile missile = manager.tankInstance.fire();
+        Missile missile = manager.tankModel.fire();
         if (missile == null) {
             System.out.println("Still loading");
             return;
         }
         System.out.println("Fired");
-        //System.out.println("Turret : " + manager.tankInstance.getGameTurret().getDirectionAngle() + "\nRotation : " + manager.turretRotation.getAngle() + "\n");
+        //System.out.println("Turret : " + manager.tankModel.getGameTurret().getDirectionAngle() + "\nRotation : " + manager.turretRotation.getAngle() + "\n");
         missile.setDirectionAngle(manager.turretRotation.getAngle());
         moveMissile(missile, Math.toRadians(manager.turretRotation.getAngle()));
     }
@@ -179,30 +179,30 @@ public class ViewMotionManager implements Observer {
         }
 
 
-        Point2D oldChassis = manager.tankInstance.getGameChassis().getLeftUpper();
+        Point2D oldChassis = manager.tankModel.getGameChassis().getLeftUpper();
         Point2D newChassis = oldChassis.add(new Point2D(dx, dy));
-        manager.tankInstance.getGameChassis().setLeftUpper(newChassis);
+        manager.tankModel.getGameChassis().setLeftUpper(newChassis);
         PathTransition chassisTransition = createMovementPath(manager.chassisView,
                 oldChassis.add(chassisCentre),
                 newChassis.add(chassisCentre));
 
-        Point2D oldTurret = manager.tankInstance.getGameTurret().getLeftUpper();
+        Point2D oldTurret = manager.tankModel.getGameTurret().getLeftUpper();
         Point2D newTurret = oldTurret.add(new Point2D(dx, dy));
-        manager.tankInstance.getGameTurret().setLeftUpper(newTurret);
+        manager.tankModel.getGameTurret().setLeftUpper(newTurret);
         PathTransition turretTransition = createMovementPath(manager.turretView,
                 oldTurret.add(turretCentre),
                 newTurret.add(turretCentre));
 
-        manager.tankInstance.setLeftUpper(newChassis);
+        manager.tankModel.setLeftUpper(newChassis);
 
-        if (!manager.tankInstance.isValid()) {
-            manager.tankInstance.getGameChassis().setLeftUpper(oldChassis);
-            manager.tankInstance.getGameTurret().setLeftUpper(oldTurret);
-            manager.tankInstance.setLeftUpper(oldChassis);
+        if (!manager.tankModel.isValid()) {
+            manager.tankModel.getGameChassis().setLeftUpper(oldChassis);
+            manager.tankModel.getGameTurret().setLeftUpper(oldTurret);
+            manager.tankModel.setLeftUpper(oldChassis);
 
-            manager.tankInstance.setValid(true);
-            manager.tankInstance.getGameTurret().setValid(true);
-            manager.tankInstance.getGameChassis().setValid(true);
+            manager.tankModel.setValid(true);
+            manager.tankModel.getGameTurret().setValid(true);
+            manager.tankModel.getGameChassis().setValid(true);
         } else {
             turretTransition.play();
             chassisTransition.play();

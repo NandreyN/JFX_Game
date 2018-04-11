@@ -71,6 +71,11 @@ public class DrumGun implements IGun, AutoCloseable {
         return missilesAvailable > 0;
     }
 
+    @Override
+    public double getNextCooldown() {
+        return (missilesAvailable > 0) ? INTERNAL_COOLDOWN : EXTERNAL_COOLDOWN;
+    }
+
     /**
      * Safe class deleting
      */
