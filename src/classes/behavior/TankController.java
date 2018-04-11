@@ -43,6 +43,7 @@ public class TankController extends AbstractTankController implements EventTarge
 
     public void setUIInfo(InfoPanel panel) {
         tankModel.setTankStateUI(panel);
+        panel.cooldown(tankModel.getTank().getGun().getNextCooldown());
     }
 
     /**

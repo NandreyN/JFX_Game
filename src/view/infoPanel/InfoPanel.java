@@ -15,7 +15,7 @@ public class InfoPanel extends HBox implements ITankStateUI {
     public InfoPanel(int hpCount) {
         HP_COUNT = hpCount;
         this.cooldownIndicator = new ProgressIndicator(0);
-        this.hpIndicator = new ProgressBar(0);
+        this.hpIndicator = new ProgressBar(1);
         this.getChildren().addAll(cooldownIndicator,hpIndicator);
     }
 

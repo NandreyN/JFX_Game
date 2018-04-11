@@ -62,4 +62,8 @@ public class GameTank extends GameObject {
     public void setTankStateUI(ITankStateUI stateUI) {
         this.tankStateUI = stateUI;
     }
+
+    public ITank getTank() {
+        return this.tankDataModel;
+    }
 }
