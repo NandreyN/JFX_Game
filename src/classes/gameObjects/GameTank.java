@@ -4,16 +4,14 @@ import classes.tanks.ITank;
 import com.sun.istack.internal.Nullable;
 import javafx.geometry.Point2D;
 import javafx.scene.image.Image;
-import javafx.scene.transform.Affine;
-import javafx.scene.transform.Rotate;
 
-public class GameTankInstance extends GameObject {
+public class GameTank extends GameObject {
     private ITank tankDataModel;
     private GameTurret turret;
     private GameChassis chassis;
 
-    public GameTankInstance(ITank tankModel,
-                            @Nullable Image texture, int textureId, Point2D leftUpper) {
+    public GameTank(ITank tankModel,
+                    @Nullable Image texture, int textureId, Point2D leftUpper) {
         super(texture, leftUpper);
 
         chassis = new GameChassis(new Image("file:game_textures/Cut/chassis_" + textureId + ".png"),
@@ -41,7 +39,7 @@ public class GameTankInstance extends GameObject {
         boolean success = tankDataModel.fire();
         if (!success)
             return null;
-        return new Missile(new Image("file:game_textures/Cut/missile.png"), turret.getPaintCoordinates(), 100, getId());
+        return new Missile(new Image("file:game_textures/Cut/missile.png"), turret.getLeftUpper(), 100, getId());
     }
 
     public void rotateTurret(double toAngle) {

@@ -45,8 +45,8 @@ public class EnemyTankManager implements AutoCloseable, EventHandler<Event> {
             int finalI = i;
             stateUpdateTimers.add(new Timer(TIMER_DELAY, e -> {
                 Event.fireEvent(enemyTanks.get(finalI), new javafx.scene.input.MouseEvent(
-                        javafx.scene.input.MouseEvent.MOUSE_MOVED, player.tankInstance.getPaintCoordinates().getX(),
-                        player.tankInstance.getPaintCoordinates().getY(), 0, 0, MouseButton.PRIMARY, 1, true, true, true, true,
+                        javafx.scene.input.MouseEvent.MOUSE_MOVED, player.tankInstance.getLeftUpper().getX(),
+                        player.tankInstance.getLeftUpper().getY(), 0, 0, MouseButton.PRIMARY, 1, true, true, true, true,
                         true, true, true, true, true, true, null
                 ));
 

@@ -1,17 +1,10 @@
 package classes.gameObjects;
 
-import classes.behavior.INotifiable;
 import classes.behavior.ViewMotionManager;
 import com.sun.istack.internal.Nullable;
-import javafx.beans.InvalidationListener;
-import javafx.beans.property.DoubleProperty;
-import javafx.beans.property.SimpleDoubleProperty;
 import javafx.geometry.Point2D;
 import javafx.scene.image.Image;
 
-import javax.media.j3d.View;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Observable;
 
 
@@ -23,7 +16,7 @@ import java.util.Observable;
 public abstract class GameObject extends Observable {
     private static int INST_COUNT = 0;
 
-    private Point2D paintCoordinates;
+    private Point2D leftUpper;
     private Image texture;
     double displayedHeight, displayedWidth;
     private int id;
@@ -32,7 +25,7 @@ public abstract class GameObject extends Observable {
 
     public GameObject(@Nullable Image texture, Point2D centre) {
         this.texture = texture;
-        this.paintCoordinates = centre;
+        this.leftUpper = centre;
         if (texture != null) {
             this.displayedHeight = texture.getHeight();
             this.displayedWidth = texture.getWidth();
@@ -83,18 +76,18 @@ public abstract class GameObject extends Observable {
         return texture;
     }
 
-    public Point2D getPaintCoordinates() {
-        return paintCoordinates;
+    public Point2D getLeftUpper() {
+        return leftUpper;
     }
 
-    public void setPaintCoordinates(Point2D point) {
-        Point2D oldCoordinates = paintCoordinates;
+    public void setLeftUpper(Point2D point) {
+        Point2D oldCoordinates = leftUpper;
 
-        this.paintCoordinates = point;
+        this.leftUpper = point;
         this.setChanged();
         this.notifyObservers(this);
         if (!isValid())
-            this.paintCoordinates = oldCoordinates;
+            this.leftUpper = oldCoordinates;
     }
 
     private void bindToMotionManager() {

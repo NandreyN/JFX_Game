@@ -2,7 +2,7 @@ package classes.behavior;
 
 import classes.gameObjects.GameConstants;
 import classes.gameObjects.GameObject;
-import classes.gameObjects.GameTankInstance;
+import classes.gameObjects.GameTank;
 import classes.gameObjects.Missile;
 import javafx.animation.PathTransition;
 import javafx.application.Platform;
@@ -124,8 +124,8 @@ public class ViewMotionManager implements Observer {
     private void moveMissile(Missile missile, double a) {
         observables.add(missile);
         ImageView missileImView = new ImageView(missile.getTexture());
-        missileImView.setTranslateX(missile.getPaintCoordinates().getX());
-        missileImView.setTranslateY(missile.getPaintCoordinates().getY());
+        missileImView.setTranslateX(missile.getLeftUpper().getX());
+        missileImView.setTranslateY(missile.getLeftUpper().getY());
         parent.getChildren().add(missileImView);
         missileImView.setVisible(false);
         new Timer(MISSILE_MOVE_DELAY, (e) -> {
@@ -143,9 +143,9 @@ public class ViewMotionManager implements Observer {
                 dx = -dx;
             }
 
-            Point2D oldMissile = missile.getPaintCoordinates();
+            Point2D oldMissile = missile.getLeftUpper();
             Point2D newMissile = new Point2D(oldMissile.getX() + dx, oldMissile.getY() + dy);
-            missile.setPaintCoordinates(newMissile);
+            missile.setLeftUpper(newMissile);
             Point2D missileConst = GameConstants.missileCentre;
 
             PathTransition missileTransition = createMovementPath(missileImView,
@@ -179,26 +179,26 @@ public class ViewMotionManager implements Observer {
         }
 
 
-        Point2D oldChassis = manager.tankInstance.getGameChassis().getPaintCoordinates();
+        Point2D oldChassis = manager.tankInstance.getGameChassis().getLeftUpper();
         Point2D newChassis = oldChassis.add(new Point2D(dx, dy));
-        manager.tankInstance.getGameChassis().setPaintCoordinates(newChassis);
+        manager.tankInstance.getGameChassis().setLeftUpper(newChassis);
         PathTransition chassisTransition = createMovementPath(manager.chassisView,
                 oldChassis.add(chassisCentre),
                 newChassis.add(chassisCentre));
 
-        Point2D oldTurret = manager.tankInstance.getGameTurret().getPaintCoordinates();
+        Point2D oldTurret = manager.tankInstance.getGameTurret().getLeftUpper();
         Point2D newTurret = oldTurret.add(new Point2D(dx, dy));
-        manager.tankInstance.getGameTurret().setPaintCoordinates(newTurret);
+        manager.tankInstance.getGameTurret().setLeftUpper(newTurret);
         PathTransition turretTransition = createMovementPath(manager.turretView,
                 oldTurret.add(turretCentre),
                 newTurret.add(turretCentre));
 
-        manager.tankInstance.setPaintCoordinates(newChassis);
+        manager.tankInstance.setLeftUpper(newChassis);
 
         if (!manager.tankInstance.isValid()) {
-            manager.tankInstance.getGameChassis().setPaintCoordinates(oldChassis);
-            manager.tankInstance.getGameTurret().setPaintCoordinates(oldTurret);
-            manager.tankInstance.setPaintCoordinates(oldChassis);
+            manager.tankInstance.getGameChassis().setLeftUpper(oldChassis);
+            manager.tankInstance.getGameTurret().setLeftUpper(oldTurret);
+            manager.tankInstance.setLeftUpper(oldChassis);
 
             manager.tankInstance.setValid(true);
             manager.tankInstance.getGameTurret().setValid(true);
@@ -222,8 +222,8 @@ public class ViewMotionManager implements Observer {
     }
 
     public void register(GameObject o) {
-        if (o instanceof GameTankInstance)
-            this.observables.add((GameTankInstance) o);
+        if (o instanceof GameTank)
+            this.observables.add((GameTank) o);
     }
 
     private boolean intersects(GameObject object) {
@@ -231,9 +231,9 @@ public class ViewMotionManager implements Observer {
 
         for (GameObject gO : observables) {
             Shape shape = getGameObjectShape(gO);
-            if ((object instanceof GameTankInstance) && !(gO instanceof Missile) && !gO.equals(object) && shape.getBoundsInParent().intersects(originalObjShape.getBoundsInParent()))
+            if ((object instanceof GameTank) && !(gO instanceof Missile) && !gO.equals(object) && shape.getBoundsInParent().intersects(originalObjShape.getBoundsInParent()))
                 return true;
-            else if (object instanceof Missile && gO instanceof GameTankInstance && ((Missile) object).getSrcTankId() != gO.getId() && shape.getBoundsInParent().intersects(originalObjShape.getBoundsInParent()))
+            else if (object instanceof Missile && gO instanceof GameTank && ((Missile) object).getSrcTankId() != gO.getId() && shape.getBoundsInParent().intersects(originalObjShape.getBoundsInParent()))
                 return true;
         }
 
@@ -241,12 +241,12 @@ public class ViewMotionManager implements Observer {
     }
 
     private static Shape getGameObjectShape(GameObject o) {
-        Shape s = new Rectangle(o.getPaintCoordinates().getX(), o.getPaintCoordinates().getY(),
+        Shape s = new Rectangle(o.getLeftUpper().getX(), o.getLeftUpper().getY(),
                 o.getDisplayedWidth(), o.getDisplayedHeight());
 
         Rotate shapeRotation = new Rotate();
-        shapeRotation.setPivotX(o.getPaintCoordinates().getX() + o.getDisplayedWidth() / 2);
-        shapeRotation.setPivotY(o.getPaintCoordinates().getY() + o.getDisplayedHeight() / 2);
+        shapeRotation.setPivotX(o.getLeftUpper().getX() + o.getDisplayedWidth() / 2);
+        shapeRotation.setPivotY(o.getLeftUpper().getY() + o.getDisplayedHeight() / 2);
         shapeRotation.setAngle(o.getDirectionAngle());
         s.getTransforms().add(shapeRotation);
 

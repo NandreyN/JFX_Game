@@ -1,7 +1,7 @@
 package classes.behavior;
 
 import classes.gameObjects.GameConstants;
-import classes.gameObjects.GameTankInstance;
+import classes.gameObjects.GameTank;
 import classes.tanks.ITank;
 import classes.tanks.TankConstructor;
 import classes.tanks.parts.SAUTurret;
@@ -31,7 +31,7 @@ public class TankController extends AbstractTankController implements EventTarge
     private ViewMotionManager motionManager;
     MouseEvent previousMouseEvent;
 
-    GameTankInstance tankInstance = null;
+    GameTank tankInstance = null;
     static final double DELTA_ANGLE = Math.PI / 146;
 
     public TankController(AnchorPane parent, Point2D initialPosition, double orientationAngle, int textureId) {
@@ -54,11 +54,11 @@ public class TankController extends AbstractTankController implements EventTarge
         turretView = new ImageView(tankInstance.getGameTurret().getTexture());
         turretView.setBlendMode(BlendMode.SRC_OVER);
 
-        chassisView.setTranslateX(tankInstance.getGameChassis().getPaintCoordinates().getX());
-        chassisView.setTranslateY(tankInstance.getGameChassis().getPaintCoordinates().getY());
+        chassisView.setTranslateX(tankInstance.getGameChassis().getLeftUpper().getX());
+        chassisView.setTranslateY(tankInstance.getGameChassis().getLeftUpper().getY());
 
-        turretView.setTranslateX(tankInstance.getGameTurret().getPaintCoordinates().getX());
-        turretView.setTranslateY(tankInstance.getGameTurret().getPaintCoordinates().getY());
+        turretView.setTranslateX(tankInstance.getGameTurret().getLeftUpper().getX());
+        turretView.setTranslateY(tankInstance.getGameTurret().getLeftUpper().getY());
 
         turretRotation = new Rotate();
         turretRotation.setPivotX(GameConstants.turretConnectionPoint.getX());
@@ -83,7 +83,7 @@ public class TankController extends AbstractTankController implements EventTarge
     private void initDefaultTank(Point2D initPosition, int textureId, double defaultAngle) {
         ITank tankModel = TankConstructor.createDrumTank();
 
-        tankInstance = new GameTankInstance(tankModel, null, textureId,
+        tankInstance = new GameTank(tankModel, null, textureId,
                 initPosition);
         tankInstance.getGameTurret().setDirectionAngle(defaultAngle);
         tankInstance.getGameChassis().setDirectionAngle(defaultAngle);
@@ -141,8 +141,8 @@ public class TankController extends AbstractTankController implements EventTarge
             return;
 
         double sceneX = event.getSceneX(), sceneY = event.getSceneY();
-        double currX = tankInstance.getGameTurret().getPaintCoordinates().getX();
-        double currY = tankInstance.getGameTurret().getPaintCoordinates().getY();
+        double currX = tankInstance.getGameTurret().getLeftUpper().getX();
+        double currY = tankInstance.getGameTurret().getLeftUpper().getY();
 
         if (currY != sceneY) {
             double angle = Math.atan2(currY - sceneY, currX - sceneX);

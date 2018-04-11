@@ -37,7 +37,7 @@ public class UserInputHandler {
     }
 
     /**
-     * Redirection of MOuseMoved events to TankController
+     * Redirection of MouseMoved events to TankController
      */
     private void setupMouseMotionListeners(Node pane) {
         pane.setOnMouseMoved(tankController);
