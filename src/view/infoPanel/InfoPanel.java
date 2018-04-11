@@ -6,7 +6,7 @@ import javafx.scene.layout.HBox;
 
 import javax.swing.*;
 
-public class InfoPanel extends HBox {
+public class InfoPanel extends HBox implements ITankStateUI {
     private ProgressBar hpIndicator;
     private ProgressIndicator cooldownIndicator;
     private final int HP_COUNT;
@@ -16,9 +16,10 @@ public class InfoPanel extends HBox {
         HP_COUNT = hpCount;
         this.cooldownIndicator = new ProgressIndicator(0);
         this.hpIndicator = new ProgressBar(0);
+        this.getChildren().addAll(cooldownIndicator,hpIndicator);
     }
 
-    public void displayCooldown(double duration) {
+    public void cooldown(double duration) {
         new Timer(TIMER_TICK, (e) -> {
             cooldownIndicator.setProgress(cooldownIndicator.getProgress() + TIMER_TICK / duration);
             if (cooldownIndicator.getProgress() >= 1d)

@@ -10,6 +10,12 @@ public interface ITank {
 
     ;
 
+    double getHP();
+
+    void decreaseHP(double byValue);
+
+    boolean isAlive();
+
     void turnLeft(double absDeltaAngle);
 
     void turnRight(double absDeltaAngle);

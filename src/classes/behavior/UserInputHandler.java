@@ -3,6 +3,7 @@ package classes.behavior;
 import javafx.geometry.Point2D;
 import javafx.scene.Node;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.BorderPane;
 
 /**
  * Additional layer between controller class and TankController.
@@ -12,14 +13,14 @@ import javafx.scene.layout.AnchorPane;
 public class UserInputHandler {
     private TankController tankController;
 
-    public UserInputHandler(AnchorPane pane) {
+    public UserInputHandler(AnchorPane pane, BorderPane eventPane) {
         if (pane == null)
             throw new NullPointerException("pane");
         tankController = new TankController(pane, new Point2D(0, 0), -90, 1);
 
-        setupKeyboardListener(pane);
-        setupMouseClickListeners(pane);
-        setupMouseMotionListeners(pane);
+        setupKeyboardListener(eventPane);
+        setupMouseClickListeners(eventPane);
+        setupMouseMotionListeners(eventPane);
     }
 
     /**

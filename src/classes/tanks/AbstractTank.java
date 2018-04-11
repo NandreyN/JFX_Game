@@ -6,12 +6,16 @@ import classes.tanks.parts.ITurret;
 public abstract class AbstractTank implements ITank {
     ITurret turret;
     IChassis chassis;
+    private final double totalHP;
+    private double currentHP;
 
-    public AbstractTank(ITurret turret, IChassis chassis) {
+    public AbstractTank(ITurret turret, IChassis chassis, double hp) {
         this.turret = turret;
         this.chassis = chassis;
         if (turret == null || chassis == null)
             throw new NullPointerException("Some tank parts are null");
+        this.totalHP = hp;
+        this.currentHP = hp;
     }
 
     @Override
@@ -60,5 +64,20 @@ public abstract class AbstractTank implements ITank {
     @Override
     public IChassis getChassis() {
         return chassis;
+    }
+
+    @Override
+    public double getHP() {
+        return currentHP;
+    }
+
+    @Override
+    public void decreaseHP(double byValue) {
+        this.currentHP -= byValue;
+    }
+
+    @Override
+    public boolean isAlive() {
+        return this.currentHP > 0;
     }
 }
