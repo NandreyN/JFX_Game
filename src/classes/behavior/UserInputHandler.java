@@ -16,7 +16,7 @@ public class UserInputHandler {
     public UserInputHandler(AnchorPane pane, BorderPane eventPane) {
         if (pane == null)
             throw new NullPointerException("pane");
-        tankController = new TankController(pane, new Point2D(0, 0), -90, 1);
+        tankController = new TankController(pane, new Point2D(60, 60), -90, 1);
 
         setupKeyboardListener(eventPane);
         setupMouseClickListeners(eventPane);

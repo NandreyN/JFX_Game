@@ -10,12 +10,14 @@ import javafx.application.Platform;
 import javafx.event.*;
 import javafx.event.Event;
 import javafx.geometry.Point2D;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.effect.BlendMode;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.shape.Shape;
 import javafx.scene.transform.Rotate;
 import view.infoPanel.InfoPanel;
 
@@ -40,6 +42,7 @@ public class TankController extends AbstractTankController implements EventTarge
     static final double DELTA_ANGLE = Math.PI / 146;
 
     private AnchorPane uIParent;
+    private Shape border;
 
     public TankController(AnchorPane parent, Point2D initialPosition, double orientationAngle, int textureId) {
         this.uIParent = parent;
@@ -47,6 +50,12 @@ public class TankController extends AbstractTankController implements EventTarge
         motionManager = ViewMotionManager.getInstance();
         setTankImageView(orientationAngle);
         setAliveChecker();
+        //trackBorder();
+    }
+
+    public void trackBorder() {
+        border = ViewMotionManager.getGameObjectShape(tankModel);
+        uIParent.getChildren().add(border);
     }
 
     public void setUIInfo(InfoPanel panel) {

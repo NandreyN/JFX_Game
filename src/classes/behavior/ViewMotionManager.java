@@ -1,22 +1,23 @@
 package classes.behavior;
 
-import classes.gameObjects.GameConstants;
-import classes.gameObjects.GameObject;
-import classes.gameObjects.GameTank;
-import classes.gameObjects.Missile;
+import classes.gameObjects.*;
 import javafx.animation.PathTransition;
 import javafx.application.Platform;
 import javafx.geometry.Point2D;
 import javafx.scene.Node;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.paint.Color;
 import javafx.scene.shape.*;
+import javafx.scene.shape.Rectangle;
+import javafx.scene.shape.Shape;
 import javafx.scene.transform.Rotate;
 import javafx.util.Duration;
 import javafx.util.Pair;
 import view.Animations;
 
 import javax.swing.*;
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
@@ -248,7 +249,7 @@ public class ViewMotionManager implements Observer {
     }
 
     public void register(GameObject o) {
-        if (o instanceof GameTank)
+        if (o instanceof GameTank || o instanceof classes.gameObjects.Box)
             this.observables.add(o);
     }
 
@@ -259,7 +260,9 @@ public class ViewMotionManager implements Observer {
 
     private Pair<Boolean, GameObject> intersects(GameObject object) {
         Shape originalObjShape = getGameObjectShape(object);
-
+        if (intersectsGameBorder(object)) {
+            return new Pair<>(true, null);
+        }
         for (GameObject gO : observables) {
             Shape shape = getGameObjectShape(gO);
             if ((object instanceof GameTank) && !(gO instanceof Missile) && !gO.equals(object) && shape.getBoundsInParent().intersects(originalObjShape.getBoundsInParent()))
@@ -269,6 +272,17 @@ public class ViewMotionManager implements Observer {
         }
 
         return new Pair<>(false, null);
+    }
+
+    private boolean intersectsGameBorder(GameObject o) {
+        double w = parent.getPrefWidth(), h = parent.getPrefHeight();
+        Line left = new Line(0, 0, 0, h),
+                top = new Line(0, 0, w, 0),
+                right = new Line(w, 0, w, h),
+                bottom = new Line(0, h, w, h);
+        Shape s = getGameObjectShape(o);
+        return s.intersects(left.getBoundsInParent()) || s.intersects(top.getBoundsInParent())
+                || s.intersects(right.getBoundsInParent()) || s.intersects(bottom.getBoundsInParent());
     }
 
     public static Shape getGameObjectShape(GameObject o) {
