@@ -13,6 +13,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.shape.*;
 import javafx.scene.transform.Rotate;
 import javafx.util.Duration;
+import javafx.util.Pair;
 
 import javax.swing.*;
 import java.util.ArrayList;
@@ -213,10 +214,15 @@ public class ViewMotionManager implements Observer {
     public void update(Observable o, Object arg) {
         if (o == null || !(o instanceof GameObject) || arg == null)
             return;
-        boolean intersect = intersects((GameObject) o);
-        if (!intersect) {
+        Pair<Boolean, GameObject> intersect = intersects((GameObject) o);
+        if (!intersect.getKey()) {
             ((GameObject) o).setValid(true);
             return;
+        } else if (o instanceof Missile && intersect.getValue() instanceof GameTank) {
+            ((GameTank) intersect.getValue()).damage((Missile) o);
+            if (!((GameTank) intersect.getValue()).getTank().isAlive()) {
+                System.out.println("target destroyed");
+            }
         }
         ((GameObject) o).setValid(false);
     }
@@ -226,18 +232,18 @@ public class ViewMotionManager implements Observer {
             this.observables.add((GameTank) o);
     }
 
-    private boolean intersects(GameObject object) {
+    private Pair<Boolean, GameObject> intersects(GameObject object) {
         Shape originalObjShape = getGameObjectShape(object);
 
         for (GameObject gO : observables) {
             Shape shape = getGameObjectShape(gO);
             if ((object instanceof GameTank) && !(gO instanceof Missile) && !gO.equals(object) && shape.getBoundsInParent().intersects(originalObjShape.getBoundsInParent()))
-                return true;
+                return new Pair<>(true, gO);
             else if (object instanceof Missile && gO instanceof GameTank && ((Missile) object).getSrcTankId() != gO.getId() && shape.getBoundsInParent().intersects(originalObjShape.getBoundsInParent()))
-                return true;
+                return new Pair<>(true, gO);
         }
 
-        return false;
+        return new Pair<>(false, null);
     }
 
     private static Shape getGameObjectShape(GameObject o) {

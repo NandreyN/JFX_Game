@@ -41,10 +41,13 @@ public class GameTank extends GameObject {
         boolean success = tankDataModel.fire();
         if (!success)
             return null;
-        if (tankStateUI != null)
+        double damage = 100;
+        if (tankStateUI != null) {
             tankStateUI.cooldown(tankDataModel.getGun().getNextCooldown());
+            damage = 1000;
+        }
 
-        return new Missile(new Image("file:game_textures/Cut/missile.png"), turret.getLeftUpper(), 100, getId());
+        return new Missile(new Image("file:game_textures/Cut/missile.png"), turret.getLeftUpper(), 100, getId(), damage);
     }
 
     public void rotateTurret(double toAngle) {
@@ -65,5 +68,11 @@ public class GameTank extends GameObject {
 
     public ITank getTank() {
         return this.tankDataModel;
+    }
+
+    public void damage(Missile missile) {
+        tankDataModel.decreaseHP(missile.getDamage());
+        if (tankStateUI != null)
+            tankStateUI.decreaseHP(missile.getDamage());
     }
 }

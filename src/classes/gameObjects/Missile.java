@@ -10,11 +10,12 @@ import java.awt.*;
 public class Missile extends GameObject {
     private double speed;
     private int srcTankId;
-
-    public Missile(@Nullable Image texture, Point2D centre, double speed, int srcTankId) {
+    private final double DAMAGE;
+    public Missile(@Nullable Image texture, Point2D centre, double speed, int srcTankId, double damage) {
         super(texture, centre);
         this.speed = speed;
         this.srcTankId = srcTankId;
+        this.DAMAGE = damage;
     }
 
 
@@ -24,5 +25,9 @@ public class Missile extends GameObject {
 
     public int getSrcTankId() {
         return srcTankId;
+    }
+
+    public double getDamage() {
+        return DAMAGE;
     }
 }
