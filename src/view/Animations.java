@@ -10,7 +10,7 @@ public class Animations {
     }
 
     public static Image getExplosionAnimation() {
-        return explosion;
+        return new Image("file:game_textures\\Animation\\explosion_transparent.gif");
     }
 
     private static void makeExplosionAnimation() {

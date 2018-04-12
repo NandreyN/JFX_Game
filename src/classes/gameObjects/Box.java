@@ -21,4 +21,14 @@ public class Box extends GameObject {
     public double getDisplayedHeight() {
         return this.height;
     }
+
+    @Override
+    public double getTextureHeight() {
+        return getDisplayedHeight();
+    }
+
+    @Override
+    public double getTextureWidth() {
+        return getDisplayedWidth();
+    }
 }

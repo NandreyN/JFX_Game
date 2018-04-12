@@ -1,13 +1,14 @@
 package classes.behavior;
 
 import classes.gameObjects.*;
+import classes.gameObjects.Box;
 import javafx.animation.PathTransition;
 import javafx.application.Platform;
 import javafx.geometry.Point2D;
 import javafx.scene.Node;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.paint.Color;
 import javafx.scene.shape.*;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
@@ -17,7 +18,6 @@ import javafx.util.Pair;
 import view.Animations;
 
 import javax.swing.*;
-import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
@@ -28,14 +28,27 @@ import static classes.behavior.TankController.DELTA_ANGLE;
 public class ViewMotionManager implements Observer {
     private List<GameObject> observables = new ArrayList<>();
     private static ViewMotionManager instance;
-    private static int MISSILE_MOVE_DELAY = 30;
+    private static int MISSILE_MOVE_DELAY = 10;
     private static AnchorPane parent;
 
     public static synchronized ViewMotionManager getInstance() {
         if (instance == null) {
             instance = new ViewMotionManager();
+            setupBoxes();
         }
         return instance;
+    }
+
+    private static void setupBoxes() {
+        for (Box b : GameObjectDistributor.getBoxes()) {
+            ImageView bView = new ImageView(new Image("file:game_textures\\Boxes\\box.jpg"));
+            bView.setFitWidth(b.getDisplayedWidth());
+            bView.setFitHeight(b.getDisplayedHeight());
+            bView.setTranslateX(b.getLeftUpper().getX());
+            bView.setTranslateY(b.getLeftUpper().getY());
+            instance.observables.add(b);
+            parent.getChildren().add(bView);
+        }
     }
 
     public static void setParent(AnchorPane p) {
@@ -156,35 +169,45 @@ public class ViewMotionManager implements Observer {
                     new Point2D(newMissile.getX() + missileConst.getX(), newMissile.getY() + missileConst.getY()));
             if (!missile.isValid()) {
                 ((Timer) (e.getSource())).stop();
-                observables.remove(missile);
-                Platform.runLater(() -> parent.getChildren().remove(missileImView));
-                System.out.println("Hit");
-                if (missile.getTankHit() != null) {
-                    missile.getTankHit().damage(missile);
-                    if (!missile.getTankHit().getTank().isAlive()) {
-                        System.out.println("target destroyed");
+                Platform.runLater(() -> {
+                    parent.getChildren().remove(missileImView);
+                    observables.remove(missile);
+                });
 
-                        ImageView flame = new ImageView(Animations.getExplosionAnimation());
-                        flame.setTranslateX(missile.getTankHit().getLeftUpper().getX());
-                        flame.setTranslateY(missile.getTankHit().getLeftUpper().getY());
+                if (missile.getObjectHit() != null) {
+                    ImageView flame = new ImageView(Animations.getExplosionAnimation());
+                    flame.setTranslateX(missile.getObjectHit().getLeftUpper().getX());
+                    flame.setTranslateY(missile.getObjectHit().getLeftUpper().getY());
 
-                        flame.setFitHeight(missile.getTankHit().getDisplayedWidth());
-                        flame.setFitWidth(missile.getTankHit().getDisplayedHeight());
-                        Platform.runLater(() -> {
-                            parent.getChildren().add(flame);
-                            new Timer(1000, (event) -> {
-                                Platform.runLater(() -> {
-                                    parent.getChildren().remove(flame);
-                                });
-                                ((Timer) event.getSource()).stop();
-                            }).start();
-                        });
+                    flame.setFitHeight(missile.getObjectHit().getDisplayedWidth());
+                    flame.setFitWidth(missile.getObjectHit().getDisplayedHeight());
+
+                    startAnimation(flame, 1000);
+
+                    if (missile.getObjectHit() != null && missile.getObjectHit() instanceof GameTank) {
+                        ((GameTank) missile.getObjectHit()).damage(missile);
+                        if (!((GameTank) missile.getObjectHit()).getTank().isAlive()) {
+                            System.out.println("target destroyed");
+
+                        }
                     }
                 }
             } else {
                 missileTransition.play();
             }
         }).start();
+    }
+
+    private void startAnimation(ImageView image, int duration) {
+        Platform.runLater(() -> {
+            parent.getChildren().add(image);
+            new Timer(duration, (event) -> {
+                Platform.runLater(() -> {
+                    parent.getChildren().remove(image);
+                });
+                ((Timer) event.getSource()).stop();
+            }).start();
+        });
     }
 
     private void moveTankImage(TankController manager, double speed, double a) {
@@ -238,18 +261,19 @@ public class ViewMotionManager implements Observer {
     public void update(Observable o, Object arg) {
         if (o == null || !(o instanceof GameObject) || arg == null)
             return;
+
         Pair<Boolean, GameObject> intersect = intersects((GameObject) o);
         if (!intersect.getKey()) {
             ((GameObject) o).setValid(true);
             return;
-        } else if (o instanceof Missile && intersect.getValue() instanceof GameTank) {
-            ((Missile) o).setTankHit((GameTank) intersect.getValue());
+        } else if (o instanceof Missile) {
+            ((Missile) o).setObjectHit(intersect.getValue());
         }
         ((GameObject) o).setValid(false);
     }
 
     public void register(GameObject o) {
-        if (o instanceof GameTank || o instanceof classes.gameObjects.Box)
+        if (o instanceof GameTank)
             this.observables.add(o);
     }
 
@@ -260,29 +284,41 @@ public class ViewMotionManager implements Observer {
 
     private Pair<Boolean, GameObject> intersects(GameObject object) {
         Shape originalObjShape = getGameObjectShape(object);
-        if (intersectsGameBorder(object)) {
+        if (intersectsGameBorder(object).getKey()) {
             return new Pair<>(true, null);
         }
         for (GameObject gO : observables) {
             Shape shape = getGameObjectShape(gO);
             if ((object instanceof GameTank) && !(gO instanceof Missile) && !gO.equals(object) && shape.getBoundsInParent().intersects(originalObjShape.getBoundsInParent()))
                 return new Pair<>(true, gO);
-            else if (object instanceof Missile && gO instanceof GameTank && ((Missile) object).getSrcTankId() != gO.getId() && shape.getBoundsInParent().intersects(originalObjShape.getBoundsInParent()))
+            else if (object instanceof Missile && (gO instanceof GameTank) && ((Missile) object).getSrcTankId() != gO.getId() && shape.getBoundsInParent().intersects(originalObjShape.getBoundsInParent()))
+                return new Pair<>(true, gO);
+            else if (object instanceof Missile && gO instanceof Box && shape.getBoundsInParent().intersects(originalObjShape.getBoundsInParent()))
                 return new Pair<>(true, gO);
         }
 
         return new Pair<>(false, null);
     }
 
-    private boolean intersectsGameBorder(GameObject o) {
+    private Pair<Boolean, Line> intersectsGameBorder(GameObject o) {
         double w = parent.getPrefWidth(), h = parent.getPrefHeight();
         Line left = new Line(0, 0, 0, h),
                 top = new Line(0, 0, w, 0),
                 right = new Line(w, 0, w, h),
                 bottom = new Line(0, h, w, h);
         Shape s = getGameObjectShape(o);
-        return s.intersects(left.getBoundsInParent()) || s.intersects(top.getBoundsInParent())
-                || s.intersects(right.getBoundsInParent()) || s.intersects(bottom.getBoundsInParent());
+
+        Line intersectionLine = null;
+        if (left.getBoundsInParent().intersects(s.getBoundsInParent()))
+            intersectionLine = left;
+        else if (top.getBoundsInParent().intersects(s.getBoundsInParent()))
+            intersectionLine = top;
+        else if (right.getBoundsInParent().intersects(s.getBoundsInParent()))
+            intersectionLine = right;
+        else if (bottom.getBoundsInParent().intersects(s.getBoundsInParent()))
+            intersectionLine = bottom;
+
+        return new Pair<>(intersectionLine != null, intersectionLine);
     }
 
     public static Shape getGameObjectShape(GameObject o) {

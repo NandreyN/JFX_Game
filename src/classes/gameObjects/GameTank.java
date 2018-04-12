@@ -47,7 +47,7 @@ public class GameTank extends GameObject {
             damage = 1000;
         }
 
-        return new Missile(new Image("file:game_textures/Cut/missile.png"), turret.getLeftUpper(), 100, getId(), damage);
+        return new Missile(new Image("file:game_textures/Cut/missile.png"), turret.getLeftUpper(), 20, getId(), damage);
     }
 
     public void rotateTurret(double toAngle) {

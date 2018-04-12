@@ -17,6 +17,7 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.paint.Paint;
 import javafx.scene.shape.Shape;
 import javafx.scene.transform.Rotate;
 import view.infoPanel.InfoPanel;
@@ -50,11 +51,20 @@ public class TankController extends AbstractTankController implements EventTarge
         motionManager = ViewMotionManager.getInstance();
         setTankImageView(orientationAngle);
         setAliveChecker();
-        //trackBorder();
+        trackBorder();
     }
 
     public void trackBorder() {
+        if (border != null && uIParent.getChildren().contains(border)) {
+            Shape old = border;
+            Platform.runLater(() -> {
+                uIParent.getChildren().remove(old);
+            });
+        }
         border = ViewMotionManager.getGameObjectShape(tankModel);
+        border.setFill(null);
+        border.setStroke(Paint.valueOf("red"));
+        border.setStrokeWidth(2);
         uIParent.getChildren().add(border);
     }
 
@@ -130,6 +140,7 @@ public class TankController extends AbstractTankController implements EventTarge
     @Override
     public void handleKeyboardEvent(KeyEvent event) {
         KeyCode code = event.getCode();
+        trackBorder();
         switch (code) {
             case W:
                 motionManager.forwardMove(this);
@@ -188,6 +199,10 @@ public class TankController extends AbstractTankController implements EventTarge
             return;
         this.uIParent.getChildren().removeAll(chassisView, turretView);
         this.motionManager.unRegister(tankModel);
+        if (border != null)
+            Platform.runLater(() -> {
+                uIParent.getChildren().remove(border);
+            });
     }
 
     private void setAliveChecker() {

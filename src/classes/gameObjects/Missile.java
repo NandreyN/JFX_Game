@@ -1,17 +1,14 @@
 package classes.gameObjects;
 
-import com.sun.istack.internal.NotNull;
 import com.sun.istack.internal.Nullable;
 import javafx.geometry.Point2D;
 import javafx.scene.image.Image;
-
-import java.awt.*;
 
 public class Missile extends GameObject {
     private double speed;
     private int srcTankId;
     private final double DAMAGE;
-    private GameTank tankHit;
+    private GameObject objectHit;
 
     public Missile(@Nullable Image texture, Point2D centre, double speed, int srcTankId, double damage) {
         super(texture, centre);
@@ -33,11 +30,11 @@ public class Missile extends GameObject {
         return DAMAGE;
     }
 
-    public void setTankHit(GameTank tankHit) {
-        this.tankHit = tankHit;
+    public void setObjectHit(GameObject objectHit) {
+        this.objectHit = objectHit;
     }
 
-    public GameTank getTankHit() {
-        return tankHit;
+    public GameObject getObjectHit() {
+        return objectHit;
     }
 }
