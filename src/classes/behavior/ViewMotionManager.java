@@ -14,6 +14,7 @@ import javafx.scene.shape.*;
 import javafx.scene.transform.Rotate;
 import javafx.util.Duration;
 import javafx.util.Pair;
+import view.Animations;
 
 import javax.swing.*;
 import java.util.ArrayList;
@@ -161,6 +162,22 @@ public class ViewMotionManager implements Observer {
                     missile.getTankHit().damage(missile);
                     if (!missile.getTankHit().getTank().isAlive()) {
                         System.out.println("target destroyed");
+
+                        ImageView flame = new ImageView(Animations.getExplosionAnimation());
+                        flame.setTranslateX(missile.getTankHit().getLeftUpper().getX());
+                        flame.setTranslateY(missile.getTankHit().getLeftUpper().getY());
+
+                        flame.setFitHeight(missile.getTankHit().getDisplayedWidth());
+                        flame.setFitWidth(missile.getTankHit().getDisplayedHeight());
+                        Platform.runLater(() -> {
+                            parent.getChildren().add(flame);
+                            new Timer(1000, (event) -> {
+                                Platform.runLater(() -> {
+                                    parent.getChildren().remove(flame);
+                                });
+                                ((Timer) event.getSource()).stop();
+                            }).start();
+                        });
                     }
                 }
             } else {
