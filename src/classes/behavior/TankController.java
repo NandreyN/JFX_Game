@@ -5,6 +5,8 @@ import classes.gameObjects.GameTank;
 import classes.tanks.ITank;
 import classes.tanks.TankConstructor;
 import classes.tanks.parts.SAUTurret;
+import com.sun.media.jfxmediaimpl.MediaDisposer;
+import javafx.application.Platform;
 import javafx.event.*;
 import javafx.event.Event;
 import javafx.geometry.Point2D;
@@ -17,6 +19,8 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.transform.Rotate;
 import view.infoPanel.InfoPanel;
 
+import javax.swing.*;
+
 /**
  * Class in created for handling events dedicated to player`s tank
  * It is responsible for handling input events (mouse , keyboard)
@@ -26,7 +30,7 @@ import view.infoPanel.InfoPanel;
  * View component should be pushed to another ViewHandler class later.
  */
 
-public class TankController extends AbstractTankController implements EventTarget {
+public class TankController extends AbstractTankController implements EventTarget, MediaDisposer.Disposable {
     ImageView chassisView, turretView;
     Rotate turretRotation, chassisRotation;
     private ViewMotionManager motionManager;
@@ -35,10 +39,14 @@ public class TankController extends AbstractTankController implements EventTarge
     GameTank tankModel = null;
     static final double DELTA_ANGLE = Math.PI / 146;
 
+    private AnchorPane uIParent;
+
     public TankController(AnchorPane parent, Point2D initialPosition, double orientationAngle, int textureId) {
+        this.uIParent = parent;
         initDefaultTank(initialPosition, textureId, orientationAngle);
         motionManager = ViewMotionManager.getInstance();
-        setTankImageView(parent, orientationAngle);
+        setTankImageView(orientationAngle);
+        setAliveChecker();
     }
 
     public void setUIInfo(InfoPanel panel) {
@@ -50,8 +58,8 @@ public class TankController extends AbstractTankController implements EventTarge
      * Configures ImageView to display
      * Location, turretRotation and etc.
      */
-    private void setTankImageView(AnchorPane parent, double initAngle) {
-        assert (tankModel != null) && (parent != null);
+    private void setTankImageView(double initAngle) {
+        assert (tankModel != null) && (this.uIParent != null);
 
         // there i combine turret and chassis textures to
         // get complete tank texture
@@ -79,7 +87,7 @@ public class TankController extends AbstractTankController implements EventTarge
         chassisView.getTransforms().add(chassisRotation);
 
         //viewGroup = new Group(chassisView, turretView);
-        parent.getChildren().addAll(chassisView, turretView);
+        this.uIParent.getChildren().addAll(chassisView, turretView);
     }
 
     /**
@@ -163,5 +171,23 @@ public class TankController extends AbstractTankController implements EventTarge
             this.handle(event);
             return event;
         });
+    }
+
+    @Override
+    public void dispose() {
+        if (this.uIParent == null)
+            return;
+        this.uIParent.getChildren().removeAll(chassisView, turretView);
+        this.motionManager.unRegister(tankModel);
+    }
+
+    private void setAliveChecker() {
+        final int CHECK_DELAY = 10;
+        new Timer(CHECK_DELAY, (e) -> {
+            if (!tankModel.getTank().isAlive()) {
+                Platform.runLater(this::dispose);
+                ((Timer) e.getSource()).stop();
+            }
+        }).start();
     }
 }

@@ -157,6 +157,12 @@ public class ViewMotionManager implements Observer {
                 observables.remove(missile);
                 Platform.runLater(() -> parent.getChildren().remove(missileImView));
                 System.out.println("Hit");
+                if (missile.getTankHit() != null) {
+                    missile.getTankHit().damage(missile);
+                    if (!missile.getTankHit().getTank().isAlive()) {
+                        System.out.println("target destroyed");
+                    }
+                }
             } else {
                 missileTransition.play();
             }
@@ -219,17 +225,19 @@ public class ViewMotionManager implements Observer {
             ((GameObject) o).setValid(true);
             return;
         } else if (o instanceof Missile && intersect.getValue() instanceof GameTank) {
-            ((GameTank) intersect.getValue()).damage((Missile) o);
-            if (!((GameTank) intersect.getValue()).getTank().isAlive()) {
-                System.out.println("target destroyed");
-            }
+            ((Missile) o).setTankHit((GameTank) intersect.getValue());
         }
         ((GameObject) o).setValid(false);
     }
 
     public void register(GameObject o) {
         if (o instanceof GameTank)
-            this.observables.add((GameTank) o);
+            this.observables.add(o);
+    }
+
+    public void unRegister(GameObject o) {
+        if (this.observables.contains(o))
+            this.observables.remove(o);
     }
 
     private Pair<Boolean, GameObject> intersects(GameObject object) {
@@ -246,7 +254,7 @@ public class ViewMotionManager implements Observer {
         return new Pair<>(false, null);
     }
 
-    private static Shape getGameObjectShape(GameObject o) {
+    public static Shape getGameObjectShape(GameObject o) {
         Shape s = new Rectangle(o.getLeftUpper().getX(), o.getLeftUpper().getY(),
                 o.getDisplayedWidth(), o.getDisplayedHeight());
 
