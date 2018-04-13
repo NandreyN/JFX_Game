@@ -119,7 +119,12 @@ public class ViewMotionManager implements Observer {
         System.out.println("Fired");
         //System.out.println("Turret : " + manager.tankModel.getGameTurret().getDirectionAngle() + "\nRotation : " + manager.turretRotation.getAngle() + "\n");
         missile.setDirectionAngle(manager.turretRotation.getAngle());
-        moveMissile(missile, Math.toRadians(manager.turretRotation.getAngle()));
+
+        Point2D gunEnd = manager.tankModel.getGameTurret().getLeftUpper().add(
+                manager.turretRotation.transform(GameConstants.missileStartRelativeTurret));
+        missile.setLeftUpper(gunEnd)
+        ;
+        moveMissile(gunEnd.getX(), gunEnd.getY(), missile, Math.toRadians(manager.turretRotation.getAngle()));
     }
 
     private PathTransition createMovementPath(Node node, Point2D oldPoint, Point2D newPoint) {
@@ -137,13 +142,14 @@ public class ViewMotionManager implements Observer {
         return pathTransition;
     }
 
-    private void moveMissile(Missile missile, double a) {
+    private void moveMissile(double x, double y, Missile missile, double a) {
         observables.add(missile);
+
         ImageView missileImView = new ImageView(missile.getTexture());
-        missileImView.setTranslateX(missile.getLeftUpper().getX());
-        missileImView.setTranslateY(missile.getLeftUpper().getY());
+        missileImView.setTranslateX(x);
+        missileImView.setTranslateY(y);
         parent.getChildren().add(missileImView);
-        missileImView.setVisible(false);
+        missileImView.setVisible(true);
         new Timer(MISSILE_MOVE_DELAY, (e) -> {
             //move
             double dx = Math.abs(missile.getSpeed() * Math.sin(a));
