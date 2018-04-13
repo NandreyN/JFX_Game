@@ -176,8 +176,8 @@ public class TankController extends AbstractTankController implements EventTarge
             return;
 
         double sceneX = event.getSceneX(), sceneY = event.getSceneY();
-        double currX = tankModel.getGameTurret().getLeftUpper().getX();
-        double currY = tankModel.getGameTurret().getLeftUpper().getY();
+        double currX = turretView.getTranslateX();
+        double currY = turretView.getTranslateY();
 
         if (currY != sceneY) {
             double angle = Math.atan2(currY - sceneY, currX - sceneX);

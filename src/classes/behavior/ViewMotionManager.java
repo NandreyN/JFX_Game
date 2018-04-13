@@ -120,11 +120,24 @@ public class ViewMotionManager implements Observer {
         //System.out.println("Turret : " + manager.tankModel.getGameTurret().getDirectionAngle() + "\nRotation : " + manager.turretRotation.getAngle() + "\n");
         missile.setDirectionAngle(manager.turretRotation.getAngle());
 
-        Point2D gunEnd = manager.tankModel.getGameTurret().getLeftUpper().add(
-                manager.turretRotation.transform(GameConstants.missileStartRelativeTurret));
-        missile.setLeftUpper(gunEnd)
-        ;
+        Point2D gunEnd = new Point2D(manager.turretView.getTranslateX(), manager.turretView.getTranslateY());
+        gunEnd = gunEnd.add(manager.turretRotation.transform(GameConstants.missileStartRelativeTurret));
+
+        missile.setLeftUpper(gunEnd);
         moveMissile(gunEnd.getX(), gunEnd.getY(), missile, Math.toRadians(manager.turretRotation.getAngle()));
+
+        double cX = GameConstants.gunFlameSize.getKey() / 2, cY = GameConstants.gunFlameSize.getValue() / 2;
+        startAnimation(configureImageView(Animations.getExplosionAnimation(),
+                gunEnd.getX() - cX, gunEnd.getY() - cY, GameConstants.gunFlameSize.getKey(), GameConstants.gunFlameSize.getValue()), 500);
+    }
+
+    private ImageView configureImageView(Image src, double xPos, double yPos, double width, double height) {
+        ImageView imView = new ImageView(src);
+        imView.setTranslateX(xPos);
+        imView.setTranslateY(yPos);
+        imView.setFitHeight(height);
+        imView.setFitWidth(width);
+        return imView;
     }
 
     private PathTransition createMovementPath(Node node, Point2D oldPoint, Point2D newPoint) {
@@ -181,13 +194,9 @@ public class ViewMotionManager implements Observer {
                 });
 
                 if (missile.getObjectHit() != null) {
-                    ImageView flame = new ImageView(Animations.getExplosionAnimation());
-                    flame.setTranslateX(missile.getObjectHit().getLeftUpper().getX());
-                    flame.setTranslateY(missile.getObjectHit().getLeftUpper().getY());
-
-                    flame.setFitHeight(missile.getObjectHit().getDisplayedWidth());
-                    flame.setFitWidth(missile.getObjectHit().getDisplayedHeight());
-
+                    ImageView flame = configureImageView(Animations.getExplosionAnimation(), missile.getObjectHit().getLeftUpper().getX(),
+                            missile.getObjectHit().getLeftUpper().getY(), missile.getObjectHit().getDisplayedWidth(),
+                            missile.getObjectHit().getDisplayedHeight());
                     startAnimation(flame, 1000);
 
                     if (missile.getObjectHit() != null && missile.getObjectHit() instanceof GameTank) {
