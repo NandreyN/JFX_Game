@@ -1,5 +1,8 @@
 package classes.behavior;
 
+import classes.gameObjects.GameTank;
+import classes.tanks.ITank;
+import classes.tanks.TankConstructor;
 import javafx.geometry.Point2D;
 import javafx.scene.Node;
 import javafx.scene.layout.AnchorPane;
@@ -16,7 +19,9 @@ public class UserInputHandler {
     public UserInputHandler(AnchorPane pane, BorderPane eventPane) {
         if (pane == null)
             throw new NullPointerException("pane");
-        tankController = new TankController(pane, new Point2D(60, 60), -90, 1);
+        ITank tank = TankConstructor.createCyclicalTank(5, 1500, 3, 1, false);
+        GameTank gameTank = new GameTank(tank, null, 1, new Point2D(60, 60));
+        tankController = new TankController(pane, gameTank, 1);
 
         setupKeyboardListener(eventPane);
         setupMouseClickListeners(eventPane);

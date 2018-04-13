@@ -8,7 +8,7 @@ public class CyclicalGun implements IGun, AutoCloseable {
     private boolean ready;
 
     public CyclicalGun(int cooldown) {
-        COOLDOWN_MS = cooldown;
+        COOLDOWN_MS = cooldown * 1000;
         ready = false;
         setupCooldownSystem();
         cooldownMaster.start();

@@ -4,6 +4,7 @@ import classes.behavior.EnemyTankManager;
 import classes.behavior.UserInputHandler;
 import classes.behavior.ViewMotionManager;
 import classes.gameObjects.Box;
+import classes.levels.ConfigurationReader;
 import javafx.event.EventType;
 import javafx.fxml.FXML;
 import javafx.geometry.Point2D;
@@ -12,6 +13,8 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import view.infoPanel.InfoPanel;
 
+import java.io.FileNotFoundException;
+
 public class Controller {
     @FXML
     private AnchorPane gameFieldPane;
@@ -19,17 +22,14 @@ public class Controller {
     private BorderPane globalPane;
     private InfoPanel infoPanel;
 
-    private UserInputHandler inputHandler;
-    private EnemyTankManager enemyTankManager;
+    private ConfigurationReader configReader;
 
     @FXML
-    private void initialize() {
+    private void initialize() throws FileNotFoundException {
         ViewMotionManager.setParent(gameFieldPane);
-        inputHandler = new UserInputHandler(gameFieldPane, globalPane);
-        enemyTankManager = new EnemyTankManager(gameFieldPane);
-        enemyTankManager.startTrackingPlayersTank(inputHandler.getTankController());
         createAndSetupInfoPanel();
-        inputHandler.getTankController().setUIInfo(infoPanel);
+        configReader = ConfigurationReader.getInstance();
+        configReader.setupLevel(0, infoPanel, gameFieldPane, globalPane);
     }
 
     private void createAndSetupInfoPanel() {

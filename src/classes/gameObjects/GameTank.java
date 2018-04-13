@@ -1,5 +1,6 @@
 package classes.gameObjects;
 
+import classes.levels.TextureLoader;
 import classes.tanks.ITank;
 import com.sun.istack.internal.Nullable;
 import javafx.geometry.Point2D;
@@ -16,9 +17,9 @@ public class GameTank extends GameObject {
                     @Nullable Image texture, int textureId, Point2D leftUpper) {
         super(texture, leftUpper);
 
-        chassis = new GameChassis(new Image("file:game_textures/Cut/chassis_" + textureId + ".png"),
+        chassis = new GameChassis(TextureLoader.getChassisTexture(textureId),
                 leftUpper);
-        turret = new GameTurret(new Image("file:game_textures/Cut/turret_" + textureId + ".png"),
+        turret = new GameTurret(TextureLoader.getTurretTexture(textureId),
                 leftUpper);
 
         this.tankDataModel = tankModel;
@@ -47,7 +48,7 @@ public class GameTank extends GameObject {
 
         if (tankStateUI != null) {
             tankStateUI.cooldown(tankDataModel.getGun().getNextCooldown());
-            damage = 1000;
+            damage = 501;
             missileSpeed = GameConstants.playerMissileSpeed;
         }
 

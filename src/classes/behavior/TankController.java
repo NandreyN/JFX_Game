@@ -45,9 +45,10 @@ public class TankController extends AbstractTankController implements EventTarge
     private AnchorPane uIParent;
     private Shape border;
 
-    public TankController(AnchorPane parent, Point2D initialPosition, double orientationAngle, int textureId) {
+    public TankController(AnchorPane parent, GameTank tank, double orientationAngle) {
         this.uIParent = parent;
-        initDefaultTank(initialPosition, textureId, orientationAngle);
+        this.tankModel = tank;
+        initDefaultTank(orientationAngle);
         motionManager = ViewMotionManager.getInstance();
         setTankImageView(orientationAngle);
         setAliveChecker();
@@ -113,11 +114,7 @@ public class TankController extends AbstractTankController implements EventTarge
      * Fills tank model with default tank. Should be removed later after
      * creating tank chooser
      */
-    private void initDefaultTank(Point2D initPosition, int textureId, double defaultAngle) {
-        ITank tankModel = TankConstructor.createDrumTank();
-
-        this.tankModel = new GameTank(tankModel, null, textureId,
-                initPosition);
+    private void initDefaultTank(double defaultAngle) {
         this.tankModel.getGameTurret().setDirectionAngle(defaultAngle);
         this.tankModel.getGameChassis().setDirectionAngle(defaultAngle);
         this.tankModel.setDirectionAngle(defaultAngle);

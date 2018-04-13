@@ -1,8 +1,8 @@
 package classes.behavior;
 
+import classes.gameObjects.GameTank;
 import javafx.event.Event;
 import javafx.event.EventHandler;
-import javafx.geometry.Point2D;
 import javafx.scene.input.MouseButton;
 import javafx.scene.layout.AnchorPane;
 
@@ -19,18 +19,14 @@ public class EnemyTankManager implements AutoCloseable, EventHandler<Event> {
     private ViewMotionManager motionManager;
     private TankController player, currentActive;
 
-    public EnemyTankManager(AnchorPane pane) {
+    public EnemyTankManager(AnchorPane pane, List<GameTank> tanks) {
         motionManager = ViewMotionManager.getInstance();
 
         enemyTanks = new ArrayList<>();
-        for (int i = 0; i < ENEMY_COUNT; i++)
-            enemyTanks.add(initialize(pane, new Point2D(300, 300), 90));
+        for (GameTank t : tanks)
+            enemyTanks.add(new TankController(pane, t, 90));
 
         currentActive = enemyTanks.get(0);
-    }
-
-    private TankController initialize(AnchorPane pane, Point2D startPos, double orientAngle) {
-        return new TankController(pane, startPos, orientAngle, 2);
     }
 
     @Override

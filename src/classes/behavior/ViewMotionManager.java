@@ -34,7 +34,7 @@ public class ViewMotionManager implements Observer {
     public static synchronized ViewMotionManager getInstance() {
         if (instance == null) {
             instance = new ViewMotionManager();
-            setupBoxes();
+            //setupBoxes();
         }
         return instance;
     }
