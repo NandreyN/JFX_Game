@@ -39,7 +39,7 @@ public class ViewMotionManager implements Observer {
         return instance;
     }
 
-    private static void setupBoxes() {
+    private static synchronized void setupBoxes() {
         for (Box b : GameObjectDistributor.getBoxes()) {
             ImageView bView = new ImageView(new Image("file:game_textures\\Boxes\\box.jpg"));
             bView.setFitWidth(b.getDisplayedWidth());
@@ -51,7 +51,7 @@ public class ViewMotionManager implements Observer {
         }
     }
 
-    public static void setParent(AnchorPane p) {
+    public static synchronized void setParent(AnchorPane p) {
         parent = p;
     }
 
@@ -185,11 +185,13 @@ public class ViewMotionManager implements Observer {
                     startAnimation(flame, 1000);
 
                     if (missile.getObjectHit() != null && missile.getObjectHit() instanceof GameTank) {
-                        ((GameTank) missile.getObjectHit()).damage(missile);
-                        if (!((GameTank) missile.getObjectHit()).getTank().isAlive()) {
-                            System.out.println("target destroyed");
+                        Platform.runLater(() -> {
+                            ((GameTank) missile.getObjectHit()).damage(missile);
+                            if (!((GameTank) missile.getObjectHit()).getTank().isAlive()) {
+                                System.out.println("target destroyed");
+                            }
+                        });
 
-                        }
                     }
                 }
             } else {
@@ -321,7 +323,7 @@ public class ViewMotionManager implements Observer {
         return new Pair<>(intersectionLine != null, intersectionLine);
     }
 
-    public static Shape getGameObjectShape(GameObject o) {
+    public static synchronized Shape getGameObjectShape(GameObject o) {
         Shape s = new Rectangle(o.getLeftUpper().getX(), o.getLeftUpper().getY(),
                 o.getDisplayedWidth(), o.getDisplayedHeight());
 

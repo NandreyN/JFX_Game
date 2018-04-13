@@ -65,12 +65,12 @@ public class TankController extends AbstractTankController implements EventTarge
         border.setFill(null);
         border.setStroke(Paint.valueOf("red"));
         border.setStrokeWidth(2);
-        uIParent.getChildren().add(border);
+        Platform.runLater(() -> uIParent.getChildren().add(border));
     }
 
     public void setUIInfo(InfoPanel panel) {
         tankModel.setTankStateUI(panel);
-        panel.cooldown(tankModel.getTank().getGun().getNextCooldown());
+        Platform.runLater(() -> panel.cooldown(tankModel.getTank().getGun().getNextCooldown()));
     }
 
     /**
@@ -106,7 +106,7 @@ public class TankController extends AbstractTankController implements EventTarge
         chassisView.getTransforms().add(chassisRotation);
 
         //viewGroup = new Group(chassisView, turretView);
-        this.uIParent.getChildren().addAll(chassisView, turretView);
+        Platform.runLater(() -> this.uIParent.getChildren().addAll(chassisView, turretView));
     }
 
     /**
@@ -128,11 +128,12 @@ public class TankController extends AbstractTankController implements EventTarge
         EventType eventType = event.getEventType();
 
         if (eventType.equals(MouseEvent.MOUSE_CLICKED))
-            handleMouseClickEvent((MouseEvent) event);
+            Platform.runLater(() -> handleMouseClickEvent((MouseEvent) event));
+
         else if (eventType.equals(MouseEvent.MOUSE_MOVED))
-            handleMouseMotionEvent((MouseEvent) event);
+            Platform.runLater(() -> handleMouseMotionEvent((MouseEvent) event));
         else if (eventType.equals(KeyEvent.KEY_PRESSED))
-            handleKeyboardEvent((KeyEvent) event);
+            Platform.runLater(() -> handleKeyboardEvent((KeyEvent) event));
         else throw new IllegalArgumentException("event");
     }
 
