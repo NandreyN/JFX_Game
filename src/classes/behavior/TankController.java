@@ -60,13 +60,13 @@ public class TankController extends AbstractTankController implements EventTarge
             Shape old = border;
             Platform.runLater(() -> {
                 uIParent.getChildren().remove(old);
+                border = ViewMotionManager.getGameObjectShape(tankModel);
+                border.setFill(null);
+                border.setStroke(Paint.valueOf("red"));
+                border.setStrokeWidth(2);
+                Platform.runLater(() -> uIParent.getChildren().add(border));
             });
         }
-        border = ViewMotionManager.getGameObjectShape(tankModel);
-        border.setFill(null);
-        border.setStroke(Paint.valueOf("red"));
-        border.setStrokeWidth(2);
-        Platform.runLater(() -> uIParent.getChildren().add(border));
     }
 
     public void setUIInfo(InfoPanel panel) {

@@ -19,8 +19,4 @@ public class TankConstructor {
         IChassis chassis = new Chassis(speedF, speedB, 20);
         return new CyclicalTank(turret, chassis, (int) coolDown, (int) hp);
     }
-
-    public static List<ITank> getStockTanksList() {
-        throw new NotImplementedException();
-    }
 }
