@@ -2,6 +2,8 @@ package classes.levels;
 
 import classes.behavior.EnemyTankManager;
 import classes.behavior.UserInputHandler;
+import classes.behavior.ViewMotionManager;
+import classes.gameObjects.Box;
 import classes.gameObjects.GameObject;
 import classes.gameObjects.GameTank;
 import classes.tanks.ITank;
@@ -42,7 +44,7 @@ public class ConfigurationReader {
             String line = in.nextLine();
             if (line.startsWith("@"))
                 continue;
-            String[] params = line.split("\\s+",0);
+            String[] params = line.split("\\s+", 0);
             switch (params[0].toLowerCase()) {
                 case "sau": {
                     String gunType = params[1];
@@ -71,6 +73,9 @@ public class ConfigurationReader {
                     break;
                 }
                 case "box":
+                    double x = Double.parseDouble(params[1]), y = Double.parseDouble(params[2]),
+                            width = Double.parseDouble(params[3]), height = Double.parseDouble(params[4]);
+                    gameList.add(new Box(TextureLoader.getBoxTexture(), new Point2D(x, y), width, height));
                     break;
                 case "tank":
                     String gunType = params[1];
@@ -110,13 +115,18 @@ public class ConfigurationReader {
         inputHandler = new UserInputHandler(gameFieldPane, globalPane);
         List<GameObject> gameLevelObjects = loadLevel(level);
         List<GameTank> tanks = new ArrayList<>();
+        List<Box> boxes = new ArrayList<>();
+
         for (GameObject o : gameLevelObjects)
             if (o instanceof GameTank)
                 tanks.add((GameTank) o);
+            else if (o instanceof Box)
+                boxes.add((Box) o);
 
         enemyTankManager = new EnemyTankManager(gameFieldPane, tanks);
         enemyTankManager.startTrackingPlayersTank(inputHandler.getTankController());
         inputHandler.getTankController().setUIInfo(infoPanel);
+        ViewMotionManager.setupBoxes(boxes);
     }
 
 }

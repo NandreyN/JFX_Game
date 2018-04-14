@@ -34,14 +34,13 @@ public class ViewMotionManager implements Observer {
     public static synchronized ViewMotionManager getInstance() {
         if (instance == null) {
             instance = new ViewMotionManager();
-            //setupBoxes();
         }
         return instance;
     }
 
-    private static synchronized void setupBoxes() {
-        for (Box b : GameObjectDistributor.getBoxes()) {
-            ImageView bView = new ImageView(new Image("file:game_textures\\Boxes\\box.jpg"));
+    public static synchronized void setupBoxes(List<Box> boxes) {
+        for (Box b : boxes) {
+            ImageView bView = new ImageView(b.getTexture());
             bView.setFitWidth(b.getDisplayedWidth());
             bView.setFitHeight(b.getDisplayedHeight());
             bView.setTranslateX(b.getLeftUpper().getX());

@@ -9,3 +9,5 @@
 @ box posX posY width height
 @  INPUT:
 sau drum 500 500 90 5 20 3 1000 2 1 150 2
+box 0 0 50 50
+box 600 600 50 50
