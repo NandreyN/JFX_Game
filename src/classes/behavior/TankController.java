@@ -2,6 +2,7 @@ package classes.behavior;
 
 import classes.gameObjects.GameConstants;
 import classes.gameObjects.GameTank;
+import classes.sound.SoundPlayer;
 import classes.tanks.ITank;
 import classes.tanks.TankConstructor;
 import classes.tanks.parts.SAUTurret;
@@ -44,12 +45,14 @@ public class TankController extends AbstractTankController implements EventTarge
 
     private AnchorPane uIParent;
     private Shape border;
+    private SoundPlayer soundPlayer;
 
     public TankController(AnchorPane parent, GameTank tank, double orientationAngle) {
         this.uIParent = parent;
         this.tankModel = tank;
         initDefaultTank(orientationAngle);
         motionManager = ViewMotionManager.getInstance();
+        soundPlayer = SoundPlayer.getInstance();
         setTankImageView(orientationAngle);
         setAliveChecker();
         trackBorder();
@@ -157,8 +160,9 @@ public class TankController extends AbstractTankController implements EventTarge
                 tankModel.getGameChassis().setDirectionAngle(a2);
                 break;
             default:
-                break;
+                return;
         }
+        soundPlayer.play(SoundPlayer.SoundTypes.MOVE);
     }
 
     @Override
@@ -197,6 +201,7 @@ public class TankController extends AbstractTankController implements EventTarge
             return;
         this.uIParent.getChildren().removeAll(chassisView, turretView);
         this.motionManager.unRegister(tankModel);
+        soundPlayer.play(SoundPlayer.SoundTypes.EXPLOSION);
         if (border != null)
             Platform.runLater(() -> {
                 uIParent.getChildren().remove(border);

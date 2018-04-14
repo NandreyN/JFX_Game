@@ -1,5 +1,6 @@
 package classes.sound;
 
+import javafx.scene.media.AudioClip;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 
@@ -8,9 +9,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class SoundPlayer {
-    private static final String SHOT_SOUND = "file:sounds/shot.mp3";
-    private static final String MOVE_SOUND = "file:sounds/move.mp3";
-    private static final String EXPLOSION_SOUND = "file:sounds/explosion.mp3";
+    private static final String SHOT_SOUND = "sounds/shot.mp3";
+    private static final String MOVE_SOUND = "sounds/move.mp3";
+    private static final String EXPLOSION_SOUND = "sounds/explosion.mp3";
+    private AudioClip moveSound;
 
     public enum SoundTypes {
         SHOT, MOVE, EXPLOSION
@@ -26,13 +28,20 @@ public class SoundPlayer {
     }
 
     private SoundPlayer() {
-        fillSoundMap();
+        moveSound = new AudioClip(new File(MOVE_SOUND).toURI().toString());
     }
 
-    private void fillSoundMap() {
-        soundMap = new HashMap<>();
-        soundMap.put(SoundTypes.SHOT, new MediaPlayer(new Media(new File(SHOT_SOUND).toURI().toString())));
-        soundMap.put(SoundTypes.MOVE, new MediaPlayer(new Media(new File(MOVE_SOUND).toURI().toString())));
-        soundMap.put(SoundTypes.EXPLOSION, new MediaPlayer(new Media(new File(EXPLOSION_SOUND).toURI().toString())));
+    public void play(SoundTypes type) {
+        switch (type) {
+            case EXPLOSION:
+                new MediaPlayer(new Media(new File(EXPLOSION_SOUND).toURI().toString())).play();
+                break;
+            case MOVE:
+                moveSound.play();
+                break;
+            case SHOT:
+                new MediaPlayer(new Media(new File(SHOT_SOUND).toURI().toString())).play();
+                break;
+        }
     }
 }

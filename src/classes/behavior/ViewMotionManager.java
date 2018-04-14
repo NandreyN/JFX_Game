@@ -2,6 +2,7 @@ package classes.behavior;
 
 import classes.gameObjects.*;
 import classes.gameObjects.Box;
+import classes.sound.SoundPlayer;
 import javafx.animation.PathTransition;
 import javafx.application.Platform;
 import javafx.geometry.Point2D;
@@ -115,6 +116,7 @@ public class ViewMotionManager implements Observer {
             System.out.println("Still loading");
             return;
         }
+        SoundPlayer.getInstance().play(SoundPlayer.SoundTypes.SHOT);
         System.out.println("Fired");
         //System.out.println("Turret : " + manager.tankModel.getGameTurret().getDirectionAngle() + "\nRotation : " + manager.turretRotation.getAngle() + "\n");
         missile.setDirectionAngle(manager.turretRotation.getAngle());
@@ -197,7 +199,7 @@ public class ViewMotionManager implements Observer {
                             missile.getObjectHit().getLeftUpper().getY(), missile.getObjectHit().getDisplayedWidth(),
                             missile.getObjectHit().getDisplayedHeight());
                     startAnimation(flame, 1000);
-
+                    SoundPlayer.getInstance().play(SoundPlayer.SoundTypes.EXPLOSION);
                     if (missile.getObjectHit() != null && missile.getObjectHit() instanceof GameTank) {
                         Platform.runLater(() -> {
                             ((GameTank) missile.getObjectHit()).damage(missile);
