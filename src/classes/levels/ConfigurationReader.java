@@ -9,6 +9,7 @@ import classes.gameObjects.GameTank;
 import classes.tanks.ITank;
 import classes.tanks.TankConstructor;
 import com.sun.javaws.exceptions.InvalidArgumentException;
+import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.geometry.Point2D;
@@ -131,8 +132,17 @@ public class ConfigurationReader {
         ViewMotionManager.setupBoxes(boxes);
 
         enemyTankManager.tanksAliveCountProperty().addListener((observable, oldValue, newValue) -> {
-            if ((int) newValue <= 0)
-                System.out.println("Level completed");
+            if ((int) newValue > 0)
+                return;
+            System.out.println("Level completed");
+            Platform.runLater(() -> {
+                gameFieldPane.getChildren().clear();
+                try {
+                    setupLevel(level + 1, infoPanel, gameFieldPane, globalPane);
+                } catch (FileNotFoundException e) {
+                    System.out.println(e.getMessage());
+                }
+            });
         });
     }
 
