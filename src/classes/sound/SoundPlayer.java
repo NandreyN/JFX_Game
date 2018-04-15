@@ -37,11 +37,16 @@ public class SoundPlayer {
                 new MediaPlayer(new Media(new File(EXPLOSION_SOUND).toURI().toString())).play();
                 break;
             case MOVE:
-                moveSound.play();
+                if (!moveSound.isPlaying())
+                    moveSound.play();
                 break;
             case SHOT:
                 new MediaPlayer(new Media(new File(SHOT_SOUND).toURI().toString())).play();
                 break;
         }
+    }
+
+    public void stopMoveSound() {
+        moveSound.stop();
     }
 }

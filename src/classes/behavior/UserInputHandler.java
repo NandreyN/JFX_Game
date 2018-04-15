@@ -33,6 +33,7 @@ public class UserInputHandler {
      */
     private void setupKeyboardListener(Node pane) {
         pane.setOnKeyPressed(tankController);
+        pane.setOnKeyReleased(tankController);
     }
 
     /**

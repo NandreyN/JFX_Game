@@ -40,7 +40,7 @@ public class TankController extends AbstractTankController implements EventTarge
     private ViewMotionManager motionManager;
     MouseEvent previousMouseEvent;
 
-    GameTank tankModel = null;
+    GameTank tankModel;
     static final double DELTA_ANGLE = Math.PI / 146;
 
     private AnchorPane uIParent;
@@ -134,9 +134,14 @@ public class TankController extends AbstractTankController implements EventTarge
             Platform.runLater(() -> handleMouseMotionEvent((MouseEvent) event));
         else if (eventType.equals(KeyEvent.KEY_PRESSED))
             Platform.runLater(() -> handleKeyboardEvent((KeyEvent) event));
+        else if (eventType.equals(KeyEvent.KEY_RELEASED))
+            stopMoveSound((KeyEvent) event);
         else throw new IllegalArgumentException("event");
     }
 
+    private void stopMoveSound(KeyEvent event) {
+        soundPlayer.stopMoveSound();
+    }
 
     @Override
     public void handleKeyboardEvent(KeyEvent event) {

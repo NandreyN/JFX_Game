@@ -9,6 +9,8 @@ import classes.gameObjects.GameTank;
 import classes.tanks.ITank;
 import classes.tanks.TankConstructor;
 import com.sun.javaws.exceptions.InvalidArgumentException;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.geometry.Point2D;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
@@ -127,6 +129,11 @@ public class ConfigurationReader {
         enemyTankManager.startTrackingPlayersTank(inputHandler.getTankController());
         inputHandler.getTankController().setUIInfo(infoPanel);
         ViewMotionManager.setupBoxes(boxes);
+
+        enemyTankManager.tanksAliveCountProperty().addListener((observable, oldValue, newValue) -> {
+            if ((int) newValue <= 0)
+                System.out.println("Level completed");
+        });
     }
 
 }
