@@ -4,6 +4,8 @@ import classes.gameObjects.GameTank;
 import javafx.application.Platform;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.scene.input.KeyCode;
@@ -42,6 +44,7 @@ public class EnemyTankManager implements AutoCloseable, EventHandler<Event> {
             moveTimers.add(new Timer(TIMER_DELAY, (e) -> {
             }));
         }
+
         currentActive = enemyTanks.get(0);
         tanksAliveCount = new SimpleIntegerProperty(tanks.size());
     }
@@ -59,7 +62,8 @@ public class EnemyTankManager implements AutoCloseable, EventHandler<Event> {
             stateUpdateTimers.add(new Timer(TIMER_DELAY, e -> {
                 if (!enemyTanks.get(finalI).tankModel.getTank().isAlive() || !areAlive.get(finalI)) {
                     areAlive.set(finalI, false);
-                    Platform.runLater(() -> ((Timer) (e.getSource())).stop());
+                    Platform.runLater(() -> stateUpdateTimers.get(finalI).stop());
+                    moveTimers.get(finalI).stop();
                     tanksAliveCount.set(tanksAliveCount.get() - 1);
                     return;
                 }
@@ -74,37 +78,45 @@ public class EnemyTankManager implements AutoCloseable, EventHandler<Event> {
                             player.tankModel.getLeftUpper().getY(), 0, 0, MouseButton.PRIMARY, 1, true, true, true, true,
                             true, true, true, true, true, true, null
                     ));
-
-                if (!moveTimers.get(finalI).isRunning()) {
-                    if (enemyTanks.get(finalI).isPositionValid())
-                        move(finalI, 100);
-                    else
-                        rotate(finalI, Math.random() * 360);
-                }
             }));
         }
-        for (int i = 0; i < enemyTanks.size(); i++)
+        for (int i = 0; i < enemyTanks.size(); i++) {
             stateUpdateTimers.get(i).start();
+            move(i, (int) (Math.random() * 100));
+        }
     }
 
     private void rotate(int i, double toAngle) {
+        moveTimers.get(i).stop();
+
         TankController controller = enemyTanks.get(i);
-        KeyCode code = (shouldRotateLeft(controller.getDirectionAngle(), toAngle)) ? KeyCode.A : KeyCode.D;
-        if (Math.abs(controller.getDirectionAngle() - toAngle) <= 5)
+
+        if (Math.abs(controller.getDirectionAngle() - toAngle) <= 5) {
+            move(i, (int) (Math.random() * 100));
             return;
+        }
+
+        boolean left = controller.canRotateLeft;
+        KeyCode code = (left) ? KeyCode.A : KeyCode.D;
 
         moveTimers.set(i, new Timer(TIMER_DELAY, (e) -> {
             double tankAngle = controller.getDirectionAngle();
             controller.handle(new KeyEvent(KeyEvent.KEY_PRESSED, "",
                     "", code, false, false, false, false));
 
-            if (Math.abs(tankAngle - toAngle) <= 5)
+            if (Math.abs(tankAngle - toAngle) <= 5) {
                 moveTimers.get(i).stop();
+                move(i, (int) (Math.random() * 100));
+            }
+
         }));
+
         moveTimers.get(i).start();
     }
 
     private void move(int i, int n) {
+        moveTimers.get(i).stop();
+
         TankController controller = enemyTanks.get(i);
         moveTimers.set(i, new Timer(TIMER_DELAY, new ActionListener() {
             private int counter;
@@ -113,10 +125,22 @@ public class EnemyTankManager implements AutoCloseable, EventHandler<Event> {
             public void actionPerformed(ActionEvent e) {
                 counter++;
                 if (counter == n) {
-                    ((Timer) e.getSource()).stop();
+                    moveTimers.get(i).stop();
+                    if (controller.canMoveForward)
+                        move(i, (int) (Math.random() * 100));
+                    else
+                        rotate(i, Math.random() * 40);
                 }
-                controller.handle(new KeyEvent(KeyEvent.KEY_PRESSED, "",
-                        "", KeyCode.W, false, false, false, false));
+                KeyCode code = (controller.canMoveForward) ? KeyCode.W : KeyCode.S;
+                if (code == KeyCode.S) {
+                    for (int i = 0; i < 5; i++)
+                        controller.handle(new KeyEvent(KeyEvent.KEY_PRESSED, "",
+                                "", code, false, false, false, false));
+                    moveTimers.get(i).stop();
+                    rotate(i, Math.random() * 40);
+                } else
+                    controller.handle(new KeyEvent(KeyEvent.KEY_PRESSED, "",
+                            "", code, false, false, false, false));
             }
         }));
         moveTimers.get(i).start();
@@ -126,9 +150,12 @@ public class EnemyTankManager implements AutoCloseable, EventHandler<Event> {
     public void close() {
         if (stateUpdateTimers == null)
             return;
-        for (int i = 0; i < enemyTanks.size(); i++)
+        for (int i = 0; i < enemyTanks.size(); i++) {
             if (stateUpdateTimers.get(i) != null && stateUpdateTimers.get(i).isRunning())
                 stateUpdateTimers.get(i).stop();
+            if (moveTimers.get(i).isRunning())
+                moveTimers.get(i).stop();
+        }
     }
 
     public int getTanksAliveCount() {

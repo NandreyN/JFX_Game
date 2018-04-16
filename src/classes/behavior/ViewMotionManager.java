@@ -71,11 +71,22 @@ public class ViewMotionManager implements Observer {
             manager.handle(manager.previousMouseEvent);
     }
 
-    public double turnLeft(TankController manager) {
+    public void turnLeft(TankController manager) {
         manager.tankModel.turnLeft(DELTA_ANGLE);
+        double srcAngle = manager.chassisRotation.getAngle();
+
         manager.chassisRotation.setAngle(manager.chassisRotation.getAngle() - Math.toDegrees(DELTA_ANGLE));
         manager.chassisRotation.setAngle(normalizeAngle(manager.chassisRotation.getAngle()));
-        return manager.chassisRotation.getAngle();
+
+        manager.tankModel.setDirectionAngle(manager.chassisRotation.getAngle());
+        manager.tankModel.getGameChassis().setDirectionAngle(manager.chassisRotation.getAngle());
+
+        manager.canRotateLeft = true;
+        if (intersects(manager.tankModel).getKey() || intersectsGameBorder(manager.tankModel).getKey()) {
+            manager.tankModel.turnRight(DELTA_ANGLE);
+            manager.chassisRotation.setAngle(srcAngle);
+            manager.canRotateLeft = false;
+        }
     }
 
     public void backwardsMove(TankController manager) {
@@ -96,11 +107,22 @@ public class ViewMotionManager implements Observer {
             manager.handle(manager.previousMouseEvent);
     }
 
-    public double turnRight(TankController manager) {
+    public void turnRight(TankController manager) {
         manager.tankModel.turnRight(DELTA_ANGLE);
+        double srcAngle = manager.chassisRotation.getAngle();
+
         manager.chassisRotation.setAngle(manager.chassisRotation.getAngle() + Math.toDegrees(DELTA_ANGLE));
         manager.chassisRotation.setAngle(normalizeAngle(manager.chassisRotation.getAngle()));
-        return manager.chassisRotation.getAngle();
+
+        manager.tankModel.setDirectionAngle(manager.chassisRotation.getAngle());
+        manager.tankModel.getGameChassis().setDirectionAngle(manager.chassisRotation.getAngle());
+
+        manager.canRotateRight = true;
+        if (intersects(manager.tankModel).getKey() || intersectsGameBorder(manager.tankModel).getKey()) {
+            manager.tankModel.turnLeft(DELTA_ANGLE);
+            manager.chassisRotation.setAngle(srcAngle);
+            manager.canRotateRight = false;
+        }
     }
 
     private double normalizeAngle(double angle) {
@@ -269,9 +291,11 @@ public class ViewMotionManager implements Observer {
             manager.tankModel.setValid(true);
             manager.tankModel.getGameTurret().setValid(true);
             manager.tankModel.getGameChassis().setValid(true);
+            manager.canMoveForward = false;
         } else {
             turretTransition.play();
             chassisTransition.play();
+            manager.canMoveForward = true;
         }
     }
 

@@ -8,6 +8,8 @@ import classes.tanks.TankConstructor;
 import classes.tanks.parts.SAUTurret;
 import com.sun.media.jfxmediaimpl.MediaDisposer;
 import javafx.application.Platform;
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.event.*;
 import javafx.event.Event;
 import javafx.geometry.Point2D;
@@ -46,6 +48,8 @@ public class TankController extends AbstractTankController implements EventTarge
     private AnchorPane uIParent;
     private Shape border;
     private SoundPlayer soundPlayer;
+
+    boolean canMoveForward = true, canRotateLeft = true, canRotateRight = true;
 
     public TankController(AnchorPane parent, GameTank tank, double orientationAngle) {
         this.uIParent = parent;
@@ -150,17 +154,13 @@ public class TankController extends AbstractTankController implements EventTarge
                 motionManager.forwardMove(this);
                 break;
             case A:
-                double a = motionManager.turnLeft(this);
-                tankModel.setDirectionAngle(a);
-                tankModel.getGameChassis().setDirectionAngle(a);
+                motionManager.turnLeft(this);
                 break;
             case S:
                 motionManager.backwardsMove(this);
                 break;
             case D:
-                double a2 = motionManager.turnRight(this);
-                tankModel.setDirectionAngle(a2);
-                tankModel.getGameChassis().setDirectionAngle(a2);
+                motionManager.turnRight(this);
                 break;
             default:
                 return;
@@ -227,7 +227,15 @@ public class TankController extends AbstractTankController implements EventTarge
         return chassisRotation.getAngle();
     }
 
-    public boolean isPositionValid() {
-        return tankModel.isValid();
+    public boolean isCanRotateRight() {
+        return canRotateRight;
+    }
+
+    public boolean isCanRotateLeft() {
+        return canRotateLeft;
+    }
+
+    public boolean isCanMoveForward() {
+        return canMoveForward;
     }
 }
