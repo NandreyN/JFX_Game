@@ -48,7 +48,7 @@ public class GameTank extends GameObject {
 
         if (tankStateUI != null) {
             tankStateUI.cooldown(tankDataModel.getGun().getNextCooldown());
-            damage = 501;
+            damage = 1000;
             missileSpeed = GameConstants.playerMissileSpeed;
         }
 

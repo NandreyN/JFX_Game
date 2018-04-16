@@ -13,17 +13,23 @@ import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.geometry.Point2D;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 import view.infoPanel.InfoPanel;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.Scanner;
 
 public class ConfigurationReader {
+    private static int MAX_LEVEL = 2;
     private static String LEVEL_FOLDER = "config\\levels\\";
     private static ConfigurationReader configurationReader;
 
@@ -114,6 +120,16 @@ public class ConfigurationReader {
         return gameList;
     }
 
+    private boolean askToContinueDialog() {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Level completed");
+        alert.setHeaderText("Look, a Confirmation Dialog");
+        alert.setContentText("Do you want to continue?");
+
+        Optional<ButtonType> result = alert.showAndWait();
+        return result.get() == ButtonType.OK;
+    }
+
     public void setupLevel(int level, InfoPanel infoPanel, AnchorPane gameFieldPane, BorderPane globalPane) throws FileNotFoundException {
         inputHandler = new UserInputHandler(gameFieldPane, globalPane);
         List<GameObject> gameLevelObjects = loadLevel(level);
@@ -135,15 +151,22 @@ public class ConfigurationReader {
             if ((int) newValue > 0)
                 return;
             System.out.println("Level completed");
-            Platform.runLater(() -> {
-                gameFieldPane.getChildren().clear();
-                try {
-                    setupLevel(level + 1, infoPanel, gameFieldPane, globalPane);
-                } catch (FileNotFoundException e) {
-                    System.out.println(e.getMessage());
-                }
-            });
+            if (level + 1 <= MAX_LEVEL) {
+                Platform.runLater(() -> {
+                    boolean shouldContinue = askToContinueDialog();
+                    if (!shouldContinue) {
+                        Platform.runLater(Platform::exit);
+                        return;
+                    }
+
+                    gameFieldPane.getChildren().clear();
+                    try {
+                        setupLevel(level + 1, infoPanel, gameFieldPane, globalPane);
+                    } catch (FileNotFoundException e) {
+                        System.out.println(e.getMessage());
+                    }
+                });
+            }
         });
     }
-
 }
