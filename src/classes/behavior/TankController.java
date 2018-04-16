@@ -126,10 +126,8 @@ public class TankController extends AbstractTankController implements EventTarge
     @Override
     public void handle(Event event) {
         EventType eventType = event.getEventType();
-
         if (eventType.equals(MouseEvent.MOUSE_CLICKED))
             Platform.runLater(() -> handleMouseClickEvent((MouseEvent) event));
-
         else if (eventType.equals(MouseEvent.MOUSE_MOVED))
             Platform.runLater(() -> handleMouseMotionEvent((MouseEvent) event));
         else if (eventType.equals(KeyEvent.KEY_PRESSED))
@@ -211,6 +209,7 @@ public class TankController extends AbstractTankController implements EventTarge
             Platform.runLater(() -> {
                 uIParent.getChildren().remove(border);
             });
+        soundPlayer.stopMoveSound();
     }
 
     private void setAliveChecker() {
@@ -221,5 +220,14 @@ public class TankController extends AbstractTankController implements EventTarge
                 ((Timer) e.getSource()).stop();
             }
         }).start();
+    }
+
+    public double getDirectionAngle() {
+        System.out.println(chassisRotation.getAngle());
+        return chassisRotation.getAngle();
+    }
+
+    public boolean isPositionValid() {
+        return tankModel.isValid();
     }
 }

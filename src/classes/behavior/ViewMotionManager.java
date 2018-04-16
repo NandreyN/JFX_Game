@@ -351,4 +351,9 @@ public class ViewMotionManager implements Observer {
 
         return s;
     }
+
+    public void reset() {
+        if (observables != null)
+            observables.clear();
+    }
 }

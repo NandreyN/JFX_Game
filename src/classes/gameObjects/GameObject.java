@@ -2,6 +2,7 @@ package classes.gameObjects;
 
 import classes.behavior.ViewMotionManager;
 import com.sun.istack.internal.Nullable;
+import com.sun.media.jfxmediaimpl.MediaDisposer;
 import javafx.geometry.Point2D;
 import javafx.scene.image.Image;
 
@@ -13,7 +14,7 @@ import java.util.Observable;
  * and it`s appearance
  */
 
-public abstract class GameObject extends Observable {
+public abstract class GameObject extends Observable{
     private static int INST_COUNT = 0;
 
     private Point2D leftUpper;

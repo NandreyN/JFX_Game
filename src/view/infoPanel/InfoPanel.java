@@ -11,21 +11,31 @@ public class InfoPanel extends HBox implements ITankStateUI {
     private ProgressIndicator cooldownIndicator;
     private final int HP_COUNT;
     private static final int TIMER_TICK = 50;
+    private Timer cooldownTimer;
+
 
     public InfoPanel(int hpCount) {
         HP_COUNT = hpCount;
         this.cooldownIndicator = new ProgressIndicator(0);
         this.hpIndicator = new ProgressBar(1);
-        this.getChildren().addAll(cooldownIndicator,hpIndicator);
+        this.getChildren().addAll(cooldownIndicator, hpIndicator);
+    }
+
+    public void reset() {
+        if (cooldownTimer != null && cooldownTimer.isRunning())
+            this.cooldownTimer.stop();
+        this.cooldownIndicator.setProgress(0);
+        this.hpIndicator.setProgress(1);
     }
 
     public void cooldown(double duration) {
         cooldownIndicator.setProgress(0);
-        new Timer(TIMER_TICK, (e) -> {
+        cooldownTimer = new Timer(TIMER_TICK, (e) -> {
             cooldownIndicator.setProgress(cooldownIndicator.getProgress() + TIMER_TICK / duration);
             if (cooldownIndicator.getProgress() >= 1d)
                 ((Timer) e.getSource()).stop();
-        }).start();
+        });
+        cooldownTimer.start();
     }
 
     public boolean decreaseHP(double byValue) {

@@ -28,6 +28,7 @@ public class GameTank extends GameObject {
 
         displayedHeight = chassis.getDisplayedHeight();
         displayedWidth = chassis.getDisplayedWidth();
+        setValid(true);
     }
 
     public GameTurret getGameTurret() {

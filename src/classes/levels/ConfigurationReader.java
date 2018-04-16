@@ -131,6 +131,8 @@ public class ConfigurationReader {
     }
 
     public void setupLevel(int level, InfoPanel infoPanel, AnchorPane gameFieldPane, BorderPane globalPane) throws FileNotFoundException {
+        ViewMotionManager.getInstance().reset();
+
         inputHandler = new UserInputHandler(gameFieldPane, globalPane);
         List<GameObject> gameLevelObjects = loadLevel(level);
         List<GameTank> tanks = new ArrayList<>();
@@ -144,6 +146,7 @@ public class ConfigurationReader {
 
         enemyTankManager = new EnemyTankManager(gameFieldPane, tanks);
         enemyTankManager.startTrackingPlayersTank(inputHandler.getTankController());
+        infoPanel.reset();
         inputHandler.getTankController().setUIInfo(infoPanel);
         ViewMotionManager.setupBoxes(boxes);
 
@@ -158,7 +161,6 @@ public class ConfigurationReader {
                         Platform.runLater(Platform::exit);
                         return;
                     }
-
                     gameFieldPane.getChildren().clear();
                     try {
                         setupLevel(level + 1, infoPanel, gameFieldPane, globalPane);
