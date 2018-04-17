@@ -2,16 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="cdb932d9-7e58-4d94-93a9-e7b232ef17da" name="Default" comment="">
-      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change beforePath="$PROJECT_DIR$/config/levels/0.txt" afterPath="$PROJECT_DIR$/config/levels/0.txt" />
       <change beforePath="$PROJECT_DIR$/src/classes/behavior/EnemyTankManager.java" afterPath="$PROJECT_DIR$/src/classes/behavior/EnemyTankManager.java" />
-      <change beforePath="$PROJECT_DIR$/src/classes/behavior/TankController.java" afterPath="$PROJECT_DIR$/src/classes/behavior/TankController.java" />
-      <change beforePath="$PROJECT_DIR$/src/classes/behavior/ViewMotionManager.java" afterPath="$PROJECT_DIR$/src/classes/behavior/ViewMotionManager.java" />
-      <change beforePath="$PROJECT_DIR$/src/classes/gameObjects/GameObject.java" afterPath="$PROJECT_DIR$/src/classes/gameObjects/GameObject.java" />
-      <change beforePath="$PROJECT_DIR$/src/classes/levels/ConfigurationReader.java" afterPath="$PROJECT_DIR$/src/classes/levels/ConfigurationReader.java" />
-      <change beforePath="$PROJECT_DIR$/src/view/Main.java" afterPath="$PROJECT_DIR$/src/view/Main.java" />
-      <change beforePath="$PROJECT_DIR$/src/view/sample.fxml" afterPath="$PROJECT_DIR$/src/view/sample.fxml" />
     </list>
     <ignored path="JavaFxApplication.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -72,8 +65,8 @@
       <file leaf-file-name="ConfigurationReader.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/classes/levels/ConfigurationReader.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-748">
-              <caret line="94" column="66" lean-forward="true" selection-start-line="94" selection-start-column="66" selection-end-line="94" selection-end-column="66" />
+            <state relative-caret-position="1156">
+              <caret line="94" column="66" lean-forward="false" selection-start-line="94" selection-start-column="66" selection-end-line="94" selection-end-column="66" />
               <folding />
             </state>
           </provider>
@@ -82,8 +75,8 @@
       <file leaf-file-name="0.txt" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/config/levels/0.txt">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="153">
-              <caret line="9" column="9" lean-forward="false" selection-start-line="9" selection-start-column="9" selection-end-line="9" selection-end-column="9" />
+            <state relative-caret-position="170">
+              <caret line="10" column="2" lean-forward="false" selection-start-line="10" selection-start-column="2" selection-end-line="10" selection-end-column="2" />
               <folding />
             </state>
           </provider>
@@ -93,7 +86,7 @@
         <entry file="file://$PROJECT_DIR$/src/classes/behavior/ViewMotionManager.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="204">
-              <caret line="34" column="47" lean-forward="true" selection-start-line="34" selection-start-column="47" selection-end-line="34" selection-end-column="47" />
+              <caret line="34" column="47" lean-forward="false" selection-start-line="34" selection-start-column="47" selection-end-line="34" selection-end-column="47" />
               <folding />
             </state>
           </provider>
@@ -102,16 +95,18 @@
       <file leaf-file-name="EnemyTankManager.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/classes/behavior/EnemyTankManager.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="294">
-              <caret line="50" column="42" lean-forward="false" selection-start-line="50" selection-start-column="42" selection-end-line="50" selection-end-column="42" />
+            <state relative-caret-position="233">
+              <caret line="94" column="0" lean-forward="false" selection-start-line="94" selection-start-column="0" selection-end-line="94" selection-end-column="0" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#3908#3909#0" expanded="true" />
-                <element signature="e#3947#3948#0" expanded="true" />
-                <element signature="e#7157#7158#0" expanded="true" />
-                <element signature="e#7201#7202#0" expanded="true" />
-                <element signature="e#7257#7258#0" expanded="true" />
-                <element signature="e#7295#7296#0" expanded="true" />
+                <element signature="e#1253#1254#0" expanded="true" />
+                <element signature="e#1313#1314#0" expanded="true" />
+                <element signature="e#3898#3899#0" expanded="true" />
+                <element signature="e#3937#3938#0" expanded="true" />
+                <element signature="e#7147#7148#0" expanded="true" />
+                <element signature="e#7191#7192#0" expanded="true" />
+                <element signature="e#7247#7248#0" expanded="true" />
+                <element signature="e#7285#7286#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -119,14 +114,14 @@
       </file>
       <file leaf-file-name="sample.fxml" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/view/sample.fxml">
+          <provider editor-type-id="JavaFX-Scene-Builder">
+            <state />
+          </provider>
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="136">
               <caret line="8" column="141" lean-forward="false" selection-start-line="8" selection-start-column="141" selection-end-line="8" selection-end-column="141" />
               <folding />
             </state>
-          </provider>
-          <provider editor-type-id="JavaFX-Scene-Builder">
-            <state />
           </provider>
         </entry>
       </file>
@@ -134,7 +129,7 @@
         <entry file="file://$PROJECT_DIR$/src/view/Main.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="187">
-              <caret line="15" column="28" lean-forward="true" selection-start-line="15" selection-start-column="28" selection-end-line="15" selection-end-column="28" />
+              <caret line="15" column="28" lean-forward="false" selection-start-line="15" selection-start-column="28" selection-end-line="15" selection-end-column="28" />
               <folding />
             </state>
           </provider>
@@ -173,7 +168,7 @@
       <file leaf-file-name="TankController.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/classes/behavior/TankController.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2210">
+            <state relative-caret-position="2533">
               <caret line="176" column="11" lean-forward="false" selection-start-line="176" selection-start-column="11" selection-end-line="176" selection-end-column="11" />
               <folding>
                 <element signature="e#8346#8347#0" expanded="true" />
@@ -210,6 +205,7 @@
       <find>out</find>
       <find>System</find>
       <find>rotate</find>
+      <find>Math.ran</find>
     </findStrings>
     <replaceStrings>
       <replace>Point2D</replace>
@@ -276,11 +272,11 @@
         <option value="$PROJECT_DIR$/src/classes/gameObjects/GameTank.java" />
         <option value="$PROJECT_DIR$/src/classes/gameObjects/GameObject.java" />
         <option value="$PROJECT_DIR$/src/classes/levels/ConfigurationReader.java" />
-        <option value="$PROJECT_DIR$/config/levels/0.txt" />
         <option value="$PROJECT_DIR$/src/classes/behavior/ViewMotionManager.java" />
         <option value="$PROJECT_DIR$/src/view/sample.fxml" />
         <option value="$PROJECT_DIR$/src/view/Main.java" />
         <option value="$PROJECT_DIR$/src/classes/behavior/TankController.java" />
+        <option value="$PROJECT_DIR$/config/levels/0.txt" />
         <option value="$PROJECT_DIR$/src/classes/behavior/EnemyTankManager.java" />
       </list>
     </option>
@@ -333,6 +329,9 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
+      <pane id="PackagesPane" />
+      <pane id="AndroidView" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -415,10 +414,7 @@
           <select />
         </subPane>
       </pane>
-      <pane id="PackagesPane" />
-      <pane id="Scope" />
       <pane id="Scratches" />
-      <pane id="AndroidView" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -595,12 +591,13 @@
       <workItem from="1523539544029" duration="36172000" />
       <workItem from="1523894973982" duration="7258000" />
       <workItem from="1523907719380" duration="4634000" />
-      <workItem from="1523954381772" duration="5199000" />
+      <workItem from="1523954381772" duration="5893000" />
+      <workItem from="1523974333713" duration="2873000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="158129000" />
+    <option name="totallyTimeSpent" value="161696000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1382" height="784" extended-state="6" />
@@ -702,7 +699,7 @@
           <option name="timeStamp" value="85" />
         </line-breakpoint>
       </breakpoints>
-      <option name="time" value="97" />
+      <option name="time" value="101" />
     </breakpoint-manager>
     <watches-manager>
       <configuration name="Application">
@@ -1027,10 +1024,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="289">
           <caret line="21" column="15" lean-forward="false" selection-start-line="21" selection-start-column="15" selection-end-line="21" selection-end-column="15" />
-          <folding>
-            <element signature="e#508#509#0" expanded="false" />
-            <element signature="e#544#545#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1052,16 +1045,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1122">
           <caret line="85" column="23" lean-forward="false" selection-start-line="85" selection-start-column="23" selection-end-line="85" selection-end-column="23" />
-          <folding>
-            <element signature="e#1564#1565#0" expanded="false" />
-            <element signature="e#1596#1597#0" expanded="false" />
-            <element signature="e#1656#1657#0" expanded="false" />
-            <element signature="e#1697#1698#0" expanded="false" />
-            <element signature="e#1743#1744#0" expanded="false" />
-            <element signature="e#1784#1785#0" expanded="false" />
-            <element signature="e#1836#1837#0" expanded="false" />
-            <element signature="e#1866#1867#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1069,10 +1052,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="238">
           <caret line="16" column="0" lean-forward="false" selection-start-line="16" selection-start-column="0" selection-end-line="16" selection-end-column="0" />
-          <folding>
-            <element signature="e#407#408#0" expanded="false" />
-            <element signature="e#438#439#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1108,7 +1087,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="119">
           <caret line="16" column="5" lean-forward="true" selection-start-line="16" selection-start-column="5" selection-end-line="16" selection-end-column="5" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1121,11 +1099,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="136">
           <caret line="8" column="5" lean-forward="false" selection-start-line="8" selection-start-column="5" selection-end-line="8" selection-end-column="5" />
-          <folding>
-            <element signature="imports" expanded="false" />
-            <element signature="e#184#185#0" expanded="false" />
-            <element signature="e#222#223#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1141,7 +1114,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="187">
           <caret line="12" column="5" lean-forward="false" selection-start-line="12" selection-start-column="5" selection-end-line="12" selection-end-column="5" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1149,7 +1121,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="204">
           <caret line="12" column="84" lean-forward="false" selection-start-line="12" selection-start-column="84" selection-end-line="12" selection-end-column="84" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1157,7 +1128,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="357">
           <caret line="41" column="18" lean-forward="false" selection-start-line="41" selection-start-column="18" selection-end-line="41" selection-end-column="18" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1202,7 +1172,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="187">
           <caret line="12" column="74" lean-forward="false" selection-start-line="12" selection-start-column="74" selection-end-line="12" selection-end-column="74" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1210,7 +1179,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="289">
           <caret line="23" column="18" lean-forward="false" selection-start-line="23" selection-start-column="18" selection-end-line="23" selection-end-column="18" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1225,9 +1193,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="170">
           <caret line="12" column="51" lean-forward="false" selection-start-line="12" selection-start-column="51" selection-end-line="12" selection-end-column="51" />
-          <folding>
-            <element signature="e#496#497#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1252,7 +1217,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="34">
           <caret line="2" column="17" lean-forward="false" selection-start-line="2" selection-start-column="17" selection-end-line="2" selection-end-column="17" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1260,7 +1224,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="187">
           <caret line="13" column="31" lean-forward="true" selection-start-line="13" selection-start-column="31" selection-end-line="13" selection-end-column="31" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1268,7 +1231,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="459">
           <caret line="31" column="0" lean-forward="false" selection-start-line="31" selection-start-column="0" selection-end-line="31" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1276,10 +1238,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="714">
           <caret line="51" column="0" lean-forward="false" selection-start-line="51" selection-start-column="0" selection-end-line="51" selection-end-column="0" />
-          <folding>
-            <element signature="e#1904#1905#0" expanded="true" />
-            <element signature="e#1957#1958#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1307,18 +1265,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/config/levels/0.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="153">
-          <caret line="9" column="9" lean-forward="false" selection-start-line="9" selection-start-column="9" selection-end-line="9" selection-end-column="9" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/classes/levels/ConfigurationReader.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-748">
-          <caret line="94" column="66" lean-forward="true" selection-start-line="94" selection-start-column="66" selection-end-line="94" selection-end-column="66" />
+        <state relative-caret-position="1156">
+          <caret line="94" column="66" lean-forward="false" selection-start-line="94" selection-start-column="66" selection-end-line="94" selection-end-column="66" />
           <folding />
         </state>
       </provider>
@@ -1337,7 +1287,7 @@
     <entry file="file://$PROJECT_DIR$/src/view/Main.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="187">
-          <caret line="15" column="28" lean-forward="true" selection-start-line="15" selection-start-column="28" selection-end-line="15" selection-end-column="28" />
+          <caret line="15" column="28" lean-forward="false" selection-start-line="15" selection-start-column="28" selection-end-line="15" selection-end-column="28" />
           <folding />
         </state>
       </provider>
@@ -1345,14 +1295,14 @@
     <entry file="file://$PROJECT_DIR$/src/classes/behavior/ViewMotionManager.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="204">
-          <caret line="34" column="47" lean-forward="true" selection-start-line="34" selection-start-column="47" selection-end-line="34" selection-end-column="47" />
+          <caret line="34" column="47" lean-forward="false" selection-start-line="34" selection-start-column="47" selection-end-line="34" selection-end-column="47" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/classes/behavior/TankController.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2210">
+        <state relative-caret-position="2533">
           <caret line="176" column="11" lean-forward="false" selection-start-line="176" selection-start-column="11" selection-end-line="176" selection-end-column="11" />
           <folding>
             <element signature="e#8346#8347#0" expanded="true" />
@@ -1367,18 +1317,28 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/config/levels/0.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="170">
+          <caret line="10" column="2" lean-forward="false" selection-start-line="10" selection-start-column="2" selection-end-line="10" selection-end-column="2" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/classes/behavior/EnemyTankManager.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="294">
-          <caret line="50" column="42" lean-forward="false" selection-start-line="50" selection-start-column="42" selection-end-line="50" selection-end-column="42" />
+        <state relative-caret-position="233">
+          <caret line="94" column="0" lean-forward="false" selection-start-line="94" selection-start-column="0" selection-end-line="94" selection-end-column="0" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#3908#3909#0" expanded="true" />
-            <element signature="e#3947#3948#0" expanded="true" />
-            <element signature="e#7157#7158#0" expanded="true" />
-            <element signature="e#7201#7202#0" expanded="true" />
-            <element signature="e#7257#7258#0" expanded="true" />
-            <element signature="e#7295#7296#0" expanded="true" />
+            <element signature="e#1253#1254#0" expanded="true" />
+            <element signature="e#1313#1314#0" expanded="true" />
+            <element signature="e#3898#3899#0" expanded="true" />
+            <element signature="e#3937#3938#0" expanded="true" />
+            <element signature="e#7147#7148#0" expanded="true" />
+            <element signature="e#7191#7192#0" expanded="true" />
+            <element signature="e#7247#7248#0" expanded="true" />
+            <element signature="e#7285#7286#0" expanded="true" />
           </folding>
         </state>
       </provider>

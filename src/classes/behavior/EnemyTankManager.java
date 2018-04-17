@@ -24,6 +24,7 @@ class Activity implements Closeable {
     private Timer inactivityTimer, actionTimer;
     private TankController tankController;
     private static final int TIMER_DELAY = 50;
+    private static final int MOVE_DURATION = 20;
 
     Activity(TankController controller) {
         this.tankController = controller;
@@ -35,10 +36,14 @@ class Activity implements Closeable {
         return tankController.getDirectionAngle() + random.nextDouble() * (random.nextBoolean() ? -1 : 1) * delta;
     }
 
+    private int generateMoveTickTimes() {
+        return (int) (Math.random() * MOVE_DURATION);
+    }
+
     private void startTrackingInactivity() {
         inactivityTimer = new Timer(TIMER_DELAY, (e) -> {
             if (actionTimer == null || !actionTimer.isRunning())
-                move((int) (Math.random() * 100));
+                move(generateMoveTickTimes(), KeyCode.W);
         });
         inactivityTimer.start();
     }
@@ -57,14 +62,14 @@ class Activity implements Closeable {
 
         actionTimer = new Timer(TIMER_DELAY, (e) -> {
             double tankAngle = tankController.getDirectionAngle();
-            boolean canRotate = (left) ? tankController.canRotateLeft : tankController.canRotateRight;
-            if (!canRotate)
-                move((int) (Math.random() * 100));
+            boolean canRotateLeft = (left) ? tankController.canRotateLeft : tankController.canRotateRight;
+            if (!canRotateLeft)
+                move(generateMoveTickTimes(), KeyCode.W);
             tankController.handle(new KeyEvent(KeyEvent.KEY_PRESSED, "",
                     "", code, false, false, false, false));
 
             if (Math.abs(tankAngle - toAngle) <= 5) {
-                move((int) (Math.random() * 100));
+                move(generateMoveTickTimes(), KeyCode.W);
             }
 
         });
@@ -72,7 +77,10 @@ class Activity implements Closeable {
         System.out.println("Rotation to angle " + toAngle + " started");
     }
 
-    private void move(int n) {
+    private void move(int n, KeyCode keyCode) {
+        if (keyCode != KeyCode.W && keyCode != KeyCode.S)
+            return;
+
         if (actionTimer != null)
             actionTimer.stop();
 
@@ -82,23 +90,20 @@ class Activity implements Closeable {
             @Override
             public void actionPerformed(ActionEvent e) {
                 counter++;
-                if (counter == n) {
-                    if (tankController.canMoveForward)
-                        move((int) (Math.random() * 100));
-                    else {
-                        System.out.println("Can`t move forward , rotating");
+                if (counter >= n) {
+                    if (keyCode == KeyCode.S) {
                         rotate(generateNewDirection(90));
+                        return;
                     }
+                    if (tankController.canMoveForward) {
+                        move(generateMoveTickTimes(), KeyCode.W);
+                        return;
+                    }
+                    move(generateMoveTickTimes(), KeyCode.S);
+                    return;
                 }
-                KeyCode code = (tankController.canMoveForward) ? KeyCode.W : KeyCode.S;
-                if (code == KeyCode.S) {
-                    for (int i = 0; i < 5; i++)
-                        tankController.handle(new KeyEvent(KeyEvent.KEY_PRESSED, "",
-                                "", code, false, false, false, false));
-                    rotate(generateNewDirection(90));
-                } else
-                    tankController.handle(new KeyEvent(KeyEvent.KEY_PRESSED, "",
-                            "", code, false, false, false, false));
+                tankController.handle(new KeyEvent(KeyEvent.KEY_PRESSED, "",
+                        "", keyCode, false, false, false, false));
             }
         });
         actionTimer.start();
