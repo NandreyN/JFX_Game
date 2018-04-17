@@ -149,28 +149,32 @@ public class TankController extends AbstractTankController implements EventTarge
     public void handleKeyboardEvent(KeyEvent event) {
         KeyCode code = event.getCode();
         trackBorder();
-        switch (code) {
-            case W:
-                motionManager.forwardMove(this);
-                break;
-            case A:
-                motionManager.turnLeft(this);
-                break;
-            case S:
-                motionManager.backwardsMove(this);
-                break;
-            case D:
-                motionManager.turnRight(this);
-                break;
-            default:
-                return;
-        }
-        soundPlayer.play(SoundPlayer.SoundTypes.MOVE);
+        Platform.runLater(() -> {
+            switch (code) {
+                case W:
+                    motionManager.forwardMove(this);
+                    break;
+                case A:
+                    motionManager.turnLeft(this);
+                    break;
+                case S:
+                    motionManager.backwardsMove(this);
+                    break;
+                case D:
+                    motionManager.turnRight(this);
+                    break;
+                default:
+                    return;
+            }
+            soundPlayer.play(SoundPlayer.SoundTypes.MOVE);
+        });
     }
 
     @Override
     public void handleMouseClickEvent(javafx.scene.input.MouseEvent event) {
-        motionManager.fire(this);
+        Platform.runLater(() -> {
+            motionManager.fire(this);
+        });
     }
 
     @Override
@@ -184,9 +188,11 @@ public class TankController extends AbstractTankController implements EventTarge
         double currY = turretView.getTranslateY();
 
         if (currY != sceneY) {
-            double angle = Math.atan2(currY - sceneY, currX - sceneX);
-            angle = motionManager.rotateTurret(this, angle);
-            tankModel.getGameTurret().setDirectionAngle(angle);
+            Platform.runLater(() -> {
+                double angle = Math.atan2(currY - sceneY, currX - sceneX);
+                angle = motionManager.rotateTurret(this, angle);
+                tankModel.getGameTurret().setDirectionAngle(angle);
+            });
         }
     }
 
@@ -223,7 +229,6 @@ public class TankController extends AbstractTankController implements EventTarge
     }
 
     public double getDirectionAngle() {
-        System.out.println(chassisRotation.getAngle());
         return chassisRotation.getAngle();
     }
 

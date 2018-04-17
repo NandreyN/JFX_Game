@@ -14,7 +14,7 @@ import java.util.Observable;
  * and it`s appearance
  */
 
-public abstract class GameObject extends Observable{
+public abstract class GameObject extends Observable {
     private static int INST_COUNT = 0;
 
     private Point2D leftUpper;
@@ -34,6 +34,7 @@ public abstract class GameObject extends Observable{
         directionAngle = 0;
         id = ++INST_COUNT;
         bindToMotionManager();
+        isValid = true;
     }
 
     /**

@@ -19,15 +19,13 @@ import javafx.util.Pair;
 import view.Animations;
 
 import javax.swing.*;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Observable;
-import java.util.Observer;
+import javax.swing.Timer;
+import java.util.*;
 
 import static classes.behavior.TankController.DELTA_ANGLE;
 
 public class ViewMotionManager implements Observer {
-    private List<GameObject> observables = new ArrayList<>();
+    private List<GameObject> observables = Collections.synchronizedList(new ArrayList<>());
     private static ViewMotionManager instance;
     private static int MISSILE_MOVE_DELAY = 10;
     private static AnchorPane parent;
@@ -82,10 +80,13 @@ public class ViewMotionManager implements Observer {
         manager.tankModel.getGameChassis().setDirectionAngle(manager.chassisRotation.getAngle());
 
         manager.canRotateLeft = true;
+        manager.canMoveForward = true;
+
         if (intersects(manager.tankModel).getKey() || intersectsGameBorder(manager.tankModel).getKey()) {
             manager.tankModel.turnRight(DELTA_ANGLE);
             manager.chassisRotation.setAngle(srcAngle);
             manager.canRotateLeft = false;
+            manager.canMoveForward = false;
         }
     }
 
@@ -118,10 +119,13 @@ public class ViewMotionManager implements Observer {
         manager.tankModel.getGameChassis().setDirectionAngle(manager.chassisRotation.getAngle());
 
         manager.canRotateRight = true;
+        manager.canMoveForward = true;
+
         if (intersects(manager.tankModel).getKey() || intersectsGameBorder(manager.tankModel).getKey()) {
             manager.tankModel.turnLeft(DELTA_ANGLE);
             manager.chassisRotation.setAngle(srcAngle);
             manager.canRotateRight = false;
+            manager.canMoveForward = false;
         }
     }
 
@@ -135,11 +139,9 @@ public class ViewMotionManager implements Observer {
     public void fire(TankController manager) {
         Missile missile = manager.tankModel.fire();
         if (missile == null) {
-            System.out.println("Still loading");
             return;
         }
         SoundPlayer.getInstance().play(SoundPlayer.SoundTypes.SHOT);
-        System.out.println("Fired");
         //System.out.println("Turret : " + manager.tankModel.getGameTurret().getDirectionAngle() + "\nRotation : " + manager.turretRotation.getAngle() + "\n");
         missile.setDirectionAngle(manager.turretRotation.getAngle());
 
@@ -302,6 +304,8 @@ public class ViewMotionManager implements Observer {
     @Override
     public void update(Observable o, Object arg) {
         if (o == null || !(o instanceof GameObject) || arg == null)
+            return;
+        if (!observables.contains(o))
             return;
 
         Pair<Boolean, GameObject> intersect = intersects((GameObject) o);
