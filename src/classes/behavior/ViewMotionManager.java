@@ -24,6 +24,10 @@ import java.util.*;
 
 import static classes.behavior.TankController.DELTA_ANGLE;
 
+/**
+ * Main game class. Reflects controller changes on View
+ * Singleton
+ */
 public class ViewMotionManager implements Observer {
     private List<GameObject> observables = Collections.synchronizedList(new ArrayList<>());
     private static ViewMotionManager instance;
@@ -37,6 +41,11 @@ public class ViewMotionManager implements Observer {
         return instance;
     }
 
+    /**
+     * Add boxes objects to game scene
+     *
+     * @param boxes List of GameBox
+     */
     public static synchronized void setupBoxes(List<Box> boxes) {
         for (Box b : boxes) {
             ImageView bView = new ImageView(b.getTexture());
@@ -49,10 +58,20 @@ public class ViewMotionManager implements Observer {
         }
     }
 
+    /**
+     * @param p Apply Game scene
+     */
     public static synchronized void setParent(AnchorPane p) {
         parent = p;
     }
 
+    /**
+     * Reflect turret rotation on View
+     *
+     * @param manager Tank controller, source of action
+     * @param toAngle Target angle
+     * @return new angle, same as @param toAngle
+     */
     public double rotateTurret(TankController manager, double toAngle) {
         manager.turretRotation.setAngle(Math.toDegrees(toAngle) + 90);
         manager.tankModel.getGameTurret().getTurret().rotate(
@@ -60,6 +79,11 @@ public class ViewMotionManager implements Observer {
         return manager.turretRotation.getAngle();
     }
 
+    /**
+     * Move tank forward the direction angle
+     *
+     * @param manager Tank controller, source of action
+     */
     public void forwardMove(TankController manager) {
         double a = Math.toRadians(manager.chassisRotation.getAngle()),
                 forwardSpeed = manager.tankModel.getGameChassis().getChassis().getForwardSpeed();
@@ -69,6 +93,11 @@ public class ViewMotionManager implements Observer {
             manager.handle(manager.previousMouseEvent);
     }
 
+    /**
+     * Turn tank view to the left
+     *
+     * @param manager Tank controller , source of action
+     */
     public void turnLeft(TankController manager) {
         manager.tankModel.turnLeft(DELTA_ANGLE);
         double srcAngle = manager.chassisRotation.getAngle();
@@ -90,6 +119,11 @@ public class ViewMotionManager implements Observer {
         }
     }
 
+    /**
+     * Move the tank backwards the direction angle
+     *
+     * @param manager Tank controller , source of action
+     */
     public void backwardsMove(TankController manager) {
         double a = Math.toRadians(manager.chassisRotation.getAngle()),
                 backwardsSpeed = manager.tankModel.getGameChassis().getChassis().getBackwardsSpeed();
@@ -108,6 +142,11 @@ public class ViewMotionManager implements Observer {
             manager.handle(manager.previousMouseEvent);
     }
 
+    /**
+     * Move tank view to the right
+     *
+     * @param manager Tank controller , source of action
+     */
     public void turnRight(TankController manager) {
         manager.tankModel.turnRight(DELTA_ANGLE);
         double srcAngle = manager.chassisRotation.getAngle();
@@ -129,6 +168,12 @@ public class ViewMotionManager implements Observer {
         }
     }
 
+    /**
+     * Reduction angle to the format used by Rotate class
+     *
+     * @param angle Angle to be reducted
+     * @return normalized angle
+     */
     private double normalizeAngle(double angle) {
         double newAngle = angle;
         while (newAngle <= -180) newAngle += 360;
@@ -136,6 +181,12 @@ public class ViewMotionManager implements Observer {
         return newAngle;
     }
 
+    /**
+     * Starts fire action. If success, move and tracks missile
+     * intersection with game objects with consequent explosion animation
+     *
+     * @param manager tank controller, source of action
+     */
     public void fire(TankController manager) {
         Missile missile = manager.tankModel.fire();
         if (missile == null) {
@@ -156,6 +207,17 @@ public class ViewMotionManager implements Observer {
                 gunEnd.getX() - cX, gunEnd.getY() - cY, GameConstants.gunFlameSize.getKey(), GameConstants.gunFlameSize.getValue()), 500);
     }
 
+    /**
+     * Configures ImageView to be displayed according to
+     * GameObject options
+     *
+     * @param src    Image to be displayed
+     * @param xPos   X left upper coordinate on game scene
+     * @param yPos   Y left upper coordinate on game scene
+     * @param width  Desired width of the image view
+     * @param height Desired height of the image view
+     * @return Configured ImageView object
+     */
     private ImageView configureImageView(Image src, double xPos, double yPos, double width, double height) {
         ImageView imView = new ImageView(src);
         imView.setTranslateX(xPos);
@@ -165,6 +227,14 @@ public class ViewMotionManager implements Observer {
         return imView;
     }
 
+    /**
+     * Creates path from one point to another
+     *
+     * @param node     Object to be transfered
+     * @param oldPoint old location
+     * @param newPoint new location
+     * @return path description object
+     */
     private PathTransition createMovementPath(Node node, Point2D oldPoint, Point2D newPoint) {
         Path path = new Path();
 
@@ -180,6 +250,14 @@ public class ViewMotionManager implements Observer {
         return pathTransition;
     }
 
+    /**
+     * Handles missile moves
+     *
+     * @param x       X spawn coordinate
+     * @param y       Y spawn coordinate
+     * @param missile Missile object
+     * @param a       Direction angle
+     */
     private void moveMissile(double x, double y, Missile missile, double a) {
         observables.add(missile);
 
@@ -240,6 +318,12 @@ public class ViewMotionManager implements Observer {
         }).start();
     }
 
+    /**
+     * Display gif during desired time
+     *
+     * @param image    GIF image
+     * @param duration GIF display duration
+     */
     private void startAnimation(ImageView image, int duration) {
         Platform.runLater(() -> {
             parent.getChildren().add(image);
@@ -252,6 +336,13 @@ public class ViewMotionManager implements Observer {
         });
     }
 
+    /**
+     * Logic for moving tank
+     *
+     * @param manager Tank controller , source of action
+     * @param speed   Tank speed
+     * @param a       Tank direction angle, move vector
+     */
     private void moveTankImage(TankController manager, double speed, double a) {
         double dx = Math.abs(speed * Math.sin(a));
         double dy = Math.abs(speed * Math.cos(a));
@@ -301,6 +392,13 @@ public class ViewMotionManager implements Observer {
         }
     }
 
+    /**
+     * Observer feature. Whenever paint coordinates of GameObject
+     * are changes , that method is called to validate it
+     *
+     * @param o   GameObject
+     * @param arg Argument
+     */
     @Override
     public void update(Observable o, Object arg) {
         if (o == null || !(o instanceof GameObject) || arg == null)
@@ -318,16 +416,33 @@ public class ViewMotionManager implements Observer {
         ((GameObject) o).setValid(false);
     }
 
+    /**
+     * Register game tank in registry
+     *
+     * @param o GameTank. If not - ignore
+     */
     public void register(GameObject o) {
         if (o instanceof GameTank)
             this.observables.add(o);
     }
 
+    /**
+     * Remove GameObject from registry
+     *
+     * @param o GameObject to delete from track
+     */
     public void unRegister(GameObject o) {
         if (this.observables.contains(o))
             this.observables.remove(o);
     }
 
+    /**
+     * Checks given GameObject on intersection with all other tracked
+     * objects
+     *
+     * @param object Current object
+     * @return Pair<Intersects       ,       What></>
+     */
     private Pair<Boolean, GameObject> intersects(GameObject object) {
         Shape originalObjShape = getGameObjectShape(object);
         if (intersectsGameBorder(object).getKey()) {
@@ -346,6 +461,12 @@ public class ViewMotionManager implements Observer {
         return new Pair<>(false, null);
     }
 
+    /**
+     * Intersection with game borders
+     *
+     * @param o Current GameObject
+     * @return Pair<Intersects       ,               What></>
+     */
     private Pair<Boolean, Line> intersectsGameBorder(GameObject o) {
         double w = parent.getPrefWidth(), h = parent.getPrefHeight();
         Line left = new Line(0, 0, 0, h),
@@ -367,6 +488,13 @@ public class ViewMotionManager implements Observer {
         return new Pair<>(intersectionLine != null, intersectionLine);
     }
 
+    /**
+     * Constructs object shape as a rectangle
+     * depending on it`s features
+     *
+     * @param o GameObject to construct bounds for
+     * @return Bounds of given GameObject
+     */
     public static synchronized Shape getGameObjectShape(GameObject o) {
         Shape s = new Rectangle(o.getLeftUpper().getX(), o.getLeftUpper().getY(),
                 o.getDisplayedWidth(), o.getDisplayedHeight());
@@ -380,6 +508,9 @@ public class ViewMotionManager implements Observer {
         return s;
     }
 
+    /**
+     * Clears tracked object list
+     */
     public void reset() {
         if (observables != null)
             observables.clear();

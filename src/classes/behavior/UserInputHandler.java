@@ -50,6 +50,10 @@ public class UserInputHandler {
         pane.setOnMouseMoved(tankController);
     }
 
+    /**
+     * Simple getter
+     * @return controller of tank managed by user
+     */
     public TankController getTankController() {
         return tankController;
     }

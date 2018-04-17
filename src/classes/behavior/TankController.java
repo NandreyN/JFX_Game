@@ -37,7 +37,9 @@ import javax.swing.*;
  */
 
 public class TankController extends AbstractTankController implements EventTarget, MediaDisposer.Disposable {
+    // View of controller`s content
     ImageView chassisView, turretView;
+    // Describes view rotation relatively to some point
     Rotate turretRotation, chassisRotation;
     private ViewMotionManager motionManager;
     MouseEvent previousMouseEvent;
@@ -62,6 +64,9 @@ public class TankController extends AbstractTankController implements EventTarge
         trackBorder();
     }
 
+    /**
+     * Displays red rectangle border for current tank. For debug purposes
+     */
     public void trackBorder() {
         if (border != null && uIParent.getChildren().contains(border)) {
             Shape old = border;
@@ -76,6 +81,10 @@ public class TankController extends AbstractTankController implements EventTarge
         }
     }
 
+    /**
+     * Apply UI panel for controller. UI panel displays cooldown and HP remaining
+     * @param panel Game Info UI panel
+     */
     public void setUIInfo(InfoPanel panel) {
         tankModel.setTankStateUI(panel);
         Platform.runLater(() -> panel.cooldown(tankModel.getTank().getGun().getNextCooldown()));
@@ -118,8 +127,8 @@ public class TankController extends AbstractTankController implements EventTarge
     }
 
     /**
-     * Fills tank model with default tank. Should be removed later after
-     * creating tank chooser
+     * Applies direction angle to tank model
+     * @param defaultAngle angle to face initially
      */
     private void initDefaultTank(double defaultAngle) {
         this.tankModel.getGameTurret().setDirectionAngle(defaultAngle);
@@ -141,6 +150,10 @@ public class TankController extends AbstractTankController implements EventTarge
         else throw new IllegalArgumentException("event");
     }
 
+    /**
+     * Stops playing move sound when tank stops
+     * @param event KeyReleased event
+     */
     private void stopMoveSound(KeyEvent event) {
         soundPlayer.stopMoveSound();
     }
@@ -204,6 +217,9 @@ public class TankController extends AbstractTankController implements EventTarge
         });
     }
 
+    /**
+     * Free all resources
+     */
     @Override
     public void dispose() {
         if (this.uIParent == null)
@@ -218,6 +234,10 @@ public class TankController extends AbstractTankController implements EventTarge
         soundPlayer.stopMoveSound();
     }
 
+    /**
+     * Checks tank HP using timer.
+     * If it is negative, dispose tank
+     */
     private void setAliveChecker() {
         final int CHECK_DELAY = 10;
         new Timer(CHECK_DELAY, (e) -> {
@@ -232,15 +252,4 @@ public class TankController extends AbstractTankController implements EventTarge
         return chassisRotation.getAngle();
     }
 
-    public boolean isCanRotateRight() {
-        return canRotateRight;
-    }
-
-    public boolean isCanRotateLeft() {
-        return canRotateLeft;
-    }
-
-    public boolean isCanMoveForward() {
-        return canMoveForward;
-    }
 }

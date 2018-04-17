@@ -20,6 +20,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+/**
+ * Describes kind of Action performed by GameTank
+ * Controlled by EnemyTankManager
+ * Includes two timers: action,inactivity
+ * action timer should be killed when new action is triggered
+ */
 class Activity implements Closeable {
     private Timer inactivityTimer, actionTimer;
     private TankController tankController;
@@ -31,15 +37,31 @@ class Activity implements Closeable {
         startTrackingInactivity();
     }
 
+    /**
+     * Generates new direction in range [a-delta, a+delta]
+     *
+     * @param delta delta angle from current direction
+     * @return new direction angle
+     */
     private double generateNewDirection(double delta) {
         Random random = new Random();
         return tankController.getDirectionAngle() + random.nextDouble() * (random.nextBoolean() ? -1 : 1) * delta;
     }
 
+    /**
+     * Generates number of triggering move events per one
+     * move action
+     *
+     * @return number of events to be triggered
+     */
     private int generateMoveTickTimes() {
         return (int) (Math.random() * MOVE_DURATION);
     }
 
+    /**
+     * Whenever tank becomes inactive ,
+     * method generates some kind of Activity for it
+     */
     private void startTrackingInactivity() {
         inactivityTimer = new Timer(TIMER_DELAY, (e) -> {
             if (actionTimer == null || !actionTimer.isRunning())
@@ -48,6 +70,11 @@ class Activity implements Closeable {
         inactivityTimer.start();
     }
 
+    /**
+     * Includes logic for emulating rotations for tanks , controlled by computer
+     *
+     * @param toAngle new angle to rotate to
+     */
     private void rotate(double toAngle) {
         if (actionTimer != null)
             actionTimer.stop();
@@ -77,6 +104,13 @@ class Activity implements Closeable {
         System.out.println("Rotation to angle " + toAngle + " started");
     }
 
+    /**
+     * Emulates changing location action. Tank goes forward or back
+     * depending on situation
+     *
+     * @param n       number of moves
+     * @param keyCode move direction(W-forward,S-backwards)
+     */
     private void move(int n, KeyCode keyCode) {
         if (keyCode != KeyCode.W && keyCode != KeyCode.S)
             return;
@@ -121,6 +155,11 @@ class Activity implements Closeable {
     }
 }
 
+/**
+ * Class responsible for managing enemy tanks of current level
+ * Includes timers which are dedicated to checking whether tank is alive
+ * or not and triggering fire event to hit player`s tank
+ */
 public class EnemyTankManager implements AutoCloseable, EventHandler<Event> {
     private List<TankController> enemyTanks;
     private List<Timer> stateUpdateTimers;
@@ -131,7 +170,7 @@ public class EnemyTankManager implements AutoCloseable, EventHandler<Event> {
 
     private List<Activity> activities;
 
-    private TankController player, currentActive;
+    private TankController player;
 
     public EnemyTankManager(AnchorPane pane, List<GameTank> tanks) {
         enemyTanks = new ArrayList<>();
@@ -145,15 +184,18 @@ public class EnemyTankManager implements AutoCloseable, EventHandler<Event> {
 
         for (TankController enemyTank : enemyTanks) activities.add(new Activity(enemyTank));
 
-        currentActive = enemyTanks.get(0);
         tanksAliveCount = new SimpleIntegerProperty(tanks.size());
     }
 
     @Override
     public void handle(Event event) {
-        currentActive.handle(event);
     }
 
+    /**
+     * Initializes timers for checking enemy tanks` states
+     *
+     * @param tankManager Controller of player`s tank
+     */
     public void startTrackingPlayersTank(TankController tankManager) {
         stateUpdateTimers = new ArrayList<>();
         this.player = tankManager;
@@ -196,10 +238,11 @@ public class EnemyTankManager implements AutoCloseable, EventHandler<Event> {
         }
     }
 
-    public int getTanksAliveCount() {
-        return tanksAliveCount.get();
-    }
-
+    /**
+     * Tanks count which are alive at the moment.
+     * Allows to detect level finish
+     * @return number of alive tanks
+     */
     public IntegerProperty tanksAliveCountProperty() {
         return tanksAliveCount;
     }
