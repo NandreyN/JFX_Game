@@ -74,14 +74,31 @@ public abstract class GameObject extends Observable {
         return getId() == ((GameObject) o).getId();
     }
 
+    /**
+     * Get texture of GameObject
+     *
+     * @return Texture
+     */
     public Image getTexture() {
         return texture;
     }
 
+    /**
+     * Get left-upper draw coordinate
+     *
+     * @return Left-Upper coordinate
+     */
     public Point2D getLeftUpper() {
         return leftUpper;
     }
 
+    /**
+     * Tries to apply left-upper paint coordinate.
+     * Success if and only if no overlaps detected.
+     * Redirects response to ViewMotionManager
+     *
+     * @param point Left-Upper draw point to set
+     */
     public void setLeftUpper(Point2D point) {
         Point2D oldCoordinates = leftUpper;
 
@@ -92,27 +109,50 @@ public abstract class GameObject extends Observable {
             this.leftUpper = oldCoordinates;
     }
 
+    /**
+     * Binds GameObject with MotionManager
+     * Created for adding GameObject to object track list
+     */
     private void bindToMotionManager() {
         ViewMotionManager.getInstance().register(this);
         this.addObserver(ViewMotionManager.getInstance());
     }
 
+    /**
+     * Get object unique ID
+     *
+     * @return ID
+     */
     public int getId() {
         return id;
     }
 
+    /**
+     * @return direction angle of that GameObject
+     */
     public double getDirectionAngle() {
         return directionAngle;
     }
 
+    /*
+    Setter for direction angle
+     */
     public void setDirectionAngle(double angle) {
         this.directionAngle = angle;
     }
 
+    /**
+     * @return true if no intersection detected,otherwise false
+     */
     public boolean isValid() {
         return isValid;
     }
 
+    /**
+     * Set valid property
+     *
+     * @param valid Is position valid
+     */
     public void setValid(boolean valid) {
         isValid = valid;
     }

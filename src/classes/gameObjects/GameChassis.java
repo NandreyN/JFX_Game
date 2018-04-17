@@ -9,6 +9,9 @@ import javafx.scene.image.Image;
 
 import java.awt.*;
 
+/**
+ * Class for keeping params of tank chassis
+ */
 public class GameChassis extends GameObject {
     private IChassis chassis;
 
@@ -16,10 +19,16 @@ public class GameChassis extends GameObject {
         super(texture, centre);
     }
 
+    /**
+     * @param chassis Chassis logic model
+     */
     public void setChassis(IChassis chassis) {
         this.chassis = chassis;
     }
 
+    /**
+     * @return Chassis logic model
+     */
     public IChassis getChassis() {
         return chassis;
     }

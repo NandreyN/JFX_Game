@@ -3,6 +3,10 @@ package classes.gameObjects;
 import javafx.geometry.Point2D;
 import javafx.scene.image.Image;
 
+/**
+ * Class represents Boxes on game scene.
+ * Kind of shelter
+ */
 public class Box extends GameObject {
     private double height, width;
 

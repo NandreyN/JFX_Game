@@ -5,6 +5,9 @@ import com.sun.istack.internal.Nullable;
 import javafx.geometry.Point2D;
 import javafx.scene.image.Image;
 
+/*
+Keeps params of Turret logic model
+ */
 public class GameTurret extends GameObject {
     private ITurret turret;
 

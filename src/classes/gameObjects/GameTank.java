@@ -7,6 +7,9 @@ import javafx.geometry.Point2D;
 import javafx.scene.image.Image;
 import view.infoPanel.ITankStateUI;
 
+/**
+ * Game tank. Incapsulates tank parameters
+ */
 public class GameTank extends GameObject {
     private ITank tankDataModel;
     private GameTurret turret;
@@ -39,6 +42,11 @@ public class GameTank extends GameObject {
         return chassis;
     }
 
+    /**
+     * Checks whether tank is able to fire on not
+     *
+     * @return Missile object on success, otherwise null
+     */
     public Missile fire() {
         boolean success = tankDataModel.fire();
         if (!success)
@@ -77,6 +85,11 @@ public class GameTank extends GameObject {
         return this.tankDataModel;
     }
 
+    /**
+     * Decrease tank HP on missile hit
+     *
+     * @param missile Missile object that had hit that tank
+     */
     public void damage(Missile missile) {
         tankDataModel.decreaseHP(missile.getDamage());
         if (tankStateUI != null)

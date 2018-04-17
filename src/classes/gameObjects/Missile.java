@@ -4,6 +4,9 @@ import com.sun.istack.internal.Nullable;
 import javafx.geometry.Point2D;
 import javafx.scene.image.Image;
 
+/**
+ * Missile, main and only damage object
+ */
 public class Missile extends GameObject {
     private double speed;
     private int srcTankId;
@@ -17,19 +20,34 @@ public class Missile extends GameObject {
         this.DAMAGE = damage;
     }
 
-
+    /**
+     * @return Missile speed
+     */
     public double getSpeed() {
         return speed;
     }
 
+    /**
+     * Gets tank source id
+     *
+     * @return ID
+     */
     public int getSrcTankId() {
         return srcTankId;
     }
 
+    /**
+     * @return Missile damage in HP
+     */
     public double getDamage() {
         return DAMAGE;
     }
 
+    /**
+     * Keeps object hit by the missile
+     *
+     * @param objectHit
+     */
     public void setObjectHit(GameObject objectHit) {
         this.objectHit = objectHit;
     }

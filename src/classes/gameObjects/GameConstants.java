@@ -3,6 +3,9 @@ package classes.gameObjects;
 import javafx.geometry.Point2D;
 import javafx.util.Pair;
 
+/**
+ * Constants used by View component
+ */
 public class GameConstants {
     public final static Point2D missileCentre = new Point2D(5d, 5d);
     public final static Point2D chassisCentre = new Point2D(31.5, 61.5);
