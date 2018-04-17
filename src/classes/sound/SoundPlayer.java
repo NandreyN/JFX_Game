@@ -8,6 +8,10 @@ import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Class is responsible for playing game sounds on some events
+ * Will be refactored using Events
+ */
 public class SoundPlayer {
     private static final String SHOT_SOUND = "sounds/shot.mp3";
     private static final String MOVE_SOUND = "sounds/move.mp3";
@@ -31,6 +35,11 @@ public class SoundPlayer {
         moveSound = new AudioClip(new File(MOVE_SOUND).toURI().toString());
     }
 
+    /**
+     * Play sound
+     *
+     * @param type Type of sound
+     */
     public void play(SoundTypes type) {
         switch (type) {
             case EXPLOSION:
@@ -46,6 +55,10 @@ public class SoundPlayer {
         }
     }
 
+    /**
+     * Stop playing move sound on tank stop
+     * Move sound is rather long to sound acceptably
+     */
     public void stopMoveSound() {
         moveSound.stop();
     }

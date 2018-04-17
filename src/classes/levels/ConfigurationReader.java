@@ -28,6 +28,10 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Scanner;
 
+/**
+ * Class for parsing level configuration files
+ * and setting up level game scene
+ */
 public class ConfigurationReader {
     private static int MAX_LEVEL = 2;
     private static String LEVEL_FOLDER = "config\\levels\\";
@@ -45,6 +49,13 @@ public class ConfigurationReader {
     public ConfigurationReader() {
     }
 
+    /**
+     * Loads level with provided number
+     *
+     * @param level level id
+     * @return List of GameObjects to be added to the game scene except og Player`s tank
+     * @throws FileNotFoundException
+     */
     private List<GameObject> loadLevel(int level) throws FileNotFoundException {
         Scanner in = new Scanner(new File(LEVEL_FOLDER + level + ".txt"));
         List<GameObject> gameList = new ArrayList<>();
@@ -120,6 +131,11 @@ public class ConfigurationReader {
         return gameList;
     }
 
+    /**
+     * Shown on level completed
+     *
+     * @return Load next level or close the game
+     */
     private boolean askToContinueDialog() {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Level completed");
