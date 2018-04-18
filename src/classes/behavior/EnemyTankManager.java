@@ -205,15 +205,12 @@ public class EnemyTankManager implements MediaDisposer.Disposable, EventHandler<
         this.player = tankManager;
         for (int i = 0; i < enemyTanks.size(); i++) {
             int finalI = i;
-            enemyTanks.get(i).isAliveProperty().addListener(new ChangeListener<Boolean>() {
-                @Override
-                public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
-                    if (!enemyTanks.get(finalI).tankModel.getTank().isAlive() || !areAlive.get(finalI)) {
-                        areAlive.set(finalI, false);
-                        Platform.runLater(() -> stateUpdateTimers.get(finalI).stop());
-                        tanksAliveCount.set(tanksAliveCount.get() - 1);
-                        activities.get(finalI).dispose();
-                    }
+            enemyTanks.get(i).isAliveProperty().addListener((observable, oldValue, newValue) -> {
+                if (!enemyTanks.get(finalI).tankModel.getTank().isAlive() || !areAlive.get(finalI)) {
+                    areAlive.set(finalI, false);
+                    Platform.runLater(() -> stateUpdateTimers.get(finalI).stop());
+                    tanksAliveCount.set(tanksAliveCount.get() - 1);
+                    activities.get(finalI).dispose();
                 }
             });
             stateUpdateTimers.add(new Timer(TIMER_DELAY, e -> {
@@ -252,7 +249,9 @@ public class EnemyTankManager implements MediaDisposer.Disposable, EventHandler<
         for (int i = 0; i < enemyTanks.size(); i++) {
             if (stateUpdateTimers.get(i) != null && stateUpdateTimers.get(i).isRunning())
                 stateUpdateTimers.get(i).stop();
-            activities.get(i).dispose();
         }
+        activities.forEach(Activity::dispose);
+        enemyTanks.forEach(TankController::dispose);
+        player.dispose();
     }
 }

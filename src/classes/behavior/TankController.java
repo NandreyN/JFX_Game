@@ -50,6 +50,7 @@ public class TankController extends AbstractTankController implements EventTarge
     private AnchorPane uIParent;
     private Shape border;
     private SoundPlayer soundPlayer;
+    private Timer aliveChecker;
 
     private BooleanProperty isAliveProperty;
 
@@ -224,11 +225,9 @@ public class TankController extends AbstractTankController implements EventTarge
         this.uIParent.getChildren().removeAll(chassisView, turretView);
         this.motionManager.unRegister(tankModel);
         soundPlayer.play(SoundPlayer.SoundTypes.EXPLOSION);
+        aliveChecker.stop();
         if (border != null)
-            Platform.runLater(() -> {
-                uIParent.getChildren().remove(border);
-            });
-        soundPlayer.stopMoveSound();
+            Platform.runLater(() -> uIParent.getChildren().remove(border));
     }
 
     /**
@@ -237,13 +236,14 @@ public class TankController extends AbstractTankController implements EventTarge
      */
     private void setAliveChecker() {
         final int CHECK_DELAY = 10;
-        new Timer(CHECK_DELAY, (e) -> {
+        aliveChecker = new Timer(CHECK_DELAY, (e) -> {
             if (!tankModel.getTank().isAlive()) {
                 isAliveProperty.set(false);
-                Platform.runLater(this::dispose);
                 ((Timer) e.getSource()).stop();
+                Platform.runLater(this::dispose);
             }
-        }).start();
+        });
+        aliveChecker.start();
     }
 
     public double getDirectionAngle() {

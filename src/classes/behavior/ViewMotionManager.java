@@ -341,10 +341,10 @@ public class ViewMotionManager implements Observer {
         Platform.runLater(() -> {
             parent.getChildren().add(image);
             new Timer(duration, (event) -> {
+                ((Timer) event.getSource()).stop();
                 Platform.runLater(() -> {
                     parent.getChildren().remove(image);
                 });
-                ((Timer) event.getSource()).stop();
             }).start();
         });
     }

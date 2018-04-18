@@ -181,12 +181,14 @@ public class ConfigurationReader {
                     Stage s = createAndShowStage(sceneLoader.getGameKilledScene(globalPane.getWidth(), globalPane.getHeight()));
                     boolean shouldContinue = askToContinueDialog();
                     if (!shouldContinue) {
+                        s.close();
                         ResourceDisposer.getInstance().disposeAll();
-                        Platform.runLater(Platform::exit);
+                        Platform.exit();
                         return;
                     }
                     s.close();
                     try {
+                        ResourceDisposer.getInstance().disposeAll();
                         setupLevel(0, infoPanel, gameFieldPane, globalPane);
                     } catch (FileNotFoundException e) {
                         System.out.println(e.getMessage());
@@ -206,12 +208,14 @@ public class ConfigurationReader {
                     boolean shouldContinue = askToContinueDialog();
                     if (!shouldContinue) {
                         ResourceDisposer.getInstance().disposeAll();
-                        Platform.runLater(Platform::exit);
+                        s.close();
+                        Platform.exit();
                         return;
                     }
                     gameFieldPane.getChildren().clear();
                     try {
                         s.close();
+                        ResourceDisposer.getInstance().disposeAll();
                         setupLevel(level + 1, infoPanel, gameFieldPane, globalPane);
                     } catch (FileNotFoundException e) {
                         System.out.println(e.getMessage());

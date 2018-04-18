@@ -1,10 +1,13 @@
 package view;
 
 import javafx.application.Application;
+import javafx.application.Platform;
+import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 import view.scenes.SceneLoader;
 
 public class Main extends Application {
@@ -19,7 +22,10 @@ public class Main extends Application {
         primaryStage.show();
         root.requestFocus();
 
-        primaryStage.setOnCloseRequest(event -> System.exit(0));
+        primaryStage.setOnCloseRequest(t -> {
+            Platform.exit();
+            System.exit(0);
+        });
     }
 
     public static void main(String[] args) {
