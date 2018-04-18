@@ -1,9 +1,12 @@
 package classes.behavior;
 
 import classes.gameObjects.GameTank;
+import com.sun.media.jfxmediaimpl.MediaDisposer;
 import javafx.application.Platform;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.scene.input.KeyCode;
@@ -26,7 +29,7 @@ import java.util.Random;
  * Includes two timers: action,inactivity
  * action timer should be killed when new action is triggered
  */
-class Activity implements Closeable {
+class Activity implements MediaDisposer.Disposable {
     private Timer inactivityTimer, actionTimer;
     private TankController tankController;
     private static final int TIMER_DELAY = 50;
@@ -149,7 +152,7 @@ class Activity implements Closeable {
     }
 
     @Override
-    public void close() {
+    public void dispose() {
         inactivityTimer.stop();
         actionTimer.stop();
     }
@@ -160,7 +163,7 @@ class Activity implements Closeable {
  * Includes timers which are dedicated to checking whether tank is alive
  * or not and triggering fire event to hit player`s tank
  */
-public class EnemyTankManager implements AutoCloseable, EventHandler<Event> {
+public class EnemyTankManager implements MediaDisposer.Disposable, EventHandler<Event> {
     private List<TankController> enemyTanks;
     private List<Timer> stateUpdateTimers;
     private List<Boolean> areAlive;
@@ -185,6 +188,7 @@ public class EnemyTankManager implements AutoCloseable, EventHandler<Event> {
         for (TankController enemyTank : enemyTanks) activities.add(new Activity(enemyTank));
 
         tanksAliveCount = new SimpleIntegerProperty(tanks.size());
+        ResourceDisposer.getInstance().add(this);
     }
 
     @Override
@@ -201,14 +205,18 @@ public class EnemyTankManager implements AutoCloseable, EventHandler<Event> {
         this.player = tankManager;
         for (int i = 0; i < enemyTanks.size(); i++) {
             int finalI = i;
-            stateUpdateTimers.add(new Timer(TIMER_DELAY, e -> {
-                if (!enemyTanks.get(finalI).tankModel.getTank().isAlive() || !areAlive.get(finalI)) {
-                    areAlive.set(finalI, false);
-                    Platform.runLater(() -> stateUpdateTimers.get(finalI).stop());
-                    tanksAliveCount.set(tanksAliveCount.get() - 1);
-                    activities.get(finalI).close();
-                    return;
+            enemyTanks.get(i).isAliveProperty().addListener(new ChangeListener<Boolean>() {
+                @Override
+                public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+                    if (!enemyTanks.get(finalI).tankModel.getTank().isAlive() || !areAlive.get(finalI)) {
+                        areAlive.set(finalI, false);
+                        Platform.runLater(() -> stateUpdateTimers.get(finalI).stop());
+                        tanksAliveCount.set(tanksAliveCount.get() - 1);
+                        activities.get(finalI).dispose();
+                    }
                 }
+            });
+            stateUpdateTimers.add(new Timer(TIMER_DELAY, e -> {
                 Event.fireEvent(enemyTanks.get(finalI), new javafx.scene.input.MouseEvent(
                         javafx.scene.input.MouseEvent.MOUSE_MOVED, player.tankModel.getLeftUpper().getX(),
                         player.tankModel.getLeftUpper().getY(), 0, 0, MouseButton.PRIMARY, 1, true, true, true, true,
@@ -227,17 +235,6 @@ public class EnemyTankManager implements AutoCloseable, EventHandler<Event> {
         }
     }
 
-
-    @Override
-    public void close() {
-        if (stateUpdateTimers == null)
-            return;
-        for (int i = 0; i < enemyTanks.size(); i++) {
-            if (stateUpdateTimers.get(i) != null && stateUpdateTimers.get(i).isRunning())
-                stateUpdateTimers.get(i).stop();
-        }
-    }
-
     /**
      * Tanks count which are alive at the moment.
      * Allows to detect level finish
@@ -246,5 +243,16 @@ public class EnemyTankManager implements AutoCloseable, EventHandler<Event> {
      */
     public IntegerProperty tanksAliveCountProperty() {
         return tanksAliveCount;
+    }
+
+    @Override
+    public void dispose() {
+        if (stateUpdateTimers == null)
+            return;
+        for (int i = 0; i < enemyTanks.size(); i++) {
+            if (stateUpdateTimers.get(i) != null && stateUpdateTimers.get(i).isRunning())
+                stateUpdateTimers.get(i).stop();
+            activities.get(i).dispose();
+        }
     }
 }

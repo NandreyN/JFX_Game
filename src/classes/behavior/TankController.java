@@ -51,6 +51,8 @@ public class TankController extends AbstractTankController implements EventTarge
     private Shape border;
     private SoundPlayer soundPlayer;
 
+    private BooleanProperty isAliveProperty;
+
     boolean canMoveForward = true, canRotateLeft = true, canRotateRight = true;
 
     public TankController(AnchorPane parent, GameTank tank) {
@@ -58,9 +60,13 @@ public class TankController extends AbstractTankController implements EventTarge
         this.tankModel = tank;
         motionManager = ViewMotionManager.getInstance();
         soundPlayer = SoundPlayer.getInstance();
+        isAliveProperty = new SimpleBooleanProperty(true);
+
         setTankImageView();
         setAliveChecker();
         trackBorder();
+
+        ResourceDisposer.getInstance().add(this);
     }
 
     /**
@@ -233,6 +239,7 @@ public class TankController extends AbstractTankController implements EventTarge
         final int CHECK_DELAY = 10;
         new Timer(CHECK_DELAY, (e) -> {
             if (!tankModel.getTank().isAlive()) {
+                isAliveProperty.set(false);
                 Platform.runLater(this::dispose);
                 ((Timer) e.getSource()).stop();
             }
@@ -243,4 +250,7 @@ public class TankController extends AbstractTankController implements EventTarge
         return chassisRotation.getAngle();
     }
 
+    public BooleanProperty isAliveProperty() {
+        return isAliveProperty;
+    }
 }

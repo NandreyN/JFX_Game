@@ -1,5 +1,7 @@
 package classes.sound;
 
+import classes.behavior.ResourceDisposer;
+import com.sun.media.jfxmediaimpl.MediaDisposer;
 import javafx.scene.media.AudioClip;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
@@ -12,11 +14,16 @@ import java.util.Map;
  * Class is responsible for playing game sounds on some events
  * Will be refactored using Events
  */
-public class SoundPlayer {
+public class SoundPlayer implements MediaDisposer.Disposable {
     private static final String SHOT_SOUND = "sounds/shot.mp3";
     private static final String MOVE_SOUND = "sounds/move.mp3";
     private static final String EXPLOSION_SOUND = "sounds/explosion.mp3";
     private AudioClip moveSound;
+
+    @Override
+    public void dispose() {
+        moveSound.stop();
+    }
 
     public enum SoundTypes {
         SHOT, MOVE, EXPLOSION
@@ -31,7 +38,9 @@ public class SoundPlayer {
         return soundPlayer;
     }
 
-    private SoundPlayer() {
+    private SoundPlayer()
+    {
+        ResourceDisposer.getInstance().add(this);
         moveSound = new AudioClip(new File(MOVE_SOUND).toURI().toString());
     }
 

@@ -1,5 +1,7 @@
 package view.infoPanel;
 
+import classes.behavior.ResourceDisposer;
+import com.sun.media.jfxmediaimpl.MediaDisposer;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.control.ProgressIndicator;
 import javafx.scene.layout.HBox;
@@ -9,7 +11,7 @@ import javax.swing.*;
 /**
  * UI component for displaying tank cooldown and current HP
  */
-public class InfoPanel extends HBox implements ITankStateUI {
+public class InfoPanel extends HBox implements ITankStateUI, MediaDisposer.Disposable {
     private ProgressBar hpIndicator;
     private ProgressIndicator cooldownIndicator;
     private final int HP_COUNT;
@@ -24,6 +26,7 @@ public class InfoPanel extends HBox implements ITankStateUI {
         this.cooldownIndicator = new ProgressIndicator(0);
         this.hpIndicator = new ProgressBar(1);
         this.getChildren().addAll(cooldownIndicator, hpIndicator);
+        ResourceDisposer.getInstance().add(this);
     }
 
     /**
@@ -63,5 +66,10 @@ public class InfoPanel extends HBox implements ITankStateUI {
         if (hpIndicator.getProgress() <= 0d)
             return false;
         return true;
+    }
+
+    @Override
+    public void dispose() {
+        cooldownTimer.stop();
     }
 }

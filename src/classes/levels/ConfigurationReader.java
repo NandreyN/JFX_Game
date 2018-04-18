@@ -1,6 +1,7 @@
 package classes.levels;
 
 import classes.behavior.EnemyTankManager;
+import classes.behavior.ResourceDisposer;
 import classes.behavior.UserInputHandler;
 import classes.behavior.ViewMotionManager;
 import classes.gameObjects.Box;
@@ -13,6 +14,7 @@ import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.geometry.Point2D;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.layout.AnchorPane;
@@ -20,6 +22,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import view.infoPanel.InfoPanel;
+import view.scenes.SceneLoader;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -37,6 +40,8 @@ public class ConfigurationReader {
     private static String LEVEL_FOLDER = "config\\levels\\";
     private static ConfigurationReader configurationReader;
 
+    private SceneLoader sceneLoader;
+
     private UserInputHandler inputHandler;
     private EnemyTankManager enemyTankManager;
 
@@ -47,6 +52,7 @@ public class ConfigurationReader {
     }
 
     public ConfigurationReader() {
+        sceneLoader = SceneLoader.getInstance();
     }
 
     /**
@@ -166,19 +172,46 @@ public class ConfigurationReader {
         inputHandler.getTankController().setUIInfo(infoPanel);
         ViewMotionManager.setupBoxes(boxes);
 
+        inputHandler.getTankController().isAliveProperty().addListener(new ChangeListener<Boolean>() {
+            @Override
+            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+                if (newValue)
+                    return;
+                Platform.runLater(() -> {
+                    Stage s = createAndShowStage(sceneLoader.getGameKilledScene(globalPane.getWidth(), globalPane.getHeight()));
+                    boolean shouldContinue = askToContinueDialog();
+                    if (!shouldContinue) {
+                        ResourceDisposer.getInstance().disposeAll();
+                        Platform.runLater(Platform::exit);
+                        return;
+                    }
+                    s.close();
+                    try {
+                        setupLevel(0, infoPanel, gameFieldPane, globalPane);
+                    } catch (FileNotFoundException e) {
+                        System.out.println(e.getMessage());
+                    }
+                });
+            }
+        });
+
         enemyTankManager.tanksAliveCountProperty().addListener((observable, oldValue, newValue) -> {
             if ((int) newValue > 0)
                 return;
             System.out.println("Level completed");
             if (level + 1 <= MAX_LEVEL) {
                 Platform.runLater(() -> {
+                    Stage s = createAndShowStage(sceneLoader.getGameLevelCompletedScene(globalPane.getWidth(), globalPane.getHeight()));
+
                     boolean shouldContinue = askToContinueDialog();
                     if (!shouldContinue) {
+                        ResourceDisposer.getInstance().disposeAll();
                         Platform.runLater(Platform::exit);
                         return;
                     }
                     gameFieldPane.getChildren().clear();
                     try {
+                        s.close();
                         setupLevel(level + 1, infoPanel, gameFieldPane, globalPane);
                     } catch (FileNotFoundException e) {
                         System.out.println(e.getMessage());
@@ -186,5 +219,14 @@ public class ConfigurationReader {
                 });
             }
         });
+    }
+
+    private Stage createAndShowStage(Scene scene) {
+        Stage stage = new Stage();
+        stage.initModality(Modality.APPLICATION_MODAL);
+        stage.setTitle("");
+        stage.setScene(scene);
+        stage.show();
+        return stage;
     }
 }

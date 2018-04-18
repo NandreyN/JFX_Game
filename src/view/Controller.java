@@ -33,7 +33,7 @@ public class Controller {
     }
 
     private void createAndSetupInfoPanel() {
-        infoPanel = new InfoPanel(1000);
+        infoPanel = new InfoPanel(1500);
         globalPane.setTop(infoPanel);
     }
 }

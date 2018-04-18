@@ -52,7 +52,7 @@ public class GameTank extends GameObject {
         if (!success)
             return null;
 
-        double damage = 100;
+        double damage = 500;
         double missileSpeed = 3;
 
         if (tankStateUI != null) {
