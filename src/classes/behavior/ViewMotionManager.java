@@ -3,6 +3,7 @@ package classes.behavior;
 import classes.gameObjects.*;
 import classes.gameObjects.Box;
 import classes.sound.SoundPlayer;
+import classes.tanks.parts.SAUTurret;
 import javafx.animation.PathTransition;
 import javafx.application.Platform;
 import javafx.geometry.Point2D;
@@ -116,6 +117,12 @@ public class ViewMotionManager implements Observer {
             manager.chassisRotation.setAngle(srcAngle);
             manager.canRotateLeft = false;
             manager.canMoveForward = false;
+            return;
+        }
+
+        if (manager.tankModel.getGameTurret().getTurret() instanceof SAUTurret) {
+            manager.tankModel.getGameTurret().setDirectionAngle(manager.chassisRotation.getAngle());
+            manager.turretRotation.setAngle(manager.chassisRotation.getAngle());
         }
     }
 
@@ -165,6 +172,12 @@ public class ViewMotionManager implements Observer {
             manager.chassisRotation.setAngle(srcAngle);
             manager.canRotateRight = false;
             manager.canMoveForward = false;
+            return;
+        }
+
+        if (manager.tankModel.getGameTurret().getTurret() instanceof SAUTurret) {
+            manager.tankModel.getGameTurret().setDirectionAngle(manager.chassisRotation.getAngle());
+            manager.turretRotation.setAngle(manager.chassisRotation.getAngle());
         }
     }
 
@@ -441,7 +454,7 @@ public class ViewMotionManager implements Observer {
      * objects
      *
      * @param object Current object
-     * @return Pair<Intersects       ,       What></>
+     * @return Pair<Intersects                                                               ,                                                               What></>
      */
     private Pair<Boolean, GameObject> intersects(GameObject object) {
         Shape originalObjShape = getGameObjectShape(object);
@@ -465,7 +478,7 @@ public class ViewMotionManager implements Observer {
      * Intersection with game borders
      *
      * @param o Current GameObject
-     * @return Pair<Intersects       ,               What></>
+     * @return Pair<Intersects                                                               ,                                                                                                                               What></>
      */
     private Pair<Boolean, Line> intersectsGameBorder(GameObject o) {
         double w = parent.getPrefWidth(), h = parent.getPrefHeight();

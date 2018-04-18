@@ -15,8 +15,8 @@ import java.awt.*;
 public class GameChassis extends GameObject {
     private IChassis chassis;
 
-    public GameChassis(@Nullable Image texture, Point2D centre) {
-        super(texture, centre);
+    public GameChassis(@Nullable Image texture, Point2D centre, double directionAngle) {
+        super(texture, centre, directionAngle);
     }
 
     /**

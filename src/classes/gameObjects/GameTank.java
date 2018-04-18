@@ -17,13 +17,13 @@ public class GameTank extends GameObject {
     private ITankStateUI tankStateUI;
 
     public GameTank(ITank tankModel,
-                    @Nullable Image texture, int textureId, Point2D leftUpper) {
-        super(texture, leftUpper);
+                    @Nullable Image texture, int textureId, Point2D leftUpper, double directionAngle) {
+        super(texture, leftUpper, directionAngle);
 
         chassis = new GameChassis(TextureLoader.getChassisTexture(textureId),
-                leftUpper);
+                leftUpper, directionAngle);
         turret = new GameTurret(TextureLoader.getTurretTexture(textureId),
-                leftUpper);
+                leftUpper,directionAngle);
 
         this.tankDataModel = tankModel;
         chassis.setChassis(tankModel.getChassis());
@@ -62,7 +62,7 @@ public class GameTank extends GameObject {
         }
 
         return new Missile(new Image("file:game_textures/Cut/missile.png"), turret.getLeftUpper(),
-                missileSpeed, getId(), damage);
+                missileSpeed, getId(), damage,0);
     }
 
     public void rotateTurret(double toAngle) {

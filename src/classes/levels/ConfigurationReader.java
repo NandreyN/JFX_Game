@@ -77,7 +77,7 @@ public class ConfigurationReader {
                         int capacity = Integer.parseInt(params[7]);
 
                         ITank tank = TankConstructor.createDrumTank(internal, external, capacity, hp, speedF, speedB, true);
-                        GameTank gameTank = new GameTank(tank, null, 2, new Point2D(posX, posY));
+                        GameTank gameTank = new GameTank(tank, null, 2, new Point2D(posX, posY), angle);
 
                         gameList.add(gameTank);
                     } else if (gunType.equals("cyclical")) {
@@ -87,7 +87,7 @@ public class ConfigurationReader {
                                 missileSpeed = Double.parseDouble(params[10]);
 
                         ITank tank = TankConstructor.createCyclicalTank(coolDown, hp, speedF, speedB, true);
-                        GameTank gameTank = new GameTank(tank, null, 2, new Point2D(posX, posY));
+                        GameTank gameTank = new GameTank(tank, null, 2, new Point2D(posX, posY), angle);
                         gameList.add(gameTank);
                     }
                     break;
@@ -95,7 +95,7 @@ public class ConfigurationReader {
                 case "box":
                     double x = Double.parseDouble(params[1]), y = Double.parseDouble(params[2]),
                             width = Double.parseDouble(params[3]), height = Double.parseDouble(params[4]);
-                    gameList.add(new Box(TextureLoader.getBoxTexture(), new Point2D(x, y), width, height));
+                    gameList.add(new Box(TextureLoader.getBoxTexture(), new Point2D(x, y), width, height, 0));
                     break;
                 case "tank":
                     String gunType = params[1];
@@ -108,7 +108,7 @@ public class ConfigurationReader {
                         int capacity = Integer.parseInt(params[7]);
 
                         ITank tank = TankConstructor.createDrumTank(internal, external, capacity, hp, speedF, speedB, false);
-                        GameTank gameTank = new GameTank(tank, null, 2, new Point2D(posX, posY));
+                        GameTank gameTank = new GameTank(tank, null, 2, new Point2D(posX, posY), angle);
                         gameList.add(gameTank);
                     } else if (gunType.equals("cyclical")) {
                         double coolDown = Double.parseDouble(params[5]),
@@ -117,7 +117,7 @@ public class ConfigurationReader {
                                 missileSpeed = Double.parseDouble(params[10]);
 
                         ITank tank = TankConstructor.createCyclicalTank(coolDown, hp, speedF, speedB, false);
-                        GameTank gameTank = new GameTank(tank, null, 2, new Point2D(posX, posY));
+                        GameTank gameTank = new GameTank(tank, null, 2, new Point2D(posX, posY), angle);
                         gameList.add(gameTank);
                     }
                     break;

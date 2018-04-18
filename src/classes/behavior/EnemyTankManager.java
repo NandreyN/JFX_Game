@@ -178,7 +178,7 @@ public class EnemyTankManager implements AutoCloseable, EventHandler<Event> {
         activities = new ArrayList<>();
 
         for (GameTank t : tanks) {
-            enemyTanks.add(new TankController(pane, t, 90));
+            enemyTanks.add(new TankController(pane, t));
             areAlive.add(true);
         }
 
@@ -241,6 +241,7 @@ public class EnemyTankManager implements AutoCloseable, EventHandler<Event> {
     /**
      * Tanks count which are alive at the moment.
      * Allows to detect level finish
+     *
      * @return number of alive tanks
      */
     public IntegerProperty tanksAliveCountProperty() {

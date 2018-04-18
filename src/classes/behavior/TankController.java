@@ -53,13 +53,12 @@ public class TankController extends AbstractTankController implements EventTarge
 
     boolean canMoveForward = true, canRotateLeft = true, canRotateRight = true;
 
-    public TankController(AnchorPane parent, GameTank tank, double orientationAngle) {
+    public TankController(AnchorPane parent, GameTank tank) {
         this.uIParent = parent;
         this.tankModel = tank;
-        initDefaultTank(orientationAngle);
         motionManager = ViewMotionManager.getInstance();
         soundPlayer = SoundPlayer.getInstance();
-        setTankImageView(orientationAngle);
+        setTankImageView();
         setAliveChecker();
         trackBorder();
     }
@@ -83,6 +82,7 @@ public class TankController extends AbstractTankController implements EventTarge
 
     /**
      * Apply UI panel for controller. UI panel displays cooldown and HP remaining
+     *
      * @param panel Game Info UI panel
      */
     public void setUIInfo(InfoPanel panel) {
@@ -94,7 +94,7 @@ public class TankController extends AbstractTankController implements EventTarge
      * Configures ImageView to display
      * Location, turretRotation and etc.
      */
-    private void setTankImageView(double initAngle) {
+    private void setTankImageView() {
         assert (tankModel != null) && (this.uIParent != null);
 
         // there i combine turret and chassis textures to
@@ -113,27 +113,17 @@ public class TankController extends AbstractTankController implements EventTarge
         turretRotation = new Rotate();
         turretRotation.setPivotX(GameConstants.turretConnectionPoint.getX());
         turretRotation.setPivotY(GameConstants.turretConnectionPoint.getY());
-        turretRotation.setAngle(initAngle);
+        turretRotation.setAngle(tankModel.getGameTurret().getDirectionAngle());
         turretView.getTransforms().add(turretRotation);
 
         chassisRotation = new Rotate();
         chassisRotation.setPivotX(GameConstants.turretOnChassis.getX());
         chassisRotation.setPivotY(GameConstants.turretOnChassis.getY());
-        chassisRotation.setAngle(initAngle);
+        chassisRotation.setAngle(tankModel.getGameChassis().getDirectionAngle());
         chassisView.getTransforms().add(chassisRotation);
 
         //viewGroup = new Group(chassisView, turretView);
         Platform.runLater(() -> this.uIParent.getChildren().addAll(chassisView, turretView));
-    }
-
-    /**
-     * Applies direction angle to tank model
-     * @param defaultAngle angle to face initially
-     */
-    private void initDefaultTank(double defaultAngle) {
-        this.tankModel.getGameTurret().setDirectionAngle(defaultAngle);
-        this.tankModel.getGameChassis().setDirectionAngle(defaultAngle);
-        this.tankModel.setDirectionAngle(defaultAngle);
     }
 
     @Override
@@ -152,6 +142,7 @@ public class TankController extends AbstractTankController implements EventTarge
 
     /**
      * Stops playing move sound when tank stops
+     *
      * @param event KeyReleased event
      */
     private void stopMoveSound(KeyEvent event) {

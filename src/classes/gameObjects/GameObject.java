@@ -24,14 +24,14 @@ public abstract class GameObject extends Observable {
     private double directionAngle;
     private boolean isValid;
 
-    public GameObject(@Nullable Image texture, Point2D centre) {
+    public GameObject(@Nullable Image texture, Point2D centre, double directionAngle) {
         this.texture = texture;
         this.leftUpper = centre;
         if (texture != null) {
             this.displayedHeight = texture.getHeight();
             this.displayedWidth = texture.getWidth();
         }
-        directionAngle = 0;
+        this.directionAngle = directionAngle;
         id = ++INST_COUNT;
         bindToMotionManager();
         isValid = true;

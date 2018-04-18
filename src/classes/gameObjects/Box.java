@@ -10,8 +10,8 @@ import javafx.scene.image.Image;
 public class Box extends GameObject {
     private double height, width;
 
-    public Box(Image texture, Point2D centre, double width, double height) {
-        super(texture, centre);
+    public Box(Image texture, Point2D centre, double width, double height, double directionAngle) {
+        super(texture, centre,directionAngle);
         this.height = height;
         this.width = width;
     }

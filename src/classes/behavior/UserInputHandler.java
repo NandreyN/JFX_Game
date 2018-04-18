@@ -19,9 +19,9 @@ public class UserInputHandler {
     public UserInputHandler(AnchorPane pane, BorderPane eventPane) {
         if (pane == null)
             throw new NullPointerException("pane");
-        ITank tank = TankConstructor.createCyclicalTank(4, 1500, 3, 1, false);
-        GameTank gameTank = new GameTank(tank, null, 1, new Point2D(60, 60));
-        tankController = new TankController(pane, gameTank, 1);
+        ITank tank = TankConstructor.createCyclicalTank(4, 1500, 3, 1, true);
+        GameTank gameTank = new GameTank(tank, null, 1, new Point2D(60, 60), 0);
+        tankController = new TankController(pane, gameTank);
 
         setupKeyboardListener(eventPane);
         setupMouseClickListeners(eventPane);
@@ -52,6 +52,7 @@ public class UserInputHandler {
 
     /**
      * Simple getter
+     *
      * @return controller of tank managed by user
      */
     public TankController getTankController() {
