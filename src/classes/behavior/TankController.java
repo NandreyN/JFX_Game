@@ -54,7 +54,7 @@ public class TankController extends AbstractTankController implements EventTarge
 
     private BooleanProperty isAliveProperty;
 
-    boolean canMoveForward = true, canRotateLeft = true, canRotateRight = true;
+    boolean canMoveForward = true, canRotateLeft = true, canRotateRight = true, isDisposed = false;
 
     public TankController(AnchorPane parent, GameTank tank) {
         this.uIParent = parent;
@@ -68,6 +68,10 @@ public class TankController extends AbstractTankController implements EventTarge
         trackBorder();
 
         ResourceDisposer.getInstance().add(this);
+    }
+
+    public boolean isDisposed() {
+        return isDisposed;
     }
 
     /**
@@ -109,7 +113,6 @@ public class TankController extends AbstractTankController implements EventTarge
 
         chassisView = new ImageView(tankModel.getGameChassis().getTexture());
         turretView = new ImageView(tankModel.getGameTurret().getTexture());
-        turretView.setBlendMode(BlendMode.SRC_OVER);
 
         chassisView.setTranslateX(tankModel.getGameChassis().getLeftUpper().getX());
         chassisView.setTranslateY(tankModel.getGameChassis().getLeftUpper().getY());
@@ -135,6 +138,9 @@ public class TankController extends AbstractTankController implements EventTarge
 
     @Override
     public void handle(Event event) {
+        if (isDisposed)
+            return;
+
         EventType eventType = event.getEventType();
         if (eventType.equals(MouseEvent.MOUSE_CLICKED))
             Platform.runLater(() -> handleMouseClickEvent((MouseEvent) event));
@@ -220,12 +226,12 @@ public class TankController extends AbstractTankController implements EventTarge
      */
     @Override
     public void dispose() {
-        if (this.uIParent == null)
-            return;
-        this.uIParent.getChildren().removeAll(chassisView, turretView);
-        this.motionManager.unRegister(tankModel);
-        soundPlayer.play(SoundPlayer.SoundTypes.EXPLOSION);
+        isDisposed = true;
         aliveChecker.stop();
+        if (this.uIParent != null)
+            Platform.runLater(() -> this.uIParent.getChildren().removeAll(chassisView, turretView));
+        this.motionManager.unRegister(tankModel);
+        soundPlayer.stopMoveSound();
         if (border != null)
             Platform.runLater(() -> uIParent.getChildren().remove(border));
     }
@@ -234,6 +240,7 @@ public class TankController extends AbstractTankController implements EventTarge
      * Checks tank HP using timer.
      * If it is negative, dispose tank
      */
+
     private void setAliveChecker() {
         final int CHECK_DELAY = 10;
         aliveChecker = new Timer(CHECK_DELAY, (e) -> {

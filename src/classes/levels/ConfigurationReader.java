@@ -13,19 +13,30 @@ import com.sun.javaws.exceptions.InvalidArgumentException;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
+import javafx.geometry.Insets;
 import javafx.geometry.Point2D;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.Label;
+import javafx.scene.effect.GaussianBlur;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import view.infoPanel.InfoPanel;
 import view.scenes.SceneLoader;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -36,7 +47,7 @@ import java.util.Scanner;
  * and setting up level game scene
  */
 public class ConfigurationReader {
-    private static int MAX_LEVEL = 2;
+    private static int MAX_LEVEL = 1;
     private static String LEVEL_FOLDER = "config\\levels\\";
     private static ConfigurationReader configurationReader;
 
@@ -172,65 +183,103 @@ public class ConfigurationReader {
         inputHandler.getTankController().setUIInfo(infoPanel);
         ViewMotionManager.setupBoxes(boxes);
 
-        inputHandler.getTankController().isAliveProperty().addListener(new ChangeListener<Boolean>() {
-            @Override
-            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
-                if (newValue)
-                    return;
-                Platform.runLater(() -> {
-                    Stage s = createAndShowStage(sceneLoader.getGameKilledScene(globalPane.getWidth(), globalPane.getHeight()));
-                    boolean shouldContinue = askToContinueDialog();
-                    if (!shouldContinue) {
-                        s.close();
-                        ResourceDisposer.getInstance().disposeAll();
-                        Platform.exit();
-                        return;
-                    }
-                    s.close();
-                    try {
-                        ResourceDisposer.getInstance().disposeAll();
-                        setupLevel(0, infoPanel, gameFieldPane, globalPane);
-                    } catch (FileNotFoundException e) {
-                        System.out.println(e.getMessage());
-                    }
-                });
-            }
+        inputHandler.getTankController().isAliveProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue)
+                return;
+            ResourceDisposer.getInstance().disposeAll();
+            Platform.runLater(() -> {
+                globalPane.setEffect(new GaussianBlur());
+
+                VBox pauseRoot = new VBox(5);
+                pauseRoot.getChildren().add(new Label("YOU ARE FUCKING DEAD"));
+                pauseRoot.setStyle("-fx-background-color: rgba(255, 255, 255, 0.8);");
+                pauseRoot.setAlignment(Pos.CENTER);
+                pauseRoot.setPadding(new Insets(20));
+
+                Button exit = new Button("Exit");
+                pauseRoot.getChildren().add(exit);
+
+
+                Stage popupStage = new Stage(StageStyle.TRANSPARENT);
+                popupStage.initModality(Modality.APPLICATION_MODAL);
+                popupStage.setScene(new Scene(pauseRoot, Color.TRANSPARENT));
+
+                exit.setOnAction((event -> {
+                    globalPane.setEffect(null);
+                    popupStage.hide();
+                    Platform.exit();
+                }));
+                popupStage.show();
+            });
         });
 
         enemyTankManager.tanksAliveCountProperty().addListener((observable, oldValue, newValue) -> {
             if ((int) newValue > 0)
                 return;
             System.out.println("Level completed");
-            if (level + 1 <= MAX_LEVEL) {
-                Platform.runLater(() -> {
-                    Stage s = createAndShowStage(sceneLoader.getGameLevelCompletedScene(globalPane.getWidth(), globalPane.getHeight()));
+            ResourceDisposer.getInstance().disposeAll();
 
-                    boolean shouldContinue = askToContinueDialog();
-                    if (!shouldContinue) {
-                        ResourceDisposer.getInstance().disposeAll();
-                        s.close();
+            if (level < MAX_LEVEL) {
+                Platform.runLater(() -> {
+                    globalPane.setEffect(new GaussianBlur());
+
+                    VBox pauseRoot = new VBox(5);
+                    pauseRoot.getChildren().add(new Label("Paused"));
+                    pauseRoot.setStyle("-fx-background-color: rgba(255, 255, 255, 0.8);");
+                    pauseRoot.setAlignment(Pos.CENTER);
+                    pauseRoot.setPadding(new Insets(20));
+
+                    Button resume = new Button("Resume");
+                    pauseRoot.getChildren().add(resume);
+                    Button cancel = new Button("Cancel");
+                    pauseRoot.getChildren().add(cancel);
+
+                    Stage popupStage = new Stage(StageStyle.TRANSPARENT);
+                    popupStage.initModality(Modality.APPLICATION_MODAL);
+                    popupStage.setScene(new Scene(pauseRoot, Color.TRANSPARENT));
+
+                    resume.setOnAction((event) -> {
+                        globalPane.setEffect(null);
+                        popupStage.hide();
+                        try {
+                            setupLevel(level + 1, infoPanel, gameFieldPane, globalPane);
+                        } catch (FileNotFoundException e) {
+                            e.printStackTrace();
+                        }
+                    });
+                    cancel.setOnAction((event -> {
+                        globalPane.setEffect(null);
+                        popupStage.hide();
                         Platform.exit();
-                        return;
-                    }
-                    gameFieldPane.getChildren().clear();
-                    try {
-                        s.close();
-                        ResourceDisposer.getInstance().disposeAll();
-                        setupLevel(level + 1, infoPanel, gameFieldPane, globalPane);
-                    } catch (FileNotFoundException e) {
-                        System.out.println(e.getMessage());
-                    }
+                    }));
+                    popupStage.show();
+                });
+            } else {
+                Platform.runLater(() -> {
+                    globalPane.setEffect(new GaussianBlur());
+
+                    VBox pauseRoot = new VBox(5);
+                    pauseRoot.getChildren().add(new Label("Paused"));
+                    pauseRoot.setStyle("-fx-background-color: rgba(255, 255, 255, 0.8);");
+                    pauseRoot.setAlignment(Pos.CENTER);
+                    pauseRoot.setPadding(new Insets(20));
+
+                    Button exit = new Button("Exit");
+                    pauseRoot.getChildren().add(exit);
+
+
+                    Stage popupStage = new Stage(StageStyle.TRANSPARENT);
+                    popupStage.initModality(Modality.APPLICATION_MODAL);
+                    popupStage.setScene(new Scene(pauseRoot, Color.TRANSPARENT));
+
+                    exit.setOnAction((event -> {
+                        globalPane.setEffect(null);
+                        popupStage.hide();
+                        Platform.exit();
+                    }));
+                    popupStage.show();
                 });
             }
         });
-    }
-
-    private Stage createAndShowStage(Scene scene) {
-        Stage stage = new Stage();
-        stage.initModality(Modality.APPLICATION_MODAL);
-        stage.setTitle("");
-        stage.setScene(scene);
-        stage.show();
-        return stage;
     }
 }

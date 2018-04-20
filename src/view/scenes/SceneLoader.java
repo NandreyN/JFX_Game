@@ -1,9 +1,13 @@
 package view.scenes;
 
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+
+import java.io.IOException;
 
 /**
  * Configures game scene and returns it
@@ -24,24 +28,22 @@ public class SceneLoader {
         this.mainStage = stage;
     }
 
-    public Scene getGameCompletedScene(double width, double height) {
-        AnchorPane pane = new AnchorPane();
-        pane.getChildren().add(new TextField("Completed"));
-        return new Scene(pane, width, height);
+    public Scene getGameCompletedScene(double width, double height) throws IOException {
+        Parent parent = loadFXML("gameCompleted");
+        return new Scene(parent, width, height);
     }
 
-    public Scene getGameKilledScene(double width, double height) {
-        AnchorPane pane = new AnchorPane();
-        pane.getChildren().add(new TextField("Потрачено"));
-        return new Scene(pane, width, height);
+    public Scene getGameKilledScene(double width, double height) throws IOException {
+        Parent parent = loadFXML("killed");
+        return new Scene(parent, width, height);
     }
 
-    public Scene getGameLevelCompletedScene(double width, double height) {
-        AnchorPane pane = new AnchorPane();
-        pane.getChildren().add(new TextField("Level completed"));
-        return new Scene(pane, width, height);
+    public Scene getGameLevelCompletedScene(double width, double height) throws IOException {
+        Parent parent = loadFXML("levelCompleted");
+        return new Scene(parent, width, height);
     }
 
-    public void removeStage(Scene scene) {
+    private Parent loadFXML(String name) throws IOException {
+        return FXMLLoader.load(getClass().getResource(name + ".fxml"));
     }
 }

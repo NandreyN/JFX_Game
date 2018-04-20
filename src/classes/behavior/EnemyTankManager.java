@@ -208,12 +208,14 @@ public class EnemyTankManager implements MediaDisposer.Disposable, EventHandler<
             enemyTanks.get(i).isAliveProperty().addListener((observable, oldValue, newValue) -> {
                 if (!enemyTanks.get(finalI).tankModel.getTank().isAlive() || !areAlive.get(finalI)) {
                     areAlive.set(finalI, false);
-                    Platform.runLater(() -> stateUpdateTimers.get(finalI).stop());
                     tanksAliveCount.set(tanksAliveCount.get() - 1);
                     activities.get(finalI).dispose();
                 }
             });
             stateUpdateTimers.add(new Timer(TIMER_DELAY, e -> {
+                if (!areAlive.get(finalI))
+                    stateUpdateTimers.get(finalI).stop();
+
                 Event.fireEvent(enemyTanks.get(finalI), new javafx.scene.input.MouseEvent(
                         javafx.scene.input.MouseEvent.MOUSE_MOVED, player.tankModel.getLeftUpper().getX(),
                         player.tankModel.getLeftUpper().getY(), 0, 0, MouseButton.PRIMARY, 1, true, true, true, true,
