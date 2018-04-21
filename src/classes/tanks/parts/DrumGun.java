@@ -9,6 +9,7 @@ public class DrumGun implements IGun, AutoCloseable {
     private int missilesAvailable;
 
     private Timer externalTimer, internalTimer;
+    private double missileSpeed, damage;
 
     /**
      * Initializes DrumGun class with its fire properties
@@ -16,12 +17,15 @@ public class DrumGun implements IGun, AutoCloseable {
      * @param internal_cooldown Cooldown in sec inside drum
      * @param external_cooldown Cooldown of drum in sec
      * @param capacity          Total missiles available in drum in bounds of external cooldown
+     * @param missileSpeed      Missile speed game info
+     * @param damage            Damage missile causes on hit
      */
-    public DrumGun(int internal_cooldown, int external_cooldown, int capacity) {
+    public DrumGun(int internal_cooldown, int external_cooldown, int capacity, double missileSpeed, double damage) {
         INTERNAL_COOLDOWN = internal_cooldown * 1000;
         EXTERNAL_COOLDOWN = external_cooldown * 1000;
         CAPACITY = capacity;
-
+        this.missileSpeed = missileSpeed;
+        this.damage = damage;
         missilesAvailable = 0;
         setupCooldownSystem();
         externalTimer.restart();
@@ -74,6 +78,16 @@ public class DrumGun implements IGun, AutoCloseable {
     @Override
     public double getNextCooldown() {
         return (missilesAvailable > 0) ? INTERNAL_COOLDOWN : EXTERNAL_COOLDOWN;
+    }
+
+    @Override
+    public double getMissileSpeed() {
+        return missileSpeed;
+    }
+
+    @Override
+    public double getDamage() {
+        return damage;
     }
 
     /**

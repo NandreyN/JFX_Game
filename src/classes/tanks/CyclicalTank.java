@@ -5,9 +5,9 @@ import classes.tanks.parts.*;
 public class CyclicalTank extends AbstractTank {
     private IGun gun;
 
-    public CyclicalTank(ITurret turret, IChassis chassis, int cooldown, int hp) {
-        super(turret, chassis,hp);
-        gun = new CyclicalGun(cooldown);
+    public CyclicalTank(ITurret turret, IChassis chassis, int cooldown, int hp, double missileSpeed, double damage) {
+        super(turret, chassis, hp);
+        gun = new CyclicalGun(cooldown, missileSpeed, damage);
     }
 
     @Override

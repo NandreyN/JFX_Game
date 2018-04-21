@@ -19,7 +19,7 @@ public class UserInputHandler {
     public UserInputHandler(AnchorPane pane, BorderPane eventPane) {
         if (pane == null)
             throw new NullPointerException("pane");
-        ITank tank = TankConstructor.createCyclicalTank(4, 1500, 3, 1, false);
+        ITank tank = TankConstructor.createCyclicalTank(4, 1500, 3, 1, false, 5, 1000);
         GameTank gameTank = new GameTank(tank, null, 1, new Point2D(60, 60), 0);
         tankController = new TankController(pane, gameTank);
 

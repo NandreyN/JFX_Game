@@ -6,12 +6,15 @@ public class CyclicalGun implements IGun, AutoCloseable {
     private final int COOLDOWN_MS;
     private Timer cooldownMaster;
     private boolean ready;
+    private double missileSpeed, damage;
 
-    public CyclicalGun(int cooldown) {
+    public CyclicalGun(int cooldown, double missileSpeed, double damage) {
         COOLDOWN_MS = cooldown * 1000;
         ready = false;
         setupCooldownSystem();
         cooldownMaster.start();
+        this.missileSpeed = missileSpeed;
+        this.damage = damage;
     }
 
     /**
@@ -46,6 +49,16 @@ public class CyclicalGun implements IGun, AutoCloseable {
     @Override
     public double getNextCooldown() {
         return COOLDOWN_MS;
+    }
+
+    @Override
+    public double getMissileSpeed() {
+        return this.missileSpeed;
+    }
+
+    @Override
+    public double getDamage() {
+        return this.damage;
     }
 
     /**

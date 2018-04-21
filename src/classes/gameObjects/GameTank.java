@@ -23,7 +23,7 @@ public class GameTank extends GameObject {
         chassis = new GameChassis(TextureLoader.getChassisTexture(textureId),
                 leftUpper, directionAngle);
         turret = new GameTurret(TextureLoader.getTurretTexture(textureId),
-                leftUpper,directionAngle);
+                leftUpper, directionAngle);
 
         this.tankDataModel = tankModel;
         chassis.setChassis(tankModel.getChassis());
@@ -52,17 +52,12 @@ public class GameTank extends GameObject {
         if (!success)
             return null;
 
-        double damage = 500;
-        double missileSpeed = 3;
-
         if (tankStateUI != null) {
             tankStateUI.cooldown(tankDataModel.getGun().getNextCooldown());
-            damage = 1000;
-            missileSpeed = GameConstants.playerMissileSpeed;
         }
 
         return new Missile(new Image("file:game_textures/Cut/missile.png"), turret.getLeftUpper(),
-                missileSpeed, getId(), damage,0);
+                tankDataModel.getGun().getMissileSpeed(), getId(), tankDataModel.getGun().getDamage(), 0);
     }
 
     public void rotateTurret(double toAngle) {

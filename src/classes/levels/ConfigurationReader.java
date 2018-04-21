@@ -93,7 +93,7 @@ public class ConfigurationReader {
                                 missileSpeed = Double.parseDouble(params[12]);
                         int capacity = Integer.parseInt(params[7]);
 
-                        ITank tank = TankConstructor.createDrumTank(internal, external, capacity, hp, speedF, speedB, true);
+                        ITank tank = TankConstructor.createDrumTank(internal, external, capacity, hp, speedF, speedB, true, missileSpeed, damage);
                         GameTank gameTank = new GameTank(tank, null, 2, new Point2D(posX, posY), angle);
 
                         gameList.add(gameTank);
@@ -103,7 +103,7 @@ public class ConfigurationReader {
                                 speedB = Double.parseDouble(params[8]), damage = Double.parseDouble(params[9]),
                                 missileSpeed = Double.parseDouble(params[10]);
 
-                        ITank tank = TankConstructor.createCyclicalTank(coolDown, hp, speedF, speedB, true);
+                        ITank tank = TankConstructor.createCyclicalTank(coolDown, hp, speedF, speedB, true, missileSpeed, damage);
                         GameTank gameTank = new GameTank(tank, null, 2, new Point2D(posX, posY), angle);
                         gameList.add(gameTank);
                     }
@@ -124,7 +124,7 @@ public class ConfigurationReader {
                                 missileSpeed = Double.parseDouble(params[12]);
                         int capacity = Integer.parseInt(params[7]);
 
-                        ITank tank = TankConstructor.createDrumTank(internal, external, capacity, hp, speedF, speedB, false);
+                        ITank tank = TankConstructor.createDrumTank(internal, external, capacity, hp, speedF, speedB, false, missileSpeed, damage);
                         GameTank gameTank = new GameTank(tank, null, 2, new Point2D(posX, posY), angle);
                         gameList.add(gameTank);
                     } else if (gunType.equals("cyclical")) {
@@ -133,7 +133,7 @@ public class ConfigurationReader {
                                 speedB = Double.parseDouble(params[8]), damage = Double.parseDouble(params[9]),
                                 missileSpeed = Double.parseDouble(params[10]);
 
-                        ITank tank = TankConstructor.createCyclicalTank(coolDown, hp, speedF, speedB, false);
+                        ITank tank = TankConstructor.createCyclicalTank(coolDown, hp, speedF, speedB, false, missileSpeed, damage);
                         GameTank gameTank = new GameTank(tank, null, 2, new Point2D(posX, posY), angle);
                         gameList.add(gameTank);
                     }
@@ -146,21 +146,6 @@ public class ConfigurationReader {
             }
         }
         return gameList;
-    }
-
-    /**
-     * Shown on level completed
-     *
-     * @return Load next level or close the game
-     */
-    private boolean askToContinueDialog() {
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setTitle("Level completed");
-        alert.setHeaderText("Look, a Confirmation Dialog");
-        alert.setContentText("Do you want to continue?");
-
-        Optional<ButtonType> result = alert.showAndWait();
-        return result.isPresent() && result.get() == ButtonType.OK;
     }
 
     public void setupLevel(int level, InfoPanel infoPanel, AnchorPane gameFieldPane, BorderPane globalPane) throws FileNotFoundException {
@@ -266,7 +251,6 @@ public class ConfigurationReader {
 
                     Button exit = new Button("Exit");
                     pauseRoot.getChildren().add(exit);
-
 
                     Stage popupStage = new Stage(StageStyle.TRANSPARENT);
                     popupStage.initModality(Modality.APPLICATION_MODAL);

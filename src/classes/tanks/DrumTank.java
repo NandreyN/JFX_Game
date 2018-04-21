@@ -9,9 +9,9 @@ public class DrumTank extends AbstractTank {
     private IGun gun;
 
     public DrumTank(ITurret turret, IChassis chassis, int internalCoolDown,
-                    int externalCooldown, int capacity, int hp) {
+                    int externalCooldown, int capacity, int hp, double missileSpeed, double damage) {
         super(turret, chassis, hp);
-        gun = new DrumGun(internalCoolDown, externalCooldown, capacity);
+        gun = new DrumGun(internalCoolDown, externalCooldown, capacity, missileSpeed, damage);
     }
 
     @Override
