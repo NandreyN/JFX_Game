@@ -8,8 +8,8 @@
   </information>
   <resources>
     <j2se version="1.6+" href="http://java.sun.com/products/autodl/j2se"/>
-    <jar href="JFX_Game.jar" size="61071" download="eager" />
+    <jar href="JFX_Game.jar" size="2861546" download="eager" />
   </resources>
-  <jfx:javafx-desc  width="1000" height="650" main-class="view.Main"  name="JFX_Game" />
+  <jfx:javafx-desc  width="600" height="400" main-class="view.Main"  name="JFX_Game" />
   <update check="background"/>
 </jnlp>

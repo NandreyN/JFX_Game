@@ -1,0 +1,12 @@
+@  Formats:
+@  For SAU:
+@ sau drum posX posY angle internal external capacity HP f_speed b_speed damage missile_speed
+@ sau cyclical posX posY angle cooldown HP f_speed b_speed damage missile_speed
+@  For TANK:
+@ tank ...
+@ tank ...
+@  For BOX:
+@ box posX posY width height
+@  INPUT:
+sau cyclical 800 20 -90 3 2500 2 2 500 3
+tank cyclical 800 500 180 5 3000 2 2 500 3
