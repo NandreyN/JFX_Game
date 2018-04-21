@@ -23,6 +23,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Shape;
 import javafx.scene.transform.Rotate;
+import view.infoPanel.ITankStateUI;
 import view.infoPanel.InfoPanel;
 
 import javax.swing.*;
@@ -96,7 +97,7 @@ public class TankController extends AbstractTankController implements EventTarge
      *
      * @param panel Game Info UI panel
      */
-    public void setUIInfo(InfoPanel panel) {
+    public void setUIInfo(ITankStateUI panel) {
         tankModel.setTankStateUI(panel);
         panel.cooldown(tankModel.getTank().getGun().getNextCooldown());
     }

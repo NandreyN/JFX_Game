@@ -11,6 +11,7 @@ import javafx.geometry.Point2D;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
+import view.infoPanel.ITankStateUI;
 import view.infoPanel.InfoPanel;
 
 import java.io.FileNotFoundException;
@@ -20,7 +21,7 @@ public class Controller {
     private AnchorPane gameFieldPane;
     @FXML
     private BorderPane globalPane;
-    private InfoPanel infoPanel;
+    private ITankStateUI infoPanel;
 
     private ConfigurationReader configReader;
 
@@ -34,6 +35,6 @@ public class Controller {
 
     private void createAndSetupInfoPanel() {
         infoPanel = new InfoPanel(1500);
-        globalPane.setTop(infoPanel);
+        globalPane.setTop((InfoPanel) infoPanel);
     }
 }

@@ -31,6 +31,7 @@ import javafx.scene.paint.Color;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import view.infoPanel.ITankStateUI;
 import view.infoPanel.InfoPanel;
 import view.scenes.SceneLoader;
 
@@ -148,7 +149,7 @@ public class ConfigurationReader {
         return gameList;
     }
 
-    public void setupLevel(int level, InfoPanel infoPanel, AnchorPane gameFieldPane, BorderPane globalPane) throws FileNotFoundException {
+    public void setupLevel(int level, ITankStateUI infoPanel, AnchorPane gameFieldPane, BorderPane globalPane) throws FileNotFoundException {
         ViewMotionManager.getInstance().dropBoxes();
 
         inputHandler = new UserInputHandler(gameFieldPane, globalPane);
