@@ -2,11 +2,10 @@ package classes.behavior;
 
 import classes.gameObjects.GameTank;
 import com.sun.media.jfxmediaimpl.MediaDisposer;
-import javafx.application.Platform;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.scene.input.KeyCode;
@@ -14,11 +13,12 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.util.Duration;
+import org.reactfx.util.FxTimer;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.Closeable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -30,14 +30,14 @@ import java.util.Random;
  * action timer should be killed when new action is triggered
  */
 class Activity implements MediaDisposer.Disposable {
-    private Timer inactivityTimer, actionTimer;
+    private Timeline actionTimeline;
     private TankController tankController;
     private static final int TIMER_DELAY = 50;
     private static final int MOVE_DURATION = 20;
 
     Activity(TankController controller) {
         this.tankController = controller;
-        startTrackingInactivity();
+        move(generateMoveTickTimes(), KeyCode.W);
     }
 
     /**
@@ -62,25 +62,13 @@ class Activity implements MediaDisposer.Disposable {
     }
 
     /**
-     * Whenever tank becomes inactive ,
-     * method generates some kind of Activity for it
-     */
-    private void startTrackingInactivity() {
-        inactivityTimer = new Timer(TIMER_DELAY, (e) -> {
-            if (actionTimer == null || !actionTimer.isRunning())
-                move(generateMoveTickTimes(), KeyCode.W);
-        });
-        inactivityTimer.start();
-    }
-
-    /**
      * Includes logic for emulating rotations for tanks , controlled by computer
      *
      * @param toAngle new angle to rotate to
      */
     private void rotate(double toAngle) {
-        if (actionTimer != null)
-            actionTimer.stop();
+        if (actionTimeline != null)
+            actionTimeline.stop();
 
         if (Math.abs(tankController.getDirectionAngle() - toAngle) <= 5) {
             rotate(generateNewDirection(90));
@@ -90,20 +78,23 @@ class Activity implements MediaDisposer.Disposable {
         boolean left = shouldRotateLeft(tankController.getDirectionAngle(), toAngle);
         KeyCode code = (left) ? KeyCode.A : KeyCode.D;
 
-        actionTimer = new Timer(TIMER_DELAY, (e) -> {
+        actionTimeline = new Timeline(new KeyFrame(Duration.millis(TIMER_DELAY), event -> {
             double tankAngle = tankController.getDirectionAngle();
             boolean canRotateLeft = (left) ? tankController.canRotateLeft : tankController.canRotateRight;
-            if (!canRotateLeft)
+            if (!canRotateLeft) {
+                actionTimeline.stop();
                 move(generateMoveTickTimes(), KeyCode.W);
+            }
             tankController.handle(new KeyEvent(KeyEvent.KEY_PRESSED, "",
                     "", code, false, false, false, false));
 
             if (Math.abs(tankAngle - toAngle) <= 5) {
+                actionTimeline.stop();
                 move(generateMoveTickTimes(), KeyCode.W);
             }
-
-        });
-        actionTimer.start();
+        }));
+        actionTimeline.setCycleCount(Timeline.INDEFINITE);
+        actionTimeline.play();
         System.out.println("Rotation to angle " + toAngle + " started");
     }
 
@@ -118,32 +109,28 @@ class Activity implements MediaDisposer.Disposable {
         if (keyCode != KeyCode.W && keyCode != KeyCode.S)
             return;
 
-        if (actionTimer != null)
-            actionTimer.stop();
+        if (actionTimeline != null)
+            actionTimeline.stop();
 
-        actionTimer = new Timer(TIMER_DELAY, new ActionListener() {
-            private int counter;
+        actionTimeline = new Timeline(new KeyFrame(Duration.millis(TIMER_DELAY), event -> {
+            tankController.handle(new KeyEvent(KeyEvent.KEY_PRESSED, "",
+                    "", keyCode, false, false, false, false));
+        }));
 
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                counter++;
-                if (counter >= n) {
-                    if (keyCode == KeyCode.S) {
-                        rotate(generateNewDirection(90));
-                        return;
-                    }
-                    if (tankController.canMoveForward) {
-                        move(generateMoveTickTimes(), KeyCode.W);
-                        return;
-                    }
-                    move(generateMoveTickTimes(), KeyCode.S);
-                    return;
-                }
-                tankController.handle(new KeyEvent(KeyEvent.KEY_PRESSED, "",
-                        "", keyCode, false, false, false, false));
+        actionTimeline.setOnFinished((event -> {
+            if (keyCode == KeyCode.S) {
+                rotate(generateNewDirection(90));
+                return;
             }
-        });
-        actionTimer.start();
+            if (tankController.canMoveForward) {
+                move(generateMoveTickTimes(), KeyCode.W);
+                return;
+            }
+            move(generateMoveTickTimes(), KeyCode.S);
+        }));
+
+        actionTimeline.setCycleCount(n);
+        actionTimeline.play();
         System.out.println("Started moving");
     }
 
@@ -153,8 +140,8 @@ class Activity implements MediaDisposer.Disposable {
 
     @Override
     public void dispose() {
-        inactivityTimer.stop();
-        actionTimer.stop();
+        if (actionTimeline != null)
+            actionTimeline.stop();
     }
 }
 
@@ -165,7 +152,7 @@ class Activity implements MediaDisposer.Disposable {
  */
 public class EnemyTankManager implements MediaDisposer.Disposable, EventHandler<Event> {
     private List<TankController> enemyTanks;
-    private List<Timer> stateUpdateTimers;
+    private List<Timeline> stateUpdateTimers;
     private List<Boolean> areAlive;
     private IntegerProperty tanksAliveCount;
 
@@ -212,7 +199,8 @@ public class EnemyTankManager implements MediaDisposer.Disposable, EventHandler<
                     activities.get(finalI).dispose();
                 }
             });
-            stateUpdateTimers.add(new Timer(TIMER_DELAY, e -> {
+
+            stateUpdateTimers.add(new Timeline(new KeyFrame(Duration.millis(TIMER_DELAY), event -> {
                 if (!areAlive.get(finalI))
                     stateUpdateTimers.get(finalI).stop();
 
@@ -221,16 +209,18 @@ public class EnemyTankManager implements MediaDisposer.Disposable, EventHandler<
                         player.tankModel.getLeftUpper().getY(), 0, 0, MouseButton.PRIMARY, 1, true, true, true, true,
                         true, true, true, true, true, true, null
                 ));
+
                 if (enemyTanks.get(finalI).tankModel.getTank().getGun().isReady())
                     Event.fireEvent(enemyTanks.get(finalI), new javafx.scene.input.MouseEvent(
                             MouseEvent.MOUSE_CLICKED, player.tankModel.getLeftUpper().getX(),
                             player.tankModel.getLeftUpper().getY(), 0, 0, MouseButton.PRIMARY, 1, true, true, true, true,
                             true, true, true, true, true, true, null
                     ));
-            }));
+            })));
         }
         for (int i = 0; i < enemyTanks.size(); i++) {
-            stateUpdateTimers.get(i).start();
+            stateUpdateTimers.get(i).setCycleCount(Timeline.INDEFINITE);
+            stateUpdateTimers.get(i).play();
         }
     }
 
@@ -249,7 +239,7 @@ public class EnemyTankManager implements MediaDisposer.Disposable, EventHandler<
         if (stateUpdateTimers == null)
             return;
         for (int i = 0; i < enemyTanks.size(); i++) {
-            if (stateUpdateTimers.get(i) != null && stateUpdateTimers.get(i).isRunning())
+            if (stateUpdateTimers.get(i) != null)
                 stateUpdateTimers.get(i).stop();
         }
         activities.forEach(Activity::dispose);

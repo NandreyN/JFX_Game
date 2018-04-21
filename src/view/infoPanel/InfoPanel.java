@@ -2,11 +2,12 @@ package view.infoPanel;
 
 import classes.behavior.ResourceDisposer;
 import com.sun.media.jfxmediaimpl.MediaDisposer;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.control.ProgressIndicator;
 import javafx.scene.layout.HBox;
-
-import javax.swing.*;
+import javafx.util.Duration;
 
 /**
  * UI component for displaying tank cooldown and current HP
@@ -16,7 +17,7 @@ public class InfoPanel extends HBox implements ITankStateUI, MediaDisposer.Dispo
     private ProgressIndicator cooldownIndicator;
     private final int HP_COUNT;
     private static final int TIMER_TICK = 50;
-    private Timer cooldownTimer;
+    private Timeline cooldownTimeline;
 
     /**
      * @param hpCount Total initial HP count of PLayer`s tank
@@ -33,8 +34,8 @@ public class InfoPanel extends HBox implements ITankStateUI, MediaDisposer.Dispo
      * Reset UI elements
      */
     public void reset() {
-        if (cooldownTimer != null && cooldownTimer.isRunning())
-            this.cooldownTimer.stop();
+        if (cooldownTimeline != null)
+            this.cooldownTimeline.stop();
         this.cooldownIndicator.setProgress(0);
         this.hpIndicator.setProgress(1);
     }
@@ -46,12 +47,14 @@ public class InfoPanel extends HBox implements ITankStateUI, MediaDisposer.Dispo
      */
     public void cooldown(double duration) {
         cooldownIndicator.setProgress(0);
-        cooldownTimer = new Timer(TIMER_TICK, (e) -> {
-            cooldownIndicator.setProgress(cooldownIndicator.getProgress() + TIMER_TICK / duration);
-            if (cooldownIndicator.getProgress() >= 1d)
-                ((Timer) e.getSource()).stop();
+        cooldownTimeline = new Timeline(new KeyFrame(Duration.millis(TIMER_TICK),
+                event -> cooldownIndicator.setProgress(cooldownIndicator.getProgress() + TIMER_TICK / duration)));
+        cooldownTimeline.setOnFinished(event -> {
+            if (cooldownIndicator.getProgress() < 1d)
+                cooldownTimeline.play();
         });
-        cooldownTimer.start();
+        cooldownTimeline.setCycleCount(1);
+        cooldownTimeline.play();
     }
 
     /**
@@ -63,13 +66,12 @@ public class InfoPanel extends HBox implements ITankStateUI, MediaDisposer.Dispo
     @Override
     public boolean decreaseHP(double byValue) {
         hpIndicator.setProgress(hpIndicator.getProgress() - byValue / HP_COUNT);
-        if (hpIndicator.getProgress() <= 0d)
-            return false;
-        return true;
+        return !(hpIndicator.getProgress() <= 0d);
     }
 
     @Override
     public void dispose() {
-        cooldownTimer.stop();
+        if (cooldownTimeline != null)
+            cooldownTimeline.stop();
     }
 }

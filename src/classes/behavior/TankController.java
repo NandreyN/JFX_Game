@@ -98,7 +98,7 @@ public class TankController extends AbstractTankController implements EventTarge
      */
     public void setUIInfo(InfoPanel panel) {
         tankModel.setTankStateUI(panel);
-        Platform.runLater(() -> panel.cooldown(tankModel.getTank().getGun().getNextCooldown()));
+        panel.cooldown(tankModel.getTank().getGun().getNextCooldown());
     }
 
     /**
@@ -166,32 +166,28 @@ public class TankController extends AbstractTankController implements EventTarge
     public void handleKeyboardEvent(KeyEvent event) {
         KeyCode code = event.getCode();
         trackBorder();
-        Platform.runLater(() -> {
-            switch (code) {
-                case W:
-                    motionManager.forwardMove(this);
-                    break;
-                case A:
-                    motionManager.turnLeft(this);
-                    break;
-                case S:
-                    motionManager.backwardsMove(this);
-                    break;
-                case D:
-                    motionManager.turnRight(this);
-                    break;
-                default:
-                    return;
-            }
-            soundPlayer.play(SoundPlayer.SoundTypes.MOVE);
-        });
+        switch (code) {
+            case W:
+                motionManager.forwardMove(this);
+                break;
+            case A:
+                motionManager.turnLeft(this);
+                break;
+            case S:
+                motionManager.backwardsMove(this);
+                break;
+            case D:
+                motionManager.turnRight(this);
+                break;
+            default:
+                return;
+        }
+        soundPlayer.play(SoundPlayer.SoundTypes.MOVE);
     }
 
     @Override
     public void handleMouseClickEvent(javafx.scene.input.MouseEvent event) {
-        Platform.runLater(() -> {
-            motionManager.fire(this);
-        });
+        motionManager.fire(this);
     }
 
     @Override
@@ -205,11 +201,9 @@ public class TankController extends AbstractTankController implements EventTarge
         double currY = turretView.getTranslateY();
 
         if (currY != sceneY) {
-            Platform.runLater(() -> {
-                double angle = Math.atan2(currY - sceneY, currX - sceneX);
-                angle = motionManager.rotateTurret(this, angle);
-                tankModel.getGameTurret().setDirectionAngle(angle);
-            });
+            double angle = Math.atan2(currY - sceneY, currX - sceneX);
+            angle = motionManager.rotateTurret(this, angle);
+            tankModel.getGameTurret().setDirectionAngle(angle);
         }
     }
 

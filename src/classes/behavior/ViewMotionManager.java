@@ -4,7 +4,9 @@ import classes.gameObjects.*;
 import classes.gameObjects.Box;
 import classes.sound.SoundPlayer;
 import classes.tanks.parts.SAUTurret;
+import javafx.animation.KeyFrame;
 import javafx.animation.PathTransition;
+import javafx.animation.Timeline;
 import javafx.application.Platform;
 import javafx.geometry.Point2D;
 import javafx.scene.Node;
@@ -314,10 +316,11 @@ public class ViewMotionManager implements Observer {
 
         ImageView missileImView = configureImageView(missile.getTexture(), x, y,
                 missile.getDisplayedWidth(), missile.getDisplayedHeight(), true);
+
         parent.getChildren().add(missileImView);
         missileImView.setVisible(true);
-        new Timer(MISSILE_MOVE_DELAY, (e) -> {
-            //move
+
+        Timeline missileTimeline = new Timeline(new KeyFrame(Duration.millis(MISSILE_MOVE_DELAY), event -> {
             double dx = Math.abs(missile.getSpeed() * Math.sin(a));
             double dy = Math.abs(missile.getSpeed() * Math.cos(a));
 
@@ -340,11 +343,10 @@ public class ViewMotionManager implements Observer {
                     new Point2D(oldMissile.getX() + missileConst.getX(), oldMissile.getY() + missileConst.getY()),
                     new Point2D(newMissile.getX() + missileConst.getX(), newMissile.getY() + missileConst.getY()));
             if (!missile.isValid()) {
-                ((Timer) (e.getSource())).stop();
-                Platform.runLater(() -> {
-                    parent.getChildren().remove(missileImView);
-                    observables.remove(missile);
-                });
+                //Platform.runLater(() -> {
+                parent.getChildren().remove(missileImView);
+                observables.remove(missile);
+                //});
 
                 if (missile.getObjectHit() != null) {
                     ImageView flame = configureImageView(Animations.getExplosionAnimation(), missile.getObjectHit().getLeftUpper().getX(),
@@ -353,19 +355,25 @@ public class ViewMotionManager implements Observer {
                     startAnimation(flame, 1000);
                     SoundPlayer.getInstance().play(SoundPlayer.SoundTypes.EXPLOSION);
                     if (missile.getObjectHit() != null && missile.getObjectHit() instanceof GameTank) {
-                        Platform.runLater(() -> {
-                            ((GameTank) missile.getObjectHit()).damage(missile);
-                            if (!((GameTank) missile.getObjectHit()).getTank().isAlive()) {
-                                System.out.println("target destroyed");
-                            }
-                        });
-
+                        //Platform.runLater(() -> {
+                        ((GameTank) missile.getObjectHit()).damage(missile);
+                        if (!((GameTank) missile.getObjectHit()).getTank().isAlive()) {
+                            System.out.println("target destroyed");
+                        }
+                        //});
                     }
                 }
             } else {
                 missileTransition.play();
             }
-        }).start();
+        }));
+
+        missileTimeline.setOnFinished((event -> {
+            if (missile.getObjectHit() == null)
+                missileTimeline.play();
+        }));
+        missileTimeline.setCycleCount(1);
+        missileTimeline.play();
     }
 
     /**

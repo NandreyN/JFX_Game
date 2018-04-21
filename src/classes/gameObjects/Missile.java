@@ -12,7 +12,6 @@ public class Missile extends GameObject {
     private int srcTankId;
     private final double DAMAGE;
     private GameObject objectHit;
-
     public Missile(@Nullable Image texture, Point2D centre, double speed, int srcTankId, double damage, double directionAngle) {
         super(texture, centre, directionAngle);
         this.speed = speed;
