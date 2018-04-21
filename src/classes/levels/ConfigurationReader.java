@@ -47,7 +47,7 @@ import java.util.Scanner;
  * and setting up level game scene
  */
 public class ConfigurationReader {
-    private static int MAX_LEVEL = 1;
+    private static int MAX_LEVEL = 3;
     private static String LEVEL_FOLDER = "config\\levels\\";
     private static ConfigurationReader configurationReader;
 
@@ -149,7 +149,7 @@ public class ConfigurationReader {
     }
 
     public void setupLevel(int level, InfoPanel infoPanel, AnchorPane gameFieldPane, BorderPane globalPane) throws FileNotFoundException {
-        ViewMotionManager.getInstance().reset();
+        ViewMotionManager.getInstance().dropBoxes();
 
         inputHandler = new UserInputHandler(gameFieldPane, globalPane);
         List<GameObject> gameLevelObjects = loadLevel(level);
@@ -162,6 +162,7 @@ public class ConfigurationReader {
             else if (o instanceof Box)
                 boxes.add((Box) o);
 
+        tanks.forEach((x) -> ResourceDisposer.getInstance().add(x));
         enemyTankManager = new EnemyTankManager(gameFieldPane, tanks);
         enemyTankManager.startTrackingPlayersTank(inputHandler.getTankController());
         infoPanel.reset();
@@ -176,7 +177,7 @@ public class ConfigurationReader {
                 globalPane.setEffect(new GaussianBlur());
 
                 VBox pauseRoot = new VBox(5);
-                pauseRoot.getChildren().add(new Label("YOU ARE FUCKING DEAD"));
+                pauseRoot.getChildren().add(new Label("You are dead, try again"));
                 pauseRoot.setStyle("-fx-background-color: rgba(255, 255, 255, 0.8);");
                 pauseRoot.setAlignment(Pos.CENTER);
                 pauseRoot.setPadding(new Insets(20));
@@ -190,6 +191,7 @@ public class ConfigurationReader {
                 popupStage.setScene(new Scene(pauseRoot, Color.TRANSPARENT));
 
                 exit.setOnAction((event -> {
+                    ResourceDisposer.getInstance().disposeAll();
                     globalPane.setEffect(null);
                     popupStage.hide();
                     Platform.exit();
@@ -201,7 +203,6 @@ public class ConfigurationReader {
         enemyTankManager.tanksAliveCountProperty().addListener((observable, oldValue, newValue) -> {
             if ((int) newValue > 0)
                 return;
-            System.out.println("Level completed");
             ResourceDisposer.getInstance().disposeAll();
 
             if (level < MAX_LEVEL) {
@@ -209,15 +210,15 @@ public class ConfigurationReader {
                     globalPane.setEffect(new GaussianBlur());
 
                     VBox pauseRoot = new VBox(5);
-                    pauseRoot.getChildren().add(new Label("Paused"));
+                    pauseRoot.getChildren().add(new Label("Level completed"));
                     pauseRoot.setStyle("-fx-background-color: rgba(255, 255, 255, 0.8);");
                     pauseRoot.setAlignment(Pos.CENTER);
                     pauseRoot.setPadding(new Insets(20));
 
-                    Button resume = new Button("Resume");
+                    Button resume = new Button("Continue");
                     pauseRoot.getChildren().add(resume);
-                    Button cancel = new Button("Cancel");
-                    pauseRoot.getChildren().add(cancel);
+                    Button exit = new Button("exit");
+                    pauseRoot.getChildren().add(exit);
 
                     Stage popupStage = new Stage(StageStyle.TRANSPARENT);
                     popupStage.initModality(Modality.APPLICATION_MODAL);
@@ -232,7 +233,7 @@ public class ConfigurationReader {
                             e.printStackTrace();
                         }
                     });
-                    cancel.setOnAction((event -> {
+                    exit.setOnAction((event -> {
                         globalPane.setEffect(null);
                         popupStage.hide();
                         Platform.exit();
@@ -244,7 +245,7 @@ public class ConfigurationReader {
                     globalPane.setEffect(new GaussianBlur());
 
                     VBox pauseRoot = new VBox(5);
-                    pauseRoot.getChildren().add(new Label("Paused"));
+                    pauseRoot.getChildren().add(new Label("Game passed"));
                     pauseRoot.setStyle("-fx-background-color: rgba(255, 255, 255, 0.8);");
                     pauseRoot.setAlignment(Pos.CENTER);
                     pauseRoot.setPadding(new Insets(20));

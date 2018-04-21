@@ -23,4 +23,9 @@ public class DrumTank extends AbstractTank {
     public IGun getGun() {
         return gun;
     }
+
+    @Override
+    public void dispose() {
+        ((DrumGun) gun).dispose();
+    }
 }

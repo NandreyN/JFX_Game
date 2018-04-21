@@ -11,7 +11,7 @@ public class Box extends GameObject {
     private double height, width;
 
     public Box(Image texture, Point2D centre, double width, double height, double directionAngle) {
-        super(texture, centre,directionAngle);
+        super(texture, centre, directionAngle);
         this.height = height;
         this.width = width;
     }
@@ -34,5 +34,9 @@ public class Box extends GameObject {
     @Override
     public double getTextureWidth() {
         return getDisplayedWidth();
+    }
+
+    @Override
+    public void dispose() {
     }
 }

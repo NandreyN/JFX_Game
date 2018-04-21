@@ -33,4 +33,7 @@ public class GameChassis extends GameObject {
         return chassis;
     }
 
+    @Override
+    public void dispose() {
+    }
 }

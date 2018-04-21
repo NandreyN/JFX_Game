@@ -19,4 +19,9 @@ public class CyclicalTank extends AbstractTank {
     public IGun getGun() {
         return this.gun;
     }
+
+    @Override
+    public void dispose() {
+        ((CyclicalGun) gun).dispose();
+    }
 }

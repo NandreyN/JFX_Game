@@ -2,8 +2,9 @@ package classes.tanks;
 
 import classes.tanks.parts.IChassis;
 import classes.tanks.parts.ITurret;
+import com.sun.media.jfxmediaimpl.MediaDisposer;
 
-public abstract class AbstractTank implements ITank {
+public abstract class AbstractTank implements ITank, MediaDisposer.Disposable {
     ITurret turret;
     IChassis chassis;
     private final double totalHP;

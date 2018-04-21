@@ -1,6 +1,7 @@
 package classes.gameObjects;
 
 import classes.levels.TextureLoader;
+import classes.tanks.AbstractTank;
 import classes.tanks.ITank;
 import com.sun.istack.internal.Nullable;
 import javafx.geometry.Point2D;
@@ -89,5 +90,10 @@ public class GameTank extends GameObject {
         tankDataModel.decreaseHP(missile.getDamage());
         if (tankStateUI != null)
             tankStateUI.decreaseHP(missile.getDamage());
+    }
+
+    @Override
+    public void dispose() {
+        tankDataModel.dispose();
     }
 }

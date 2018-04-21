@@ -1,8 +1,10 @@
 package classes.tanks.parts;
 
+import com.sun.media.jfxmediaimpl.MediaDisposer;
+
 import javax.swing.*;
 
-public class DrumGun implements IGun, AutoCloseable {
+public class DrumGun implements IGun, MediaDisposer.Disposable {
     private final int INTERNAL_COOLDOWN;
     private final int EXTERNAL_COOLDOWN;
     private final int CAPACITY;
@@ -91,20 +93,21 @@ public class DrumGun implements IGun, AutoCloseable {
     }
 
     /**
-     * Safe class deleting
-     */
-    @Override
-    public void close() {
-        if (externalTimer.isRunning())
-            externalTimer.stop();
-        if (internalTimer.isRunning())
-            internalTimer.stop();
-    }
-
-    /**
      * @return Get missiles count available in bounds of external cooldown
      */
     public int getMissilesAvailable() {
         return missilesAvailable;
+    }
+
+
+    /**
+     * Safe class deleting
+     */
+    @Override
+    public void dispose() {
+        if (externalTimer.isRunning())
+            externalTimer.stop();
+        if (internalTimer.isRunning())
+            internalTimer.stop();
     }
 }

@@ -1,8 +1,10 @@
 package classes.tanks.parts;
 
+import com.sun.media.jfxmediaimpl.MediaDisposer;
+
 import javax.swing.*;
 
-public class CyclicalGun implements IGun, AutoCloseable {
+public class CyclicalGun implements IGun, MediaDisposer.Disposable {
     private final int COOLDOWN_MS;
     private Timer cooldownMaster;
     private boolean ready;
@@ -65,7 +67,7 @@ public class CyclicalGun implements IGun, AutoCloseable {
      * Stops timer. Object can be deleted after that
      */
     @Override
-    public void close() {
+    public void dispose() {
         if (cooldownMaster.isRunning())
             cooldownMaster.stop();
     }

@@ -229,11 +229,21 @@ public class TankController extends AbstractTankController implements EventTarge
         isDisposed = true;
         aliveChecker.stop();
         if (this.uIParent != null)
-            Platform.runLater(() -> this.uIParent.getChildren().removeAll(chassisView, turretView));
+            Platform.runLater(() -> {
+                if (!chassisView.getTransforms().isEmpty()) {
+                    chassisView.getTransforms().clear();
+                }
+                if (!turretView.getTransforms().isEmpty()) {
+                    chassisView.getTransforms().clear();
+                }
+
+                this.uIParent.getChildren().removeAll(chassisView, turretView);
+            });
         this.motionManager.unRegister(tankModel);
         soundPlayer.stopMoveSound();
         if (border != null)
             Platform.runLater(() -> uIParent.getChildren().remove(border));
+        tankModel.dispose();
     }
 
     /**

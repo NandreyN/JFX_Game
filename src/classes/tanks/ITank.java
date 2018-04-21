@@ -40,4 +40,5 @@ public interface ITank {
     IChassis getChassis();
 
     IGun getGun();
+    public void dispose();
 }

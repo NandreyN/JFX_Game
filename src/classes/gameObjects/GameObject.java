@@ -14,7 +14,7 @@ import java.util.Observable;
  * and it`s appearance
  */
 
-public abstract class GameObject extends Observable {
+public abstract class GameObject extends Observable implements MediaDisposer.Disposable{
     private static int INST_COUNT = 0;
 
     private Point2D leftUpper;

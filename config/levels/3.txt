@@ -8,5 +8,6 @@
 @  For BOX:
 @ box posX posY width height
 @  INPUT:
-tank cyclical 800 200 40 4 1500 4 2 300 2
-box 600 250 150 150
+sau cyclical 800 20 -90 5 2500 2 2 500 3
+tank cyclical 800 500 180 5 3000 2 2 500 3
+tank cyclical 50 500 -90 5 4000 3 2 500 4

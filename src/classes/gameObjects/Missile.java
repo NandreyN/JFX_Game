@@ -55,4 +55,9 @@ public class Missile extends GameObject {
     public GameObject getObjectHit() {
         return objectHit;
     }
+
+    @Override
+    public void dispose() {
+
+    }
 }
