@@ -6,192 +6,7 @@
     </artifacts-to-build>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="cdb932d9-7e58-4d94-93a9-e7b232ef17da" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/JFX_Game/JFX_Game.html" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/JFX_Game/JFX_Game.jnlp" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/JFX_Game/bundles/JFX_Game.html" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/JFX_Game/bundles/JFX_Game.jnlp" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/JFX_Game/bundles/JFX_Game/JFX_Game.exe" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/JFX_Game/bundles/JFX_Game/JFX_Game.ico" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/JFX_Game/bundles/JFX_Game/app/JFX_Game.cfg" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/JFX_Game/bundles/JFX_Game/msvcp140.dll" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/JFX_Game/bundles/JFX_Game/packager.dll" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/JFX_Game/bundles/JFX_Game/runtime/COPYRIGHT" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/JFX_Game/bundles/JFX_Game/runtime/LICENSE" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/JFX_Game/bundles/JFX_Game/runtime/README.txt" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/JFX_Game/bundles/JFX_Game/runtime/THIRDPARTYLICENSEREADME-JAVAFX.txt" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/JFX_Game/bundles/JFX_Game/runtime/THIRDPARTYLICENSEREADME.txt" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/JFX_Game/bundles/JFX_Game/runtime/Welcome.html" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/JFX_Game/bundles/JFX_Game/runtime/bin/JAWTAccessBridge-32.dll" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/JFX_Game/bundles/JFX_Game/runtime/bin/JavaAccessBridge-32.dll" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/JFX_Game/bundles/JFX_Game/runtime/bin/WindowsAccessBridge-32.dll" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/JFX_Game/bundles/JFX_Game/runtime/bin/api-ms-win-core-console-l1-1-0.dll" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/JFX_Game/bundles/JFX_Game/runtime/bin/api-ms-win-core-datetime-l1-1-0.dll" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/JFX_Game/bundles/JFX_Game/runtime/bin/api-ms-win-core-debug-l1-1-0.dll" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/JFX_Game/bundles/JFX_Game/runtime/bin/api-ms-win-core-errorhandling-l1-1-0.dll" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/JFX_Game/bundles/JFX_Game/runtime/bin/api-ms-win-core-file-l1-1-0.dll" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/JFX_Game/bundles/JFX_Game/runtime/bin/api-ms-win-core-file-l1-2-0.dll" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/JFX_Game/bundles/JFX_Game/runtime/bin/api-ms-win-core-file-l2-1-0.dll" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/JFX_Game/bundles/JFX_Game/runtime/bin/api-ms-win-core-handle-l1-1-0.dll" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/JFX_Game/bundles/JFX_Game/runtime/bin/api-ms-win-core-heap-l1-1-0.dll" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/JFX_Game/bundles/JFX_Game/runtime/bin/api-ms-win-core-interlocked-l1-1-0.dll" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/JFX_Game/bundles/JFX_Game/runtime/bin/api-ms-win-core-libraryloader-l1-1-0.dll" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/JFX_Game/bundles/JFX_Game/runtime/bin/api-ms-win-core-localization-l1-2-0.dll" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/JFX_Game/bundles/JFX_Game/runtime/bin/api-ms-win-core-memory-l1-1-0.dll" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/JFX_Game/bundles/JFX_Game/runtime/bin/api-ms-win-core-namedpipe-l1-1-0.dll" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/JFX_Game/bundles/JFX_Game/runtime/bin/api-ms-win-core-processenvironment-l1-1-0.dll" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/JFX_Game/bundles/JFX_Game/runtime/bin/api-ms-win-core-processthreads-l1-1-0.dll" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/JFX_Game/bundles/JFX_Game/runtime/bin/api-ms-win-core-processthreads-l1-1-1.dll" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/JFX_Game/bundles/JFX_Game/runtime/bin/api-ms-win-core-profile-l1-1-0.dll" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/JFX_Game/bundles/JFX_Game/runtime/bin/api-ms-win-core-rtlsupport-l1-1-0.dll" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/JFX_Game/bundles/JFX_Game/runtime/bin/api-ms-win-core-string-l1-1-0.dll" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/JFX_Game/bundles/JFX_Game/runtime/bin/api-ms-win-core-synch-l1-1-0.dll" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/JFX_Game/bundles/JFX_Game/runtime/bin/api-ms-win-core-synch-l1-2-0.dll" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/JFX_Game/bundles/JFX_Game/runtime/bin/api-ms-win-core-sysinfo-l1-1-0.dll" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/JFX_Game/bundles/JFX_Game/runtime/bin/api-ms-win-core-timezone-l1-1-0.dll" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/JFX_Game/bundles/JFX_Game/runtime/bin/api-ms-win-core-util-l1-1-0.dll" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/JFX_Game/bundles/JFX_Game/runtime/bin/api-ms-win-crt-conio-l1-1-0.dll" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/JFX_Game/bundles/JFX_Game/runtime/bin/api-ms-win-crt-convert-l1-1-0.dll" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/JFX_Game/bundles/JFX_Game/runtime/bin/api-ms-win-crt-environment-l1-1-0.dll" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/JFX_Game/bundles/JFX_Game/runtime/bin/api-ms-win-crt-filesystem-l1-1-0.dll" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/JFX_Game/bundles/JFX_Game/runtime/bin/api-ms-win-crt-heap-l1-1-0.dll" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/JFX_Game/bundles/JFX_Game/runtime/bin/api-ms-win-crt-locale-l1-1-0.dll" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/JFX_Game/bundles/JFX_Game/runtime/bin/api-ms-win-crt-math-l1-1-0.dll" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/JFX_Game/bundles/JFX_Game/runtime/bin/api-ms-win-crt-multibyte-l1-1-0.dll" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/JFX_Game/bundles/JFX_Game/runtime/bin/api-ms-win-crt-private-l1-1-0.dll" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/JFX_Game/bundles/JFX_Game/runtime/bin/api-ms-win-crt-process-l1-1-0.dll" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/JFX_Game/bundles/JFX_Game/runtime/bin/api-ms-win-crt-runtime-l1-1-0.dll" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/JFX_Game/bundles/JFX_Game/runtime/bin/api-ms-win-crt-stdio-l1-1-0.dll" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/JFX_Game/bundles/JFX_Game/runtime/bin/api-ms-win-crt-string-l1-1-0.dll" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/JFX_Game/bundles/JFX_Game/runtime/bin/api-ms-win-crt-time-l1-1-0.dll" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/JFX_Game/bundles/JFX_Game/runtime/bin/api-ms-win-crt-utility-l1-1-0.dll" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/JFX_Game/bundles/JFX_Game/runtime/bin/attach.dll" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/JFX_Game/bundles/JFX_Game/runtime/bin/awt.dll" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/JFX_Game/bundles/JFX_Game/runtime/bin/bci.dll" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/JFX_Game/bundles/JFX_Game/runtime/bin/client/Xusage.txt" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/JFX_Game/bundles/JFX_Game/runtime/bin/client/classes.jsa" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/JFX_Game/bundles/JFX_Game/runtime/bin/client/jvm.dll" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/JFX_Game/bundles/JFX_Game/runtime/bin/concrt140.dll" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/JFX_Game/bundles/JFX_Game/runtime/bin/dcpr.dll" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/JFX_Game/bundles/JFX_Game/runtime/bin/decora_sse.dll" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/JFX_Game/bundles/JFX_Game/runtime/bin/deploy.dll" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/JFX_Game/bundles/JFX_Game/runtime/bin/dt_shmem.dll" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/JFX_Game/bundles/JFX_Game/runtime/bin/dt_socket.dll" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/JFX_Game/bundles/JFX_Game/runtime/bin/fontmanager.dll" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/JFX_Game/bundles/JFX_Game/runtime/bin/fxplugins.dll" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/JFX_Game/bundles/JFX_Game/runtime/bin/glass.dll" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/JFX_Game/bundles/JFX_Game/runtime/bin/glib-lite.dll" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/JFX_Game/bundles/JFX_Game/runtime/bin/gstreamer-lite.dll" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/JFX_Game/bundles/JFX_Game/runtime/bin/hprof.dll" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/JFX_Game/bundles/JFX_Game/runtime/bin/instrument.dll" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/JFX_Game/bundles/JFX_Game/runtime/bin/j2pcsc.dll" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/JFX_Game/bundles/JFX_Game/runtime/bin/j2pkcs11.dll" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/JFX_Game/bundles/JFX_Game/runtime/bin/j3dcore-d3d.dll" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/JFX_Game/bundles/JFX_Game/runtime/bin/j3dcore-ogl-cg.dll" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/JFX_Game/bundles/JFX_Game/runtime/bin/j3dcore-ogl-chk.dll" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/JFX_Game/bundles/JFX_Game/runtime/bin/j3dcore-ogl.dll" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/JFX_Game/bundles/JFX_Game/runtime/bin/jaas_nt.dll" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/JFX_Game/bundles/JFX_Game/runtime/bin/java.dll" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/JFX_Game/bundles/JFX_Game/runtime/bin/java_crw_demo.dll" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/JFX_Game/bundles/JFX_Game/runtime/bin/javafx_font.dll" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/JFX_Game/bundles/JFX_Game/runtime/bin/javafx_font_t2k.dll" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/JFX_Game/bundles/JFX_Game/runtime/bin/javafx_iio.dll" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/JFX_Game/bundles/JFX_Game/runtime/bin/jawt.dll" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/JFX_Game/bundles/JFX_Game/runtime/bin/jdwp.dll" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/JFX_Game/bundles/JFX_Game/runtime/bin/jfr.dll" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/JFX_Game/bundles/JFX_Game/runtime/bin/jfxmedia.dll" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/JFX_Game/bundles/JFX_Game/runtime/bin/jfxwebkit.dll" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/JFX_Game/bundles/JFX_Game/runtime/bin/jli.dll" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/JFX_Game/bundles/JFX_Game/runtime/bin/jpeg.dll" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/JFX_Game/bundles/JFX_Game/runtime/bin/jsdt.dll" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/JFX_Game/bundles/JFX_Game/runtime/bin/jsound.dll" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/JFX_Game/bundles/JFX_Game/runtime/bin/jsoundds.dll" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/JFX_Game/bundles/JFX_Game/runtime/bin/kcms.dll" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/JFX_Game/bundles/JFX_Game/runtime/bin/lcms.dll" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/JFX_Game/bundles/JFX_Game/runtime/bin/management.dll" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/JFX_Game/bundles/JFX_Game/runtime/bin/mlib_image.dll" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/JFX_Game/bundles/JFX_Game/runtime/bin/msvcp140.dll" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/JFX_Game/bundles/JFX_Game/runtime/bin/msvcr100.dll" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/JFX_Game/bundles/JFX_Game/runtime/bin/net.dll" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/JFX_Game/bundles/JFX_Game/runtime/bin/nio.dll" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/JFX_Game/bundles/JFX_Game/runtime/bin/npt.dll" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/JFX_Game/bundles/JFX_Game/runtime/bin/plugin2/msvcr100.dll" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/JFX_Game/bundles/JFX_Game/runtime/bin/plugin2/npjp2.dll" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/JFX_Game/bundles/JFX_Game/runtime/bin/prism_common.dll" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/JFX_Game/bundles/JFX_Game/runtime/bin/prism_d3d.dll" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/JFX_Game/bundles/JFX_Game/runtime/bin/prism_sw.dll" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/JFX_Game/bundles/JFX_Game/runtime/bin/resource.dll" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/JFX_Game/bundles/JFX_Game/runtime/bin/sawindbg.dll" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/JFX_Game/bundles/JFX_Game/runtime/bin/server/Xusage.txt" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/JFX_Game/bundles/JFX_Game/runtime/bin/server/jvm.dll" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/JFX_Game/bundles/JFX_Game/runtime/bin/splashscreen.dll" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/JFX_Game/bundles/JFX_Game/runtime/bin/sunec.dll" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/JFX_Game/bundles/JFX_Game/runtime/bin/sunmscapi.dll" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/JFX_Game/bundles/JFX_Game/runtime/bin/t2k.dll" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/JFX_Game/bundles/JFX_Game/runtime/bin/ucrtbase.dll" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/JFX_Game/bundles/JFX_Game/runtime/bin/unpack.dll" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/JFX_Game/bundles/JFX_Game/runtime/bin/vcruntime140.dll" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/JFX_Game/bundles/JFX_Game/runtime/bin/verify.dll" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/JFX_Game/bundles/JFX_Game/runtime/bin/w2k_lsa_auth.dll" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/JFX_Game/bundles/JFX_Game/runtime/bin/zip.dll" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/JFX_Game/bundles/JFX_Game/runtime/lib/accessibility.properties" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/JFX_Game/bundles/JFX_Game/runtime/lib/calendars.properties" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/JFX_Game/bundles/JFX_Game/runtime/lib/classlist" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/JFX_Game/bundles/JFX_Game/runtime/lib/cmm/CIEXYZ.pf" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/JFX_Game/bundles/JFX_Game/runtime/lib/cmm/GRAY.pf" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/JFX_Game/bundles/JFX_Game/runtime/lib/cmm/LINEAR_RGB.pf" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/JFX_Game/bundles/JFX_Game/runtime/lib/cmm/PYCC.pf" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/JFX_Game/bundles/JFX_Game/runtime/lib/cmm/sRGB.pf" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/JFX_Game/bundles/JFX_Game/runtime/lib/content-types.properties" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/JFX_Game/bundles/JFX_Game/runtime/lib/currency.data" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/JFX_Game/bundles/JFX_Game/runtime/lib/ext/meta-index" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/JFX_Game/bundles/JFX_Game/runtime/lib/flavormap.properties" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/JFX_Game/bundles/JFX_Game/runtime/lib/fontconfig.bfc" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/JFX_Game/bundles/JFX_Game/runtime/lib/fontconfig.properties.src" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/JFX_Game/bundles/JFX_Game/runtime/lib/fonts/LucidaBrightDemiBold.ttf" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/JFX_Game/bundles/JFX_Game/runtime/lib/fonts/LucidaBrightDemiItalic.ttf" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/JFX_Game/bundles/JFX_Game/runtime/lib/fonts/LucidaBrightItalic.ttf" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/JFX_Game/bundles/JFX_Game/runtime/lib/fonts/LucidaBrightRegular.ttf" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/JFX_Game/bundles/JFX_Game/runtime/lib/fonts/LucidaSansDemiBold.ttf" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/JFX_Game/bundles/JFX_Game/runtime/lib/fonts/LucidaSansRegular.ttf" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/JFX_Game/bundles/JFX_Game/runtime/lib/fonts/LucidaTypewriterBold.ttf" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/JFX_Game/bundles/JFX_Game/runtime/lib/fonts/LucidaTypewriterRegular.ttf" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/JFX_Game/bundles/JFX_Game/runtime/lib/hijrah-config-umalqura.properties" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/JFX_Game/bundles/JFX_Game/runtime/lib/i386/jvm.cfg" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/JFX_Game/bundles/JFX_Game/runtime/lib/images/cursors/cursors.properties" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/JFX_Game/bundles/JFX_Game/runtime/lib/images/cursors/invalid32x32.gif" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/JFX_Game/bundles/JFX_Game/runtime/lib/images/cursors/win32_CopyDrop32x32.gif" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/JFX_Game/bundles/JFX_Game/runtime/lib/images/cursors/win32_CopyNoDrop32x32.gif" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/JFX_Game/bundles/JFX_Game/runtime/lib/images/cursors/win32_LinkDrop32x32.gif" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/JFX_Game/bundles/JFX_Game/runtime/lib/images/cursors/win32_LinkNoDrop32x32.gif" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/JFX_Game/bundles/JFX_Game/runtime/lib/images/cursors/win32_MoveDrop32x32.gif" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/JFX_Game/bundles/JFX_Game/runtime/lib/images/cursors/win32_MoveNoDrop32x32.gif" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/JFX_Game/bundles/JFX_Game/runtime/lib/javafx.properties" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/JFX_Game/bundles/JFX_Game/runtime/lib/jfr/default.jfc" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/JFX_Game/bundles/JFX_Game/runtime/lib/jfr/profile.jfc" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/JFX_Game/bundles/JFX_Game/runtime/lib/jvm.hprof.txt" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/JFX_Game/bundles/JFX_Game/runtime/lib/logging.properties" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/JFX_Game/bundles/JFX_Game/runtime/lib/management/jmxremote.access" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/JFX_Game/bundles/JFX_Game/runtime/lib/management/jmxremote.password.template" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/JFX_Game/bundles/JFX_Game/runtime/lib/management/management.properties" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/JFX_Game/bundles/JFX_Game/runtime/lib/management/snmp.acl.template" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/JFX_Game/bundles/JFX_Game/runtime/lib/meta-index" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/JFX_Game/bundles/JFX_Game/runtime/lib/net.properties" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/JFX_Game/bundles/JFX_Game/runtime/lib/psfont.properties.ja" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/JFX_Game/bundles/JFX_Game/runtime/lib/psfontj2d.properties" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/JFX_Game/bundles/JFX_Game/runtime/lib/security/blacklist" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/JFX_Game/bundles/JFX_Game/runtime/lib/security/blacklisted.certs" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/JFX_Game/bundles/JFX_Game/runtime/lib/security/cacerts" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/JFX_Game/bundles/JFX_Game/runtime/lib/security/java.policy" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/JFX_Game/bundles/JFX_Game/runtime/lib/security/java.security" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/JFX_Game/bundles/JFX_Game/runtime/lib/security/javaws.policy" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/JFX_Game/bundles/JFX_Game/runtime/lib/security/trusted.libraries" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/JFX_Game/bundles/JFX_Game/runtime/lib/sound.properties" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/JFX_Game/bundles/JFX_Game/runtime/lib/tzdb.dat" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/JFX_Game/bundles/JFX_Game/runtime/lib/tzmappings" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/JFX_Game/bundles/JFX_Game/vcruntime140.dll" afterPath="" />
-    </list>
+    <list default="true" id="cdb932d9-7e58-4d94-93a9-e7b232ef17da" name="Default" comment="" />
     <ignored path="JavaFxApplication.iws" />
     <ignored path=".idea/workspace.xml" />
     <ignored path="$PROJECT_DIR$/out/" />
@@ -264,7 +79,7 @@
       <file leaf-file-name="EnemyTankManager.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/classes/behavior/EnemyTankManager.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="3247">
+            <state relative-caret-position="3213">
               <caret line="214" column="93" lean-forward="false" selection-start-line="214" selection-start-column="93" selection-end-line="214" selection-end-column="93" />
               <folding>
                 <element signature="e#4661#4662#0" expanded="true" />
@@ -276,11 +91,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="GameTank.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="GameTank.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/classes/gameObjects/GameTank.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="29">
-              <caret line="9" column="0" lean-forward="false" selection-start-line="9" selection-start-column="0" selection-end-line="9" selection-end-column="0" />
+            <state relative-caret-position="272">
+              <caret line="24" column="43" lean-forward="true" selection-start-line="24" selection-start-column="43" selection-end-line="24" selection-end-column="43" />
               <folding />
             </state>
           </provider>
@@ -299,10 +114,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="InfoPanel.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="InfoPanel.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/view/infoPanel/InfoPanel.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1003">
+            <state relative-caret-position="590">
               <caret line="66" column="23" lean-forward="false" selection-start-line="66" selection-start-column="23" selection-end-line="66" selection-end-column="23" />
               <folding />
             </state>
@@ -477,6 +292,8 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="AndroidView" />
+      <pane id="Scratches" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -499,10 +316,8 @@
           <select />
         </subPane>
       </pane>
-      <pane id="AndroidView" />
-      <pane id="Scope" />
       <pane id="PackagesPane" />
-      <pane id="Scratches" />
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -692,18 +507,18 @@
       <workItem from="1524291523736" duration="492000" />
       <workItem from="1524301346033" duration="10133000" />
       <workItem from="1524321546269" duration="2499000" />
+      <workItem from="1524389307487" duration="41000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="204469000" />
+    <option name="totallyTimeSpent" value="204510000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1382" height="784" extended-state="6" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3288889" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Palette&#9;" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Image Layers" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
@@ -714,7 +529,7 @@
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.21815519" sideWeight="0.6703755" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.21815519" sideWeight="0.6703755" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Statistic" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3288889" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="true" content_ui="tabs" />
@@ -731,6 +546,7 @@
       <window_info id="Profiler" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection Results" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3288889" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3288889" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="JetGradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Problems" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -917,26 +733,24 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/view/scenes/gameCompleted.fxml">
-      <provider editor-type-id="JavaFX-Scene-Builder">
-        <state />
-      </provider>
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="153">
           <caret line="9" column="45" lean-forward="false" selection-start-line="9" selection-start-column="45" selection-end-line="9" selection-end-column="45" />
-          <folding />
         </state>
+      </provider>
+      <provider editor-type-id="JavaFX-Scene-Builder">
+        <state />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/view/scenes/gamePassed.fxml" />
     <entry file="file://$PROJECT_DIR$/src/view/scenes/killed.fxml">
-      <provider editor-type-id="JavaFX-Scene-Builder">
-        <state />
-      </provider>
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="153">
           <caret line="9" column="45" lean-forward="false" selection-start-line="9" selection-start-column="45" selection-end-line="9" selection-end-column="45" />
-          <folding />
         </state>
+      </provider>
+      <provider editor-type-id="JavaFX-Scene-Builder">
+        <state />
       </provider>
     </entry>
     <entry file="uml://JAVA/">
@@ -1030,21 +844,19 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/view/scenes/levelCompleted.fxml">
-      <provider editor-type-id="JavaFX-Scene-Builder">
-        <state />
-      </provider>
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="238">
           <caret line="14" column="0" lean-forward="true" selection-start-line="14" selection-start-column="0" selection-end-line="14" selection-end-column="0" />
-          <folding />
         </state>
+      </provider>
+      <provider editor-type-id="JavaFX-Scene-Builder">
+        <state />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/classes/levels/TextureLoader.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="488">
           <caret line="36" column="29" lean-forward="false" selection-start-line="36" selection-start-column="29" selection-end-line="36" selection-end-column="29" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1081,7 +893,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="223">
           <caret line="21" column="85" lean-forward="false" selection-start-line="21" selection-start-column="85" selection-end-line="21" selection-end-column="85" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1131,7 +942,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="153">
           <caret line="17" column="38" lean-forward="true" selection-start-line="17" selection-start-column="38" selection-end-line="17" selection-end-column="38" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1153,7 +963,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="680">
           <caret line="42" column="26" lean-forward="false" selection-start-line="42" selection-start-column="26" selection-end-line="42" selection-end-column="26" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1233,10 +1042,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="187">
           <caret line="13" column="33" lean-forward="false" selection-start-line="13" selection-start-column="33" selection-end-line="13" selection-end-column="33" />
-          <folding>
-            <element signature="e#1114#1115#0" expanded="false" />
-            <element signature="e#1156#1157#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1244,16 +1049,12 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="6035">
           <caret line="384" column="40" lean-forward="false" selection-start-line="384" selection-start-column="40" selection-end-line="384" selection-end-column="40" />
-          <folding>
-            <element signature="e#2800#2801#0" expanded="false" />
-            <element signature="e#2826#2827#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/classes/behavior/EnemyTankManager.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3247">
+        <state relative-caret-position="3213">
           <caret line="214" column="93" lean-forward="false" selection-start-line="214" selection-start-column="93" selection-end-line="214" selection-end-column="93" />
           <folding>
             <element signature="e#4661#4662#0" expanded="true" />
@@ -1302,42 +1103,21 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/view/infoPanel/InfoPanel.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1003">
-          <caret line="66" column="23" lean-forward="false" selection-start-line="66" selection-start-column="23" selection-end-line="66" selection-end-column="23" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/jfx_game.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1496">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/jfx_game.properties">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/module_jfx_game.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-869">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/jfx_game.xml" />
+    <entry file="file://$PROJECT_DIR$/jfx_game.properties" />
+    <entry file="file://$PROJECT_DIR$/module_jfx_game.xml" />
     <entry file="file://$PROJECT_DIR$/src/classes/gameObjects/GameTank.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="29">
-          <caret line="9" column="0" lean-forward="false" selection-start-line="9" selection-start-column="0" selection-end-line="9" selection-end-column="0" />
+        <state relative-caret-position="272">
+          <caret line="24" column="43" lean-forward="true" selection-start-line="24" selection-start-column="43" selection-end-line="24" selection-end-column="43" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/view/infoPanel/InfoPanel.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="590">
+          <caret line="66" column="23" lean-forward="false" selection-start-line="66" selection-start-column="23" selection-end-line="66" selection-end-column="23" />
           <folding />
         </state>
       </provider>
