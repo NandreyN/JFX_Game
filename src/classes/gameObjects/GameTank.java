@@ -96,4 +96,8 @@ public class GameTank extends GameObject {
     public void dispose() {
         tankDataModel.dispose();
     }
+
+    public boolean isUser() {
+        return tankStateUI != null;
+    }
 }

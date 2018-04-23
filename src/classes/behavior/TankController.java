@@ -3,18 +3,15 @@ package classes.behavior;
 import classes.gameObjects.GameConstants;
 import classes.gameObjects.GameTank;
 import classes.sound.SoundPlayer;
-import classes.tanks.ITank;
-import classes.tanks.TankConstructor;
 import classes.tanks.parts.SAUTurret;
 import com.sun.media.jfxmediaimpl.MediaDisposer;
 import javafx.application.Platform;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
-import javafx.event.*;
 import javafx.event.Event;
-import javafx.geometry.Point2D;
-import javafx.geometry.Rectangle2D;
-import javafx.scene.effect.BlendMode;
+import javafx.event.EventDispatchChain;
+import javafx.event.EventTarget;
+import javafx.event.EventType;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
@@ -24,7 +21,6 @@ import javafx.scene.paint.Paint;
 import javafx.scene.shape.Shape;
 import javafx.scene.transform.Rotate;
 import view.infoPanel.ITankStateUI;
-import view.infoPanel.InfoPanel;
 
 import javax.swing.*;
 
@@ -54,7 +50,6 @@ public class TankController extends AbstractTankController implements EventTarge
     private Timer aliveChecker;
 
     private BooleanProperty isAliveProperty;
-
     boolean canMoveForward = true, canRotateLeft = true, canRotateRight = true, isDisposed = false;
 
     public TankController(AnchorPane parent, GameTank tank) {
@@ -78,7 +73,7 @@ public class TankController extends AbstractTankController implements EventTarge
     /**
      * Displays red rectangle border for current tank. For debug purposes
      */
-    public void trackBorder() {
+    private void trackBorder() {
         if (border != null && uIParent.getChildren().contains(border)) {
             Shape old = border;
             Platform.runLater(() -> {
@@ -143,23 +138,21 @@ public class TankController extends AbstractTankController implements EventTarge
             return;
 
         EventType eventType = event.getEventType();
-        if (eventType.equals(MouseEvent.MOUSE_CLICKED))
-            Platform.runLater(() -> handleMouseClickEvent((MouseEvent) event));
-        else if (eventType.equals(MouseEvent.MOUSE_MOVED))
-            Platform.runLater(() -> handleMouseMotionEvent((MouseEvent) event));
-        else if (eventType.equals(KeyEvent.KEY_PRESSED))
-            Platform.runLater(() -> handleKeyboardEvent((KeyEvent) event));
-        else if (eventType.equals(KeyEvent.KEY_RELEASED))
-            stopMoveSound((KeyEvent) event);
-        else throw new IllegalArgumentException("event");
+        if (eventType.equals(MouseEvent.MOUSE_CLICKED)) {
+            handleMouseClickEvent((MouseEvent) event);
+        } else if (eventType.equals(MouseEvent.MOUSE_MOVED)) {
+            handleMouseMotionEvent((MouseEvent) event);
+        } else if (eventType.equals(KeyEvent.KEY_PRESSED)) {
+            handleKeyboardEvent((KeyEvent) event);
+        } else if (eventType.equals(KeyEvent.KEY_RELEASED)) {
+            stopMoveSound();
+        } else throw new IllegalArgumentException("event");
     }
 
     /**
      * Stops playing move sound when tank stops
-     *
-     * @param event KeyReleased event
      */
-    private void stopMoveSound(KeyEvent event) {
+    private void stopMoveSound() {
         soundPlayer.stopMoveSound();
     }
 
@@ -170,15 +163,19 @@ public class TankController extends AbstractTankController implements EventTarge
         switch (code) {
             case W:
                 motionManager.forwardMove(this);
+                //isDirectionForwardPressed = true;
                 break;
             case A:
                 motionManager.turnLeft(this);
+                //isRotationLeftPressed = true;
                 break;
             case S:
                 motionManager.backwardsMove(this);
+                //isDirectionBackPressed = true;
                 break;
             case D:
                 motionManager.turnRight(this);
+                //isRotationRightPressed = true;
                 break;
             default:
                 return;
@@ -223,6 +220,7 @@ public class TankController extends AbstractTankController implements EventTarge
     public void dispose() {
         isDisposed = true;
         aliveChecker.stop();
+
         if (this.uIParent != null)
             Platform.runLater(() -> {
                 if (!chassisView.getTransforms().isEmpty()) {

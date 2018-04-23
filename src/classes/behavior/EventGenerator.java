@@ -30,4 +30,15 @@ public class EventGenerator {
         Event.fireEvent(target, new KeyEvent(KeyEvent.KEY_PRESSED, "",
                 "", keyPressed, false, false, false, false));
     }
+
+    public static synchronized void fireKeyReleasedEvent(EventTarget target, KeyCode keyPressed) {
+        Event.fireEvent(target, new KeyEvent(KeyEvent.KEY_RELEASED, "",
+                "", keyPressed, false, false, false, false));
+    }
+
+    public static synchronized KeyEvent getKeyboardEvent(KeyCode code)
+    {
+        return new KeyEvent(KeyEvent.KEY_RELEASED, "",
+                "", code, false, false, false, false);
+    }
 }
